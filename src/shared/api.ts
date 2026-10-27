@@ -1,3 +1,5 @@
+import type { DeviceState } from './device'
+
 export type SectionId = 'device' | 'tools' | 'checklists' | 'lessons' | 'history' | 'settings'
 
 export interface AppInfo {
@@ -13,11 +15,17 @@ export interface AppInfo {
 export interface DroidCrateApi {
   getAppInfo(): Promise<AppInfo>
   openExternal(url: string): Promise<boolean>
+  getDeviceState(): Promise<DeviceState>
+  rescanDevices(): Promise<DeviceState>
+  onDeviceUpdate(listener: (state: DeviceState) => void): () => void
 }
 
 export const IPC = {
   appInfo: 'app:info',
-  openExternal: 'app:open-external'
+  openExternal: 'app:open-external',
+  deviceState: 'device:state',
+  deviceRescan: 'device:rescan',
+  deviceUpdate: 'device:update'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'

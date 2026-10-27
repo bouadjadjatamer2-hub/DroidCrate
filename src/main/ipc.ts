@@ -1,5 +1,6 @@
 import { app, ipcMain, shell } from 'electron'
 import { IPC, type AppInfo } from '@shared/api'
+import type { DeviceWatcher } from './device/watcher'
 
 function isAllowedExternalUrl(value: string): boolean {
   try {
@@ -10,7 +11,7 @@ function isAllowedExternalUrl(value: string): boolean {
   }
 }
 
-export function registerIpc(): void {
+export function registerIpc(watcher: DeviceWatcher): void {
   ipcMain.handle(IPC.appInfo, (): AppInfo => {
     return {
       name: 'DroidCrate',
@@ -28,4 +29,8 @@ export function registerIpc(): void {
     await shell.openExternal(url)
     return true
   })
+
+  ipcMain.handle(IPC.deviceState, () => watcher.getState())
+
+  ipcMain.handle(IPC.deviceRescan, () => watcher.scanNow())
 }

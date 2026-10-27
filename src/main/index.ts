@@ -1,8 +1,10 @@
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'node:path'
+import { DeviceWatcher } from './device/watcher'
 import { registerIpc } from './ipc'
 
 const isWindows = process.platform === 'win32'
+const deviceWatcher = new DeviceWatcher()
 
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -55,8 +57,9 @@ function createWindow(): BrowserWindow {
 
 app.whenReady().then(() => {
   if (process.platform === 'win32') app.setAppUserModelId('app.droidcrate.desktop')
-  registerIpc()
+  registerIpc(deviceWatcher)
   const window = createWindow()
+  deviceWatcher.start()
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -67,3 +70,5 @@ app.whenReady().then(() => {
     if (process.platform !== 'darwin') app.quit()
   })
 })
+
+app.on('before-quit', () => deviceWatcher.stop())

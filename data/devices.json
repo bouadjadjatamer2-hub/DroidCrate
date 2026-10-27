@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-26",
+  "vendors": {
+    "18D1": {
+      "brand": "Google",
+      "driver": {
+        "name": "Google USB Driver",
+        "url": "https://developer.android.com/studio/run/win-usb"
+      }
+    },
+    "04E8": {
+      "brand": "Samsung",
+      "driver": {
+        "name": "Samsung Android USB Driver",
+        "url": "https://developer.samsung.com/android-usb-driver"
+      }
+    },
+    "22D9": {
+      "brand": "OPPO / Realme",
+      "driver": {
+        "name": "OPPO USB drivers and support",
+        "url": "https://support.oppo.com/en/"
+      }
+    },
+    "2A70": {
+      "brand": "OnePlus",
+      "driver": {
+        "name": "OnePlus support and drivers",
+        "url": "https://support.oneplus.com/"
+      }
+    },
+    "2717": {
+      "brand": "Xiaomi",
+      "driver": {
+        "name": "Xiaomi support",
+        "url": "https://www.mi.com/global/support/"
+      }
+    },
+    "22B8": {
+      "brand": "Motorola",
+      "driver": {
+        "name": "Motorola USB drivers and software",
+        "url": "https://support.motorola.com/us/en/softwareandapp"
+      }
+    },
+    "1004": {
+      "brand": "LG",
+      "driver": {
+        "name": "LG software and manuals",
+        "url": "https://www.lg.com/us/support/software-manuals"
+      }
+    },
+    "0FCE": {
+      "brand": "Sony",
+      "driver": {
+        "name": "Sony Xperia drivers",
+        "url": "https://developer.sony.com/develop/drivers/"
+      }
+    },
+    "12D1": {
+      "brand": "Huawei",
+      "driver": {
+        "name": "Huawei support",
+        "url": "https://consumer.huawei.com/en/support/"
+      }
+    },
+    "0BB4": {
+      "brand": "HTC",
+      "driver": {
+        "name": "HTC support",
+        "url": "https://www.htc.com/support/"
+      }
+    },
+    "19D2": {
+      "brand": "ZTE",
+      "driver": {
+        "name": "ZTE support",
+        "url": "https://www.ztedevices.com/en/support/"
+      }
+    },
+    "0B05": {
+      "brand": "ASUS",
+      "driver": {
+        "name": "ASUS support",
+        "url": "https://www.asus.com/support/"
+      }
+    },
+    "0E8D": {
+      "brand": "MediaTek",
+      "driver": {
+        "name": "MediaTek support",
+        "url": "https://www.mediatek.com/support"
+      }
+    },
+    "05C6": {
+      "brand": "Qualcomm",
+      "driver": {
+        "name": "Qualcomm support",
+        "url": "https://www.qualcomm.com/support"
+      }
+    },
+    "1782": {
+      "brand": "Unisoc",
+      "driver": {
+        "name": "Unisoc support",
+        "url": "https://www.unisoc.com/en_us/"
+      }
+    }
+  },
+  "modeTools": {
+    "adb": {
+      "id": "platform-tools",
+      "name": "Android SDK Platform Tools",
+      "url": "https://developer.android.com/tools/releases/platform-tools",
+      "linkKind": "download",
+      "note": "Official Google download. DroidCrate verifies it before use in Stage 4."
+    },
+    "fastboot": {
+      "id": "platform-tools",
+      "name": "Android SDK Platform Tools",
+      "url": "https://developer.android.com/tools/releases/platform-tools",
+      "linkKind": "download",
+      "note": "Official Google download. Fastboot ships in the same package as ADB."
+    },
+    "download": {
+      "id": "odin",
+      "name": "Odin",
+      "url": "https://www.samsung.com/us/support/software/",
+      "linkKind": "support",
+      "note": "Odin has no official public download. This opens Samsung's official software support page."
+    },
+    "edl": {
+      "id": "qfil",
+      "name": "QFIL (Qualcomm Flash Image Loader)",
+      "url": "https://www.qualcomm.com/support",
+      "linkKind": "support",
+      "note": "QFIL is distributed through Qualcomm support channels; there is no public direct download."
+    },
+    "brom": {
+      "id": "sp-flash-tool",
+      "name": "SP Flash Tool",
+      "url": "https://www.mediatek.com/support",
+      "linkKind": "support",
+      "note": "SP Flash Tool is a MediaTek service tool; there is no official public direct download."
+    }
+  },
+  "brandTools": {
+    "04E8": {
+      "download": {
+        "id": "odin",
+        "name": "Odin",
+        "url": "https://www.samsung.com/us/support/software/",
+        "linkKind": "support",
+        "note": "Odin has no official public download. This opens Samsung's official software support page."
+      }
+    },
+    "1004": {
+      "download": {
+        "id": "lgup",
+        "name": "LGUP",
+        "url": "https://www.lg.com/us/support/software-manuals",
+        "linkKind": "support",
+        "note": "LGUP is a service tool without a public official download. Use LG's official support channel."
+      }
+    },
+    "22D9": {
+      "edl": {
+        "id": "msm-download-tool",
+        "name": "MSM Download Tool",
+        "url": "https://support.oneplus.com/",
+        "linkKind": "support",
+        "note": "OPPO/OnePlus service tool. There is no official public direct download."
+      }
+    },
+    "2A70": {
+      "edl": {
+        "id": "msm-download-tool",
+        "name": "MSM Download Tool",
+        "url": "https://support.oneplus.com/",
+        "linkKind": "support",
+        "note": "OnePlus service tool. There is no official public direct download."
+      }
+    },
+    "2717": {
+      "edl": {
+        "id": "mi-flash-tool",
+        "name": "Mi Flash Tool",
+        "url": "https://www.mi.com/global/support/",
+        "linkKind": "support",
+        "note": "Xiaomi service tool. Use Xiaomi's official support channel."
+      }
+    },
+    "18D1": {
+      "fastboot": {
+        "id": "platform-tools",
+        "name": "Android SDK Platform Tools",
+        "url": "https://developer.android.com/tools/releases/platform-tools",
+        "linkKind": "download",
+        "note": "Official Google download for ADB and Fastboot."
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "google-adb",
+      "vid": "18D1",
+      "pids": ["4EE2", "4EE6", "4EE7", "4EE8", "4E13", "4E43"],
+      "mode": "adb",
+      "brand": "Google",
+      "note": "Pixel or Nexus device exposing the Android Debug Bridge interface."
+    },
+    {
+      "id": "google-fastboot",
+      "vid": "18D1",
+      "pids": ["4EE0", "4E40", "4E41", "D00D"],
+      "mode": "fastboot",
+      "brand": "Google",
+      "note": "Fastboot is a bootloader interface. DroidCrate does not unlock or flash in Stage 4."
+    },
+    {
+      "id": "samsung-adb",
+      "vid": "04E8",
+      "pids": ["6860", "6861", "6863", "6865"],
+      "mode": "adb",
+      "brand": "Samsung",
+      "note": "Samsung composite USB with Android debugging enabled."
+    },
+    {
+      "id": "samsung-download",
+      "vid": "04E8",
+      "pids": ["685D"],
+      "mode": "download",
+      "brand": "Samsung",
+      "note": "Samsung Download Mode (Odin mode). Flashing is not part of Stage 4."
+    },
+    {
+      "id": "oppo-adb",
+      "vid": "22D9",
+      "pids": ["2766"],
+      "mode": "adb",
+      "brand": "OPPO / Realme",
+      "note": "OPPO or Realme composite device with an ADB interface."
+    },
+    {
+      "id": "oneplus-adb",
+      "vid": "2A70",
+      "pids": ["9011"],
+      "mode": "adb",
+      "brand": "OnePlus",
+      "note": "OnePlus device exposing the Android Debug Bridge interface."
+    },
+    {
+      "id": "oneplus-fastboot",
+      "vid": "2A70",
+      "pids": ["9012"],
+      "mode": "fastboot",
+      "brand": "OnePlus",
+      "note": "OnePlus bootloader interface."
+    },
+    {
+      "id": "xiaomi-adb",
+      "vid": "2717",
+      "pids": ["FF18", "FF48", "FF68", "FF88"],
+      "mode": "adb",
+      "brand": "Xiaomi",
+      "note": "Mi, Redmi, or POCO device with USB debugging enabled."
+    },
+    {
+      "id": "motorola-adb",
+      "vid": "22B8",
+      "pids": ["2E76", "2E77"],
+      "mode": "adb",
+      "brand": "Motorola",
+      "note": "Motorola composite device with Android debugging enabled."
+    },
+    {
+      "id": "sony-adb",
+      "vid": "0FCE",
+      "pids": ["0DDE"],
+      "mode": "adb",
+      "brand": "Sony",
+      "note": "Sony Xperia device with the ADB interface."
+    },
+    {
+      "id": "huawei-adb",
+      "vid": "12D1",
+      "pids": ["1038", "1039"],
+      "mode": "adb",
+      "brand": "Huawei",
+      "note": "Huawei device with Android debugging enabled."
+    },
+    {
+      "id": "htc-adb",
+      "vid": "0BB4",
+      "pids": ["0F87"],
+      "mode": "adb",
+      "brand": "HTC",
+      "note": "HTC device with Android debugging enabled."
+    },
+    {
+      "id": "qualcomm-edl",
+      "vid": "05C6",
+      "pids": ["9008", "900E", "901D"],
+      "mode": "edl",
+      "brand": "Qualcomm",
+      "note": "Qualcomm Emergency Download mode. A wrong image can brick the device."
+    },
+    {
+      "id": "mediatek-brom",
+      "vid": "0E8D",
+      "pids": ["0003"],
+      "mode": "brom",
+      "brand": "MediaTek",
+      "note": "MediaTek Boot ROM. Low-level recovery mode; do not flash blindly."
+    },
+    {
+      "id": "mediatek-preloader",
+      "vid": "0E8D",
+      "pids": ["2000", "2001", "201C", "201D"],
+      "mode": "brom",
+      "brand": "MediaTek",
+      "note": "MediaTek preloader. Low-level recovery mode; treat it carefully."
+    }
+  ]
+}
