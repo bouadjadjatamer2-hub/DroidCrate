@@ -1,6 +1,7 @@
 import { app, ipcMain, shell } from 'electron'
 import { IPC, type AppInfo } from '@shared/api'
 import type { DeviceWatcher } from './device/watcher'
+import { loadToolLibrary } from './tools/library'
 
 function isAllowedExternalUrl(value: string): boolean {
   try {
@@ -33,4 +34,6 @@ export function registerIpc(watcher: DeviceWatcher): void {
   ipcMain.handle(IPC.deviceState, () => watcher.getState())
 
   ipcMain.handle(IPC.deviceRescan, () => watcher.scanNow())
+
+  ipcMain.handle(IPC.toolsList, () => loadToolLibrary())
 }

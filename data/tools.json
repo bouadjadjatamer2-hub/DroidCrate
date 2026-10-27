@@ -1,0 +1,471 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-26",
+  "tools": [
+    {
+      "id": "platform-tools",
+      "name": "Android SDK Platform Tools",
+      "vendor": "Google",
+      "category": "platform",
+      "difficulty": "beginner",
+      "availability": "download",
+      "summary": "The official ADB and Fastboot executables for Windows, macOS, and Linux.",
+      "brands": ["Google", "Samsung", "Xiaomi", "OnePlus", "OPPO", "Realme", "Motorola", "Sony", "Nothing"],
+      "chipsets": ["Qualcomm", "MediaTek", "Exynos", "Google Tensor", "Unisoc", "Kirin"],
+      "platforms": ["windows", "macos", "linux"],
+      "links": [
+        {
+          "label": "Official download",
+          "url": "https://developer.android.com/tools/releases/platform-tools",
+          "kind": "download"
+        },
+        {
+          "label": "ADB guide",
+          "url": "https://developer.android.com/tools/adb",
+          "kind": "guide"
+        }
+      ],
+      "notes": [
+        "Fastboot is included in the same package as ADB.",
+        "DroidCrate verifies this archive before use in Stage 4.",
+        "No installer is required; the archive is extracted to a local folder."
+      ]
+    },
+    {
+      "id": "android-flash-tool",
+      "name": "Android Flash Tool",
+      "vendor": "Google",
+      "category": "flashing",
+      "difficulty": "beginner",
+      "availability": "download",
+      "summary": "Google's browser-based flasher for supported Pixel and development devices.",
+      "brands": ["Google"],
+      "chipsets": ["Google Tensor", "Qualcomm"],
+      "platforms": ["web"],
+      "links": [
+        {
+          "label": "Open the tool",
+          "url": "https://flash.android.com/",
+          "kind": "download"
+        },
+        {
+          "label": "Official documentation",
+          "url": "https://developer.android.com/tools/flash-tool",
+          "kind": "guide"
+        }
+      ],
+      "notes": [
+        "Requires a Chromium-based browser and USB debugging.",
+        "Only devices with official factory images are supported.",
+        "The tool downloads images from Google directly; DroidCrate never hosts them."
+      ],
+      "warning": "Flashing erases the device. Back up first and use the exact model image."
+    },
+    {
+      "id": "google-usb-driver",
+      "name": "Google USB Driver",
+      "vendor": "Google",
+      "category": "driver",
+      "difficulty": "beginner",
+      "availability": "download",
+      "summary": "The official Windows driver for Nexus, Pixel, and Android development devices.",
+      "brands": ["Google"],
+      "chipsets": ["Google Tensor", "Qualcomm"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "Official download",
+          "url": "https://developer.android.com/studio/run/win-usb",
+          "kind": "download"
+        }
+      ],
+      "notes": [
+        "Most phones expose ADB without this driver, but Fastboot often needs it.",
+        "Install it through Device Manager by choosing the extracted driver folder."
+      ]
+    },
+    {
+      "id": "samsung-smart-switch",
+      "name": "Samsung Smart Switch",
+      "vendor": "Samsung",
+      "category": "driver",
+      "difficulty": "beginner",
+      "availability": "download",
+      "summary": "Samsung's official desktop app, which also installs the Samsung USB driver.",
+      "brands": ["Samsung"],
+      "chipsets": ["Exynos", "Snapdragon"],
+      "platforms": ["windows", "macos"],
+      "links": [
+        {
+          "label": "Official page",
+          "url": "https://www.samsung.com/us/support/owners/app/smart-switch/",
+          "kind": "download"
+        }
+      ],
+      "notes": [
+        "Install this before using Odin or ADB with a Samsung phone.",
+        "It can back up photos, contacts, and messages without root."
+      ]
+    },
+    {
+      "id": "odin",
+      "name": "Odin",
+      "vendor": "Samsung",
+      "category": "flashing",
+      "difficulty": "intermediate",
+      "availability": "support-only",
+      "summary": "Samsung's service flashing utility for Download Mode, distributed through service channels.",
+      "brands": ["Samsung"],
+      "chipsets": ["Exynos", "Snapdragon"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "Samsung software support",
+          "url": "https://www.samsung.com/us/support/software/",
+          "kind": "support"
+        },
+        {
+          "label": "Firmware and update guide",
+          "url": "https://www.samsung.com/us/support/answer/ANS00077564/",
+          "kind": "guide"
+        }
+      ],
+      "notes": [
+        "There is no official public download page for Odin.",
+        "Use Samsung Smart Switch for official updates whenever possible.",
+        "Firmware files must match the exact model and region."
+      ],
+      "warning": "Wrong firmware or the wrong CSC can brick the phone. Never flash a file from an unknown mirror."
+    },
+    {
+      "id": "heimdall",
+      "name": "Heimdall",
+      "vendor": "Open source community",
+      "category": "flashing",
+      "difficulty": "advanced",
+      "availability": "download",
+      "summary": "An open-source, cross-platform replacement for Odin on supported Samsung devices.",
+      "brands": ["Samsung"],
+      "chipsets": ["Exynos"],
+      "platforms": ["windows", "macos", "linux"],
+      "links": [
+        {
+          "label": "Releases",
+          "url": "https://gitlab.com/BenjaminDobell/Heimdall/-/releases",
+          "kind": "download"
+        },
+        {
+          "label": "Source code",
+          "url": "https://gitlab.com/BenjaminDobell/Heimdall",
+          "kind": "source"
+        }
+      ],
+      "notes": [
+        "Command-line tool; there is no guided interface.",
+        "Device support varies and newer Samsung bootloaders may refuse it.",
+        "Use the official release archive, not a repackaged build."
+      ],
+      "warning": "Advanced tool. A wrong partition name can destroy the bootloader."
+    },
+    {
+      "id": "sp-flash-tool",
+      "name": "SP Flash Tool",
+      "vendor": "MediaTek",
+      "category": "flashing",
+      "difficulty": "advanced",
+      "availability": "support-only",
+      "summary": "MediaTek's service tool for low-level flashing over BROM and preloader modes.",
+      "brands": ["Xiaomi", "OPPO", "Realme", "Vivo", "Infinix", "Tecno", "itel"],
+      "chipsets": ["MediaTek"],
+      "platforms": ["windows", "linux"],
+      "links": [
+        {
+          "label": "MediaTek support",
+          "url": "https://www.mediatek.com/support",
+          "kind": "support"
+        }
+      ],
+      "notes": [
+        "There is no official public download page.",
+        "It is usually used together with a scatter file and a full firmware package.",
+        "Newer MediaTek devices may require an authorised service account."
+      ],
+      "warning": "Format All + Download can erase the IMEI and calibration data permanently."
+    },
+    {
+      "id": "qfil",
+      "name": "QFIL (Qualcomm Flash Image Loader)",
+      "vendor": "Qualcomm",
+      "category": "flashing",
+      "difficulty": "advanced",
+      "availability": "support-only",
+      "summary": "Qualcomm's service loader for Emergency Download (EDL) mode.",
+      "brands": ["Xiaomi", "OPPO", "OnePlus", "Realme", "Motorola", "LG", "Sony"],
+      "chipsets": ["Qualcomm", "Snapdragon"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "Qualcomm support",
+          "url": "https://www.qualcomm.com/support",
+          "kind": "support"
+        }
+      ],
+      "notes": [
+        "QFIL is distributed through Qualcomm service channels, not a public download.",
+        "Requires the correct firehose programmer and raw program XML files.",
+        "EDL access may be blocked on newer bootloaders."
+      ],
+      "warning": "A mismatched programmer or storage size can hard-brick the device."
+    },
+    {
+      "id": "mi-flash-tool",
+      "name": "Mi Flash Tool",
+      "vendor": "Xiaomi",
+      "category": "flashing",
+      "difficulty": "intermediate",
+      "availability": "support-only",
+      "summary": "Xiaomi's official Windows flasher for Fastboot ROM packages.",
+      "brands": ["Xiaomi", "Redmi", "POCO"],
+      "chipsets": ["Qualcomm", "MediaTek"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "Xiaomi support",
+          "url": "https://www.mi.com/global/support/",
+          "kind": "support"
+        },
+        {
+          "label": "Bootloader unlock information",
+          "url": "https://www.mi.com/global/support/faq/details/KA-06229/",
+          "kind": "guide"
+        }
+      ],
+      "notes": [
+        "There is no official public download page for the flasher itself.",
+        "Fastboot ROMs are published on Xiaomi's official download pages.",
+        "Do not select 'clean all and lock' unless you are certain."
+      ],
+      "warning": "Relocking the bootloader with modified firmware can brick the device."
+    },
+    {
+      "id": "msm-download-tool",
+      "name": "MSM Download Tool",
+      "vendor": "OPPO / OnePlus",
+      "category": "flashing",
+      "difficulty": "advanced",
+      "availability": "support-only",
+      "summary": "A service tool for restoring OPPO, Realme, and OnePlus phones over EDL.",
+      "brands": ["OPPO", "Realme", "OnePlus"],
+      "chipsets": ["Qualcomm", "Snapdragon"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "OnePlus support",
+          "url": "https://support.oneplus.com/",
+          "kind": "support"
+        },
+        {
+          "label": "OPPO support",
+          "url": "https://support.oppo.com/en/",
+          "kind": "support"
+        }
+      ],
+      "notes": [
+        "The tool is tied to specific model packages and is not publicly distributed.",
+        "Many packages are region- and carrier-locked.",
+        "Official service centres can restore a device without third-party files."
+      ],
+      "warning": "Using a package for another model can permanently erase the device identity."
+    },
+    {
+      "id": "lgup",
+      "name": "LGUP",
+      "vendor": "LG",
+      "category": "flashing",
+      "difficulty": "advanced",
+      "availability": "support-only",
+      "summary": "LG's service flashing tool for KDZ firmware packages.",
+      "brands": ["LG"],
+      "chipsets": ["Qualcomm"],
+      "platforms": ["windows"],
+      "links": [
+        {
+          "label": "LG software support",
+          "url": "https://www.lg.com/us/support/software-manuals",
+          "kind": "support"
+        }
+      ],
+      "notes": [
+        "LGUP is a service tool without a public official download.",
+        "Some versions require a model-specific DLL.",
+        "LG has ended phone production; official service options are limited."
+      ],
+      "warning": "Refurbish mode erases all user data and can fail during a power cut."
+    },
+    {
+      "id": "twrp",
+      "name": "TWRP",
+      "vendor": "Team Win",
+      "category": "recovery",
+      "difficulty": "intermediate",
+      "availability": "download",
+      "summary": "The most widely used open-source custom recovery, with device-specific builds.",
+      "brands": ["Google", "Samsung", "Xiaomi", "OnePlus", "Motorola", "Sony", "Nothing"],
+      "chipsets": ["Qualcomm", "MediaTek", "Exynos", "Google Tensor", "Unisoc"],
+      "platforms": ["android"],
+      "links": [
+        {
+          "label": "Official device list",
+          "url": "https://twrp.me/Devices/",
+          "kind": "download"
+        },
+        {
+          "label": "Official FAQ",
+          "url": "https://twrp.me/faq/",
+          "kind": "guide"
+        }
+      ],
+      "notes": [
+        "Only install a build published for your exact model.",
+        "A custom recovery usually requires an unlocked bootloader.",
+        "Keep a copy of the stock boot image before making changes."
+      ],
+      "warning": "An incompatible recovery image can prevent the phone from booting."
+    },
+    {
+      "id": "orangefox",
+      "name": "OrangeFox Recovery",
+      "vendor": "OrangeFox",
+      "category": "recovery",
+      "difficulty": "intermediate",
+      "availability": "download",
+      "summary": "An open-source custom recovery focused on a modern interface and extra tools.",
+      "brands": ["Xiaomi", "Redmi", "POCO", "Samsung", "OnePlus", "Realme"],
+      "chipsets": ["Qualcomm", "MediaTek", "Exynos"],
+      "platforms": ["android"],
+      "links": [
+        {
+          "label": "Official downloads",
+          "url": "https://orangefox.download/",
+          "kind": "download"
+        },
+        {
+          "label": "Source code",
+          "url": "https://github.com/OrangeFoxRecovery",
+          "kind": "source"
+        }
+      ],
+      "notes": [
+        "Builds are device-specific; check the codename carefully.",
+        "Some builds are unofficial and are marked as such on the site.",
+        "Use the official site rather than a file-sharing mirror."
+      ],
+      "warning": "Requires an unlocked bootloader. Encryption support varies by build."
+    },
+    {
+      "id": "magisk",
+      "name": "Magisk",
+      "vendor": "Topjohnwu",
+      "category": "root",
+      "difficulty": "intermediate",
+      "availability": "download",
+      "summary": "The standard systemless root solution, with modules and a hidden root manager.",
+      "brands": ["Google", "Samsung", "Xiaomi", "OnePlus", "Motorola", "Sony", "Nothing"],
+      "chipsets": ["Qualcomm", "MediaTek", "Exynos", "Google Tensor", "Unisoc", "Kirin"],
+      "platforms": ["android"],
+      "links": [
+        {
+          "label": "Official releases",
+          "url": "https://github.com/topjohnwu/Magisk/releases",
+          "kind": "download"
+        },
+        {
+          "label": "Official documentation",
+          "url": "https://topjohnwu.github.io/Magisk/",
+          "kind": "guide"
+        },
+        {
+          "label": "Source code",
+          "url": "https://github.com/topjohnwu/Magisk",
+          "kind": "source"
+        }
+      ],
+      "notes": [
+        "Patching the boot image is usually safer than flashing a pre-rooted ROM.",
+        "Keep the original boot image for OTA updates and recovery.",
+        "Banking and payment apps may refuse to run on rooted devices."
+      ],
+      "warning": "Rooting voids warranties and weakens the security model. Back up before patching."
+    },
+    {
+      "id": "kernelsu",
+      "name": "KernelSU",
+      "vendor": "KernelSU project",
+      "category": "root",
+      "difficulty": "advanced",
+      "availability": "download",
+      "summary": "A kernel-based root solution for devices with a supported custom kernel.",
+      "brands": ["Google", "Xiaomi", "OnePlus", "Motorola", "Nothing"],
+      "chipsets": ["Qualcomm", "MediaTek", "Google Tensor", "Exynos"],
+      "platforms": ["android"],
+      "links": [
+        {
+          "label": "Official releases",
+          "url": "https://github.com/tiann/KernelSU/releases",
+          "kind": "download"
+        },
+        {
+          "label": "Installation guide",
+          "url": "https://kernelsu.org/guide/installation.html",
+          "kind": "guide"
+        },
+        {
+          "label": "Source code",
+          "url": "https://github.com/tiann/KernelSU",
+          "kind": "source"
+        }
+      ],
+      "notes": [
+        "Requires a kernel built with KernelSU support, or a supported GKI image.",
+        "Not every phone has a compatible kernel.",
+        "The manager app is separate from the kernel patch."
+      ],
+      "warning": "Flashing the wrong boot or kernel image can leave the phone unbootable."
+    },
+    {
+      "id": "apatch",
+      "name": "APatch",
+      "vendor": "APatch project",
+      "category": "root",
+      "difficulty": "advanced",
+      "availability": "download",
+      "summary": "A kernel-patching root method with a module system and per-app superuser control.",
+      "brands": ["Google", "Xiaomi", "OnePlus", "Motorola", "Nothing"],
+      "chipsets": ["Qualcomm", "MediaTek", "Google Tensor", "Exynos"],
+      "platforms": ["android"],
+      "links": [
+        {
+          "label": "Official releases",
+          "url": "https://github.com/bmax121/APatch/releases",
+          "kind": "download"
+        },
+        {
+          "label": "Official guide",
+          "url": "https://apatch.dev/",
+          "kind": "guide"
+        },
+        {
+          "label": "Source code",
+          "url": "https://github.com/bmax121/APatch",
+          "kind": "source"
+        }
+      ],
+      "notes": [
+        "Patches a boot image with a kernel module rather than using Magisk.",
+        "Compatibility depends on the device kernel and Android version.",
+        "Read the official compatibility notes before patching."
+      ],
+      "warning": "Experimental on many devices. Keep a bootable backup image."
+    }
+  ]
+}

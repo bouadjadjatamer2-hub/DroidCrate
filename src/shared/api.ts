@@ -1,4 +1,5 @@
 import type { DeviceState } from './device'
+import type { ToolLibrary } from './tools'
 
 export type SectionId = 'device' | 'tools' | 'checklists' | 'lessons' | 'history' | 'settings'
 
@@ -18,6 +19,7 @@ export interface DroidCrateApi {
   getDeviceState(): Promise<DeviceState>
   rescanDevices(): Promise<DeviceState>
   onDeviceUpdate(listener: (state: DeviceState) => void): () => void
+  getToolLibrary(): Promise<ToolLibrary>
 }
 
 export const IPC = {
@@ -25,7 +27,8 @@ export const IPC = {
   openExternal: 'app:open-external',
   deviceState: 'device:state',
   deviceRescan: 'device:rescan',
-  deviceUpdate: 'device:update'
+  deviceUpdate: 'device:update',
+  toolsList: 'tools:list'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'

@@ -55,6 +55,34 @@ node scripts/capture-stage-1.mjs
 - بحث وفلترة حسب الماركة والشيبسيت ومستوى الصعوبة.
 - فتح الروابط الرسمية فقط.
 
+### ما تم إنجازه
+
+- 16 أداة في `data/tools.json`: Platform Tools، Android Flash Tool، Google USB
+  Driver، Smart Switch، Odin، Heimdall، SP Flash Tool، QFIL، Mi Flash Tool،
+  MSM Download Tool، LGUP، TWRP، OrangeFox، Magisk، KernelSU، APatch.
+- مخطط `zod` يمنع تكرار المعرّفات ويمنع وضع رابط تنزيل مباشر لأداة «دعم فقط».
+- بحث فوري، وفلترة حسب الفئة والماركة والشيبسيت والصعوبة.
+- شارة واضحة لكل أداة: «تنزيل رسمي» أو «دعم فقط»، مع تحذير للمخاطر.
+- روابط رسمية فقط تُفتح في المتصفح الافتراضي، ولا تُحمَّل أي أداة داخل التطبيق.
+- واجهة عربية RTL مع معالجة النصوص الإنجليزية المختلطة.
+
+### التحقق
+
+```powershell
+npm test
+npm run build
+node scripts/capture-stage-2.mjs
+```
+
+اللقطات: `docs/screenshots/stage-2-tools.png`، `stage-2-filter.png`،
+`stage-2-tools-ar.png`.
+
+### حدود معروفة
+
+- الأدوات التي لا توفر تنزيلاً عاماً (Odin وQFIL وSP Flash Tool وغيرها) تعرض
+  صفحة الدعم الرسمية فقط، وهذا مقصود.
+- البحث لا يترجم أسماء الأدوات؛ أسماء المنتجات تبقى بالإنجليزية.
+
 ## المرحلة 3 — قوائم التحقق
 
 - قوائم تفاعلية لخمس عمليات خطيرة.
