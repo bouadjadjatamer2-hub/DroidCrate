@@ -15,6 +15,7 @@ import {
   type AdbToolName
 } from '@shared/adb'
 import type { PlatformToolsService } from '../platformTools/service'
+import type { HistoryInput } from '@shared/history'
 
 const MAX_LOG_ENTRIES = 100
 const OUTPUT_LIMIT = 512 * 1024
@@ -88,7 +89,10 @@ function failureMessage(result: ProcessResult, fallback: string): string {
 export class AdbService {
   private log: AdbLogEntry[] = []
 
-  constructor(private readonly platformTools: PlatformToolsService) {}
+  constructor(
+    private readonly platformTools: PlatformToolsService,
+    private readonly recordHistory?: (entry: HistoryInput) => void
+  ) {}
 
   getLog(): AdbLogEntry[] {
     return [...this.log].reverse()
@@ -326,6 +330,15 @@ export class AdbService {
       this.log.push(entry)
       if (this.log.length > MAX_LOG_ENTRIES) this.log = this.log.slice(-MAX_LOG_ENTRIES)
       this.broadcast(entry)
+      this.recordHistory?.({
+        category: tool,
+        action,
+        command,
+        serial: /(?:^|\s)-s\s+(\S+)/.exec(command)?.[1] ?? null,
+        result: result.ok ? 'success' : 'failure',
+        detail: result.error,
+        startedAt
+      })
     }
 
     const { id: _unused, ...actionResult } = entry

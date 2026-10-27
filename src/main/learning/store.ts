@@ -6,6 +6,12 @@ import type {
   ChecklistProgressRecord,
   LessonProgress
 } from '@shared/learning'
+import type {
+  HistoryCategory,
+  HistoryEntry,
+  HistoryInput,
+  HistoryResult
+} from '@shared/history'
 
 interface LessonProgressRow {
   lesson_id: string
@@ -20,6 +26,18 @@ interface ChecklistRow {
   checklist_id: string
   checked_json: string
   completed_at: string | null
+}
+
+interface HistoryRow {
+  id: number
+  category: HistoryCategory
+  action: string
+  command: string
+  serial: string | null
+  result: HistoryResult
+  detail: string | null
+  started_at: string
+  created_at: string
 }
 
 function parseChecked(raw: string): string[] {
@@ -79,6 +97,19 @@ export class LearningStore {
         completed_at TEXT,
         updated_at TEXT NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS operation_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT NOT NULL,
+        action TEXT NOT NULL,
+        command TEXT NOT NULL,
+        serial TEXT,
+        result TEXT NOT NULL,
+        detail TEXT,
+        started_at TEXT NOT NULL,
+        created_at TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_history_started
+        ON operation_history (started_at DESC);
     `)
   }
 
@@ -189,6 +220,52 @@ export class LearningStore {
 
   resetLesson(lessonId: string): void {
     this.db.prepare('DELETE FROM lesson_progress WHERE lesson_id = ?').run(lessonId)
+  }
+
+  addHistory(entry: HistoryInput): void {
+    this.db
+      .prepare(
+        `INSERT INTO operation_history
+           (category, action, command, serial, result, detail, started_at, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .run(
+        entry.category,
+        entry.action,
+        entry.command,
+        entry.serial,
+        entry.result,
+        entry.detail,
+        entry.startedAt,
+        new Date().toISOString()
+      )
+  }
+
+  listHistory(limit = 500): HistoryEntry[] {
+    const safeLimit = Math.min(Math.max(Math.trunc(limit), 1), 1000)
+    const rows = this.db
+      .prepare(
+        `SELECT id, category, action, command, serial, result, detail, started_at, created_at
+         FROM operation_history
+         ORDER BY started_at DESC, id DESC
+         LIMIT ?`
+      )
+      .all(safeLimit) as unknown as HistoryRow[]
+    return rows.map((row) => ({
+      id: row.id,
+      category: row.category,
+      action: row.action,
+      command: row.command,
+      serial: row.serial,
+      result: row.result,
+      detail: row.detail,
+      startedAt: row.started_at,
+      createdAt: row.created_at
+    }))
+  }
+
+  clearHistory(): void {
+    this.db.prepare('DELETE FROM operation_history').run()
   }
 
   close(): void {

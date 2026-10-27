@@ -7,6 +7,7 @@ import { PlatformToolsService } from './platformTools/service'
 import { AdbService } from './adb/service'
 import { LearningStore } from './learning/store'
 import { LearningService } from './learning/service'
+import { HistoryService } from './history/service'
 
 const isWindows = process.platform === 'win32'
 const deviceWatcher = new DeviceWatcher()
@@ -68,10 +69,11 @@ app.whenReady().then(async () => {
     const catalog = await loadPlatformToolsCatalog()
     const platformTools = new PlatformToolsService(catalog, app.getPath('userData'))
     await platformTools.initialize()
-    const adb = new AdbService(platformTools)
     learningStore = new LearningStore(join(app.getPath('userData'), 'droidcrate.db'))
     const learning = new LearningService(learningStore)
-    registerIpc(deviceWatcher, platformTools, adb, learning)
+    const history = new HistoryService(learningStore)
+    const adbWithHistory = new AdbService(platformTools, (entry) => history.record(entry))
+    registerIpc(deviceWatcher, platformTools, adbWithHistory, learning, history)
   } catch (error) {
     dialog.showErrorBox(
       'DroidCrate could not start',

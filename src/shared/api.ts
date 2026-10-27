@@ -8,6 +8,7 @@ import type {
   LessonLibrary,
   QuizResult
 } from './learning'
+import type { HistoryEntry, HistoryExportResult } from './history'
 import type {
   AdbActionId,
   AdbActionResult,
@@ -69,6 +70,9 @@ export interface DroidCrateApi {
   ): Promise<ChecklistProgressMap>
   resetChecklistProgress(checklistId: string): Promise<ChecklistProgressMap>
   importChecklistProgress(records: ChecklistProgressMap): Promise<number>
+  getHistory(): Promise<HistoryEntry[]>
+  clearHistory(): Promise<void>
+  exportHistory(format: 'txt' | 'csv'): Promise<HistoryExportResult>
 }
 
 export const IPC = {
@@ -96,7 +100,10 @@ export const IPC = {
   learningChecklists: 'learning:checklists',
   learningChecklistSave: 'learning:checklist-save',
   learningChecklistReset: 'learning:checklist-reset',
-  learningChecklistImport: 'learning:checklist-import'
+  learningChecklistImport: 'learning:checklist-import',
+  historyList: 'history:list',
+  historyClear: 'history:clear',
+  historyExport: 'history:export'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'

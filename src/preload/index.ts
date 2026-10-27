@@ -9,6 +9,7 @@ import type {
   LessonLibrary,
   QuizResult
 } from '@shared/learning'
+import type { HistoryEntry, HistoryExportResult } from '@shared/history'
 import type { PlatformToolsStatus } from '@shared/platformTools'
 import type {
   AdbActionId,
@@ -59,6 +60,10 @@ contextBridge.exposeInMainWorld('droidcrate', {
     ipcRenderer.invoke(IPC.learningChecklistReset, checklistId),
   importChecklistProgress: (records: ChecklistProgressMap): Promise<number> =>
     ipcRenderer.invoke(IPC.learningChecklistImport, records),
+  getHistory: (): Promise<HistoryEntry[]> => ipcRenderer.invoke(IPC.historyList),
+  clearHistory: (): Promise<void> => ipcRenderer.invoke(IPC.historyClear),
+  exportHistory: (format: 'txt' | 'csv'): Promise<HistoryExportResult> =>
+    ipcRenderer.invoke(IPC.historyExport, format),
   onDeviceUpdate: (listener: (state: DeviceState) => void): (() => void) => {
     const handler = (_event: Electron.IpcRendererEvent, state: DeviceState): void => listener(state)
     ipcRenderer.on(IPC.deviceUpdate, handler)
