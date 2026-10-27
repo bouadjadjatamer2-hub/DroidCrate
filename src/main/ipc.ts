@@ -6,6 +6,7 @@ import { loadToolLibrary } from './tools/library'
 import { loadChecklistLibrary } from './checklists/library'
 import type { PlatformToolsService } from './platformTools/service'
 import type { AdbService } from './adb/service'
+import type { LearningService } from './learning/service'
 
 function isAllowedExternalUrl(value: string): boolean {
   try {
@@ -23,7 +24,8 @@ function isToolName(value: unknown): value is AdbToolName {
 export function registerIpc(
   watcher: DeviceWatcher,
   platformTools: PlatformToolsService,
-  adb: AdbService
+  adb: AdbService,
+  learning: LearningService
 ): void {
   ipcMain.handle(IPC.appInfo, (): AppInfo => {
     return {
@@ -77,4 +79,32 @@ export function registerIpc(
   ipcMain.handle(IPC.adbLogClear, () => {
     adb.clearLog()
   })
+
+  ipcMain.handle(IPC.lessonsList, () => learning.getLessonLibrary())
+
+  ipcMain.handle(IPC.learningState, () => learning.getState())
+
+  ipcMain.handle(IPC.learningQuiz, (_event, lessonId: unknown, answers: unknown) =>
+    learning.submitQuiz(lessonId, answers)
+  )
+
+  ipcMain.handle(IPC.learningLessonReset, (_event, lessonId: unknown) =>
+    learning.resetLesson(lessonId)
+  )
+
+  ipcMain.handle(IPC.learningChecklists, () => learning.getChecklists())
+
+  ipcMain.handle(
+    IPC.learningChecklistSave,
+    (_event, checklistId: unknown, checked: unknown, completedAt: unknown) =>
+      learning.saveChecklist(checklistId, checked, completedAt)
+  )
+
+  ipcMain.handle(IPC.learningChecklistReset, (_event, checklistId: unknown) =>
+    learning.resetChecklist(checklistId)
+  )
+
+  ipcMain.handle(IPC.learningChecklistImport, (_event, records: unknown) =>
+    learning.importChecklists(records)
+  )
 }

@@ -3,6 +3,12 @@ import { IPC, type AppInfo } from '@shared/api'
 import type { DeviceState } from '@shared/device'
 import type { ToolLibrary } from '@shared/tools'
 import type { ChecklistLibrary } from '@shared/checklists'
+import type {
+  ChecklistProgressMap,
+  LearningState,
+  LessonLibrary,
+  QuizResult
+} from '@shared/learning'
 import type { PlatformToolsStatus } from '@shared/platformTools'
 import type {
   AdbActionId,
@@ -35,6 +41,24 @@ contextBridge.exposeInMainWorld('droidcrate', {
   ): Promise<AdbActionResult> => ipcRenderer.invoke(IPC.adbRun, action, serial, confirmed),
   getAdbLog: (): Promise<AdbLogEntry[]> => ipcRenderer.invoke(IPC.adbLog),
   clearAdbLog: (): Promise<void> => ipcRenderer.invoke(IPC.adbLogClear),
+  getLessonLibrary: (): Promise<LessonLibrary> => ipcRenderer.invoke(IPC.lessonsList),
+  getLearningState: (): Promise<LearningState> => ipcRenderer.invoke(IPC.learningState),
+  submitQuiz: (lessonId: string, answers: number[]): Promise<QuizResult> =>
+    ipcRenderer.invoke(IPC.learningQuiz, lessonId, answers),
+  resetLessonProgress: (lessonId: string): Promise<void> =>
+    ipcRenderer.invoke(IPC.learningLessonReset, lessonId),
+  getChecklistProgress: (): Promise<ChecklistProgressMap> =>
+    ipcRenderer.invoke(IPC.learningChecklists),
+  saveChecklistProgress: (
+    checklistId: string,
+    checked: string[],
+    completedAt: string | null
+  ): Promise<ChecklistProgressMap> =>
+    ipcRenderer.invoke(IPC.learningChecklistSave, checklistId, checked, completedAt),
+  resetChecklistProgress: (checklistId: string): Promise<ChecklistProgressMap> =>
+    ipcRenderer.invoke(IPC.learningChecklistReset, checklistId),
+  importChecklistProgress: (records: ChecklistProgressMap): Promise<number> =>
+    ipcRenderer.invoke(IPC.learningChecklistImport, records),
   onDeviceUpdate: (listener: (state: DeviceState) => void): (() => void) => {
     const handler = (_event: Electron.IpcRendererEvent, state: DeviceState): void => listener(state)
     ipcRenderer.on(IPC.deviceUpdate, handler)

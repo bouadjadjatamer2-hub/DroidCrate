@@ -5,9 +5,12 @@ import { registerIpc } from './ipc'
 import { loadPlatformToolsCatalog } from './platformTools/catalog'
 import { PlatformToolsService } from './platformTools/service'
 import { AdbService } from './adb/service'
+import { LearningStore } from './learning/store'
+import { LearningService } from './learning/service'
 
 const isWindows = process.platform === 'win32'
 const deviceWatcher = new DeviceWatcher()
+let learningStore: LearningStore | null = null
 
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -66,7 +69,9 @@ app.whenReady().then(async () => {
     const platformTools = new PlatformToolsService(catalog, app.getPath('userData'))
     await platformTools.initialize()
     const adb = new AdbService(platformTools)
-    registerIpc(deviceWatcher, platformTools, adb)
+    learningStore = new LearningStore(join(app.getPath('userData'), 'droidcrate.db'))
+    const learning = new LearningService(learningStore)
+    registerIpc(deviceWatcher, platformTools, adb, learning)
   } catch (error) {
     dialog.showErrorBox(
       'DroidCrate could not start',
@@ -89,4 +94,8 @@ app.whenReady().then(async () => {
   })
 })
 
-app.on('before-quit', () => deviceWatcher.stop())
+app.on('before-quit', () => {
+  deviceWatcher.stop()
+  learningStore?.close()
+  learningStore = null
+})

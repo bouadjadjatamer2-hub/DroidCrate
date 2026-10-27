@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-26",
+  "levels": [
+    {
+      "id": "basic",
+      "title": "Foundations",
+      "summary": "How Android starts, how Windows talks to a phone, and how to read the facts before touching anything."
+    },
+    {
+      "id": "intermediate",
+      "title": "Servicing",
+      "summary": "Bootloader rules, factory firmware, and recovery work, with the checks that keep a phone recoverable."
+    },
+    {
+      "id": "advanced",
+      "title": "Deep repair",
+      "summary": "Root models, hard-brick triage, and the quality checks that end every repair."
+    }
+  ],
+  "lessons": [
+    {
+      "id": "android-boot-chain",
+      "level": "basic",
+      "title": "How an Android phone starts",
+      "summary": "Follow the chain from BootROM to the home screen, and learn why each link matters before you flash.",
+      "minutes": 8,
+      "bodyFile": "lessons/android-boot-chain.md",
+      "quiz": [
+        {
+          "id": "boot-1",
+          "prompt": "What is the first code that runs when an Android phone powers on?",
+          "options": [
+            "The bootloader",
+            "The Linux kernel",
+            "BootROM code inside the chipset",
+            "The launcher app"
+          ],
+          "answer": 2,
+          "explanation": "BootROM is burned into the chipset. It loads and verifies the next stage, usually the bootloader."
+        },
+        {
+          "id": "boot-2",
+          "prompt": "What does the boot partition contain on most modern Android phones?",
+          "options": [
+            "User photos and app data",
+            "The kernel and a small ramdisk",
+            "The recovery log only",
+            "The SIM card profile"
+          ],
+          "answer": 1,
+          "explanation": "The boot image holds the kernel plus a ramdisk. On A/B devices it is paired with an inactive slot copy."
+        },
+        {
+          "id": "boot-3",
+          "prompt": "Why does a failed system flash on an A/B phone often still boot?",
+          "options": [
+            "Because the battery hides the failure",
+            "Because the other slot can still boot",
+            "Because Android always has two batteries",
+            "Because fastboot repairs files automatically"
+          ],
+          "answer": 1,
+          "explanation": "A/B devices keep two bootable slots. The bootloader can fall back to the slot that was not being written."
+        }
+      ]
+    },
+    {
+      "id": "usb-modes-drivers",
+      "level": "basic",
+      "title": "USB modes, drivers, and authorisation",
+      "summary": "Tell MTP, ADB, Fastboot, and download modes apart, and fix the Windows side before blaming the phone.",
+      "minutes": 9,
+      "bodyFile": "lessons/usb-modes-drivers.md",
+      "quiz": [
+        {
+          "id": "usb-1",
+          "prompt": "The phone shows up in Windows but adb devices lists it as unauthorized. What is the correct next step?",
+          "options": [
+            "Reinstall Windows",
+            "Unlock the phone and accept the USB debugging prompt",
+            "Flash the boot partition",
+            "Erase the user data partition"
+          ],
+          "answer": 1,
+          "explanation": "Authorisation happens on the phone. Unlock it, then approve the RSA fingerprint prompt."
+        },
+        {
+          "id": "usb-2",
+          "prompt": "Which mode is used for fastboot flash commands?",
+          "options": [
+            "MTP",
+            "ADB while Android is running",
+            "Fastboot / bootloader mode",
+            "Airplane mode"
+          ],
+          "answer": 2,
+          "explanation": "Fastboot talks to the bootloader, not to a running Android system."
+        },
+        {
+          "id": "usb-3",
+          "prompt": "Why should you avoid random USB driver packs from unofficial sites?",
+          "options": [
+            "They always break the screen",
+            "They can be outdated, bundled with unwanted software, or unsafe",
+            "Windows cannot install drivers",
+            "Drivers do not affect phones"
+          ],
+          "answer": 1,
+          "explanation": "Use the vendor's official driver page or the Google USB Driver. Unofficial bundles are a supply-chain risk."
+        }
+      ]
+    },
+    {
+      "id": "reading-device-facts",
+      "level": "basic",
+      "title": "Reading device facts without changing anything",
+      "summary": "Collect the model, build, patch level, and bootloader state first. Good notes prevent wrong firmware.",
+      "minutes": 7,
+      "bodyFile": "lessons/reading-device-facts.md",
+      "quiz": [
+        {
+          "id": "facts-1",
+          "prompt": "Which property identifies the exact installed build?",
+          "options": [
+            "ro.product.model",
+            "ro.build.display.id",
+            "ro.serialno",
+            "ro.boot.flash.locked"
+          ],
+          "answer": 1,
+          "explanation": "ro.build.display.id is the build string. The model alone is not enough to choose firmware."
+        },
+        {
+          "id": "facts-2",
+          "prompt": "What does ro.boot.flash.locked=1 usually mean?",
+          "options": [
+            "The screen lock is enabled",
+            "The bootloader is locked",
+            "The battery is charging",
+            "The SIM is locked"
+          ],
+          "answer": 1,
+          "explanation": "A value of 1 means the bootloader reports a locked state. 0 usually means unlocked."
+        },
+        {
+          "id": "facts-3",
+          "prompt": "Why record the security patch date before servicing?",
+          "options": [
+            "It changes the wallpaper",
+            "It helps match compatible firmware and detect downgrade problems",
+            "It is required to charge the phone",
+            "It disables Fastboot"
+          ],
+          "answer": 1,
+          "explanation": "Patch level and build number are key inputs when choosing firmware and predicting anti-rollback behaviour."
+        }
+      ]
+    },
+    {
+      "id": "bootloader-unlock",
+      "level": "intermediate",
+      "title": "Bootloader unlocking, legally and safely",
+      "summary": "Understand what unlocking changes, which phones allow it, and why it always starts with a backup.",
+      "minutes": 12,
+      "bodyFile": "lessons/bootloader-unlock.md",
+      "quiz": [
+        {
+          "id": "unlock-1",
+          "prompt": "What is a normal side effect of unlocking the bootloader on most phones?",
+          "options": [
+            "The screen becomes brighter",
+            "User data is erased",
+            "The battery capacity doubles",
+            "The SIM is unlocked"
+          ],
+          "answer": 1,
+          "explanation": "Unlocking usually forces a factory reset to protect user data. Back up first."
+        },
+        {
+          "id": "unlock-2",
+          "prompt": "Which phones can be unlocked with fastboot flashing unlock?",
+          "options": [
+            "Every Android phone",
+            "Only phones whose vendor allows it and exposes the command",
+            "Only phones with a broken screen",
+            "Only phones without a SIM"
+          ],
+          "answer": 1,
+          "explanation": "Vendors control unlock policy. Many carrier or regional models block it entirely."
+        },
+        {
+          "id": "unlock-3",
+          "prompt": "What should you check before promising a customer an unlock?",
+          "options": [
+            "The wallpaper colour",
+            "Vendor policy, carrier lock, warranty terms, and their explicit consent",
+            "The phone's ringtone",
+            "The number of installed games"
+          ],
+          "answer": 1,
+          "explanation": "Unlocking can void warranty and trip security features. Owner consent and vendor policy come first."
+        }
+      ]
+    },
+    {
+      "id": "factory-firmware",
+      "level": "intermediate",
+      "title": "Choosing and flashing factory firmware",
+      "summary": "Match the exact model and region, verify the archive, and flash in the order the vendor documents.",
+      "minutes": 14,
+      "bodyFile": "lessons/factory-firmware.md",
+      "quiz": [
+        {
+          "id": "firmware-1",
+          "prompt": "What is the safest source for factory firmware?",
+          "options": [
+            "A random file-sharing link",
+            "The phone vendor's official support or firmware page",
+            "A comment on a video",
+            "An unofficial mirror with no checksums"
+          ],
+          "answer": 1,
+          "explanation": "Only the vendor's official channel can be trusted for signed, current firmware."
+        },
+        {
+          "id": "firmware-2",
+          "prompt": "Why must you not mix firmware from a different model variant?",
+          "options": [
+            "It changes the language only",
+            "Partitions and radio firmware may not match the hardware and can brick the phone",
+            "It makes the phone faster",
+            "It only affects the camera app"
+          ],
+          "answer": 1,
+          "explanation": "Variants can differ in modem, partition layout, and signing keys. A mismatch can make the device unbootable."
+        },
+        {
+          "id": "firmware-3",
+          "prompt": "What should you do immediately after flashing and before handing the phone back?",
+          "options": [
+            "Install random APKs",
+            "Boot it, test radio/IMEI, charging, sensors, and confirm the build number",
+            "Remove the SIM tray permanently",
+            "Disable all security updates"
+          ],
+          "answer": 1,
+          "explanation": "A flash is not finished until the device boots and the critical hardware paths are verified."
+        }
+      ]
+    },
+    {
+      "id": "custom-recovery-sideload",
+      "level": "intermediate",
+      "title": "Custom recovery and sideload boundaries",
+      "summary": "Know the difference between recovery, fastbootd, and a running system before you wipe or sideload.",
+      "minutes": 10,
+      "bodyFile": "lessons/custom-recovery-sideload.md",
+      "quiz": [
+        {
+          "id": "recovery-1",
+          "prompt": "What does adb sideload require?",
+          "options": [
+            "A booted Android system with USB debugging only",
+            "A recovery or update mode that accepts sideload",
+            "A locked SIM card",
+            "A Bluetooth connection"
+          ],
+          "answer": 1,
+          "explanation": "Sideload runs through recovery or an update mode. Plain Android does not accept an OTA package this way."
+        },
+        {
+          "id": "recovery-2",
+          "prompt": "What is fastbootd?",
+          "options": [
+            "A social media app",
+            "A userspace fastboot implementation inside newer recovery images",
+            "A battery calibration tool",
+            "A Windows driver"
+          ],
+          "answer": 1,
+          "explanation": "Fastbootd runs in userspace and can handle logical partitions that classic bootloader fastboot cannot."
+        },
+        {
+          "id": "recovery-3",
+          "prompt": "What is the main risk of a custom recovery on an encrypted device?",
+          "options": [
+            "It cannot read encrypted data without the right keys or format",
+            "It removes the camera",
+            "It disables Wi-Fi forever",
+            "It changes the SIM number"
+          ],
+          "answer": 0,
+          "explanation": "Encryption and metadata encryption can block access. Formatting data destroys it, so confirm what the owner needs first."
+        }
+      ]
+    },
+    {
+      "id": "root-models",
+      "level": "advanced",
+      "title": "Root models: Magisk, KernelSU, and APatch",
+      "summary": "Compare how modern root solutions patch boot images, and what that means for updates and integrity checks.",
+      "minutes": 15,
+      "bodyFile": "lessons/root-models.md",
+      "quiz": [
+        {
+          "id": "root-1",
+          "prompt": "What does Magisk patch to gain root?",
+          "options": [
+            "The launcher icon",
+            "The boot image (or init_boot on some devices)",
+            "The SIM card",
+            "The charging cable"
+          ],
+          "answer": 1,
+          "explanation": "Magisk patches the ramdisk inside the boot image, or init_boot where the ramdisk lives there."
+        },
+        {
+          "id": "root-2",
+          "prompt": "Why does a system update often remove root?",
+          "options": [
+            "Updates replace the boot partition or slot",
+            "Updates uninstall all apps",
+            "Updates change the Wi-Fi password",
+            "Updates lock the SIM"
+          ],
+          "answer": 0,
+          "explanation": "OTA updates write a fresh boot image. Root must be reapplied to the new image after the update."
+        },
+        {
+          "id": "root-3",
+          "prompt": "What should you warn the owner about after rooting?",
+          "options": [
+            "Battery will never charge again",
+            "Banking and DRM apps may refuse to run, and security guarantees change",
+            "The phone cannot make calls",
+            "The screen will fail"
+          ],
+          "answer": 1,
+          "explanation": "Root weakens the verified boot model. Some apps detect it, and the owner must accept the trade-off."
+        }
+      ]
+    },
+    {
+      "id": "brick-triage",
+      "level": "advanced",
+      "title": "Brick triage: soft brick, hard brick, and when to stop",
+      "summary": "Separate a bootloop from a dead bootloader, and avoid making a recoverable phone worse.",
+      "minutes": 11,
+      "bodyFile": "lessons/brick-triage.md",
+      "quiz": [
+        {
+          "id": "brick-1",
+          "prompt": "Which symptom most often indicates a soft brick?",
+          "options": [
+            "No vibration, no screen, and no USB enumeration at all",
+            "A bootloop or recovery loop with the bootloader still reachable",
+            "The phone charges normally and boots fine",
+            "The wallpaper changed"
+          ],
+          "answer": 1,
+          "explanation": "If the bootloader or recovery still responds, the device is usually recoverable with the right firmware."
+        },
+        {
+          "id": "brick-2",
+          "prompt": "What is the safest first action for a phone stuck in a bootloop after a bad flash?",
+          "options": [
+            "Flash random firmware from the first search result",
+            "Stop, identify the exact model and build, and read the vendor recovery procedure",
+            "Open the phone and remove the battery",
+            "Keep rebooting for an hour"
+          ],
+          "answer": 1,
+          "explanation": "Accurate identification and the vendor's documented recovery path prevent a soft brick from becoming permanent."
+        },
+        {
+          "id": "brick-3",
+          "prompt": "When should you stop and refer the device to an authorised service centre?",
+          "options": [
+            "When the bootloader is locked and no official recovery path exists",
+            "When the phone has a case on",
+            "When the owner speaks another language",
+            "When the battery is above 50%"
+          ],
+          "answer": 0,
+          "explanation": "Without an official path or an unlocked bootloader, forcing EDL or test-point modes can destroy the device."
+        }
+      ]
+    },
+    {
+      "id": "post-service-qa",
+      "level": "advanced",
+      "title": "Post-service quality checks",
+      "summary": "Turn a successful flash into a trustworthy repair with a repeatable end-of-job checklist.",
+      "minutes": 9,
+      "bodyFile": "lessons/post-service-qa.md",
+      "quiz": [
+        {
+          "id": "qa-1",
+          "prompt": "Which check belongs in every post-flash test?",
+          "options": [
+            "Only the wallpaper",
+            "Calls/SMS data, Wi-Fi, Bluetooth, cameras, sensors, charging, and the build number",
+            "Only the battery percentage",
+            "Only the app store"
+          ],
+          "answer": 1,
+          "explanation": "A repair is complete only when the main hardware paths and the installed build are verified."
+        },
+        {
+          "id": "qa-2",
+          "prompt": "What should be recorded before returning the phone?",
+          "options": [
+            "The owner's bank password",
+            "Model, serial, old and new build, actions performed, and test results",
+            "A list of the owner's contacts",
+            "The Wi-Fi password"
+          ],
+          "answer": 1,
+          "explanation": "A service record protects both the owner and the technician and makes later troubleshooting possible."
+        },
+        {
+          "id": "qa-3",
+          "prompt": "The phone boots but the SIM is not detected after a flash. What is the best next step?",
+          "options": [
+            "Declare the repair finished",
+            "Check the modem firmware/region match and inspect the SIM tray, then reflash the correct package",
+            "Flash a random modem from another model",
+            "Remove the IMEI"
+          ],
+          "answer": 1,
+          "explanation": "Missing radio usually points to a firmware/variant mismatch or hardware. Verify the correct package before reflashing."
+        }
+      ]
+    }
+  ]
+}

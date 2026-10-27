@@ -3,6 +3,12 @@ import type { ToolLibrary } from './tools'
 import type { ChecklistLibrary } from './checklists'
 import type { PlatformToolsStatus } from './platformTools'
 import type {
+  ChecklistProgressMap,
+  LearningState,
+  LessonLibrary,
+  QuizResult
+} from './learning'
+import type {
   AdbActionId,
   AdbActionResult,
   AdbDevicesResult,
@@ -51,6 +57,18 @@ export interface DroidCrateApi {
   getAdbLog(): Promise<AdbLogEntry[]>
   clearAdbLog(): Promise<void>
   onAdbLog(listener: (entry: AdbLogEntry) => void): () => void
+  getLessonLibrary(): Promise<LessonLibrary>
+  getLearningState(): Promise<LearningState>
+  submitQuiz(lessonId: string, answers: number[]): Promise<QuizResult>
+  resetLessonProgress(lessonId: string): Promise<void>
+  getChecklistProgress(): Promise<ChecklistProgressMap>
+  saveChecklistProgress(
+    checklistId: string,
+    checked: string[],
+    completedAt: string | null
+  ): Promise<ChecklistProgressMap>
+  resetChecklistProgress(checklistId: string): Promise<ChecklistProgressMap>
+  importChecklistProgress(records: ChecklistProgressMap): Promise<number>
 }
 
 export const IPC = {
@@ -70,7 +88,15 @@ export const IPC = {
   adbRun: 'adb:run',
   adbLog: 'adb:log',
   adbLogClear: 'adb:log-clear',
-  adbLogUpdate: 'adb:log-update'
+  adbLogUpdate: 'adb:log-update',
+  lessonsList: 'lessons:list',
+  learningState: 'learning:state',
+  learningQuiz: 'learning:quiz',
+  learningLessonReset: 'learning:lesson-reset',
+  learningChecklists: 'learning:checklists',
+  learningChecklistSave: 'learning:checklist-save',
+  learningChecklistReset: 'learning:checklist-reset',
+  learningChecklistImport: 'learning:checklist-import'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'
