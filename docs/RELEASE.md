@@ -132,14 +132,16 @@ $r.assets | Select-Object name, size
 1. انسخ لقطات جديدة إلى `docs/apps/droidcrate/` عند تغيّر الواجهة.
 2. في `docs/assets/apps.js`، حدّث `version` و`size` لكائن `droidcrate`،
    و`window.ASRAAB_CATALOG.updated`.
-3. في `docs/apps/droidcrate/index.html`، حدّث:
-   - رابط التنزيل (الإصدار الجديد).
-   - البصمة (`SHA-256`).
-   - شارة الحجم.
-   - سنة/إصدار التذييل.
+3. في `docs/assets/config.js`، حدّث كائن `DROIDCRATE_CONFIG` فقط:
+   - `version` و`releaseTagUrl` و`installerUrl` (اسم الملف يحمل الإصدار).
+   - `installerName` و`installerSize` و`installerBytes`.
+   - `sha256`، و`year` إن تغيّر.
+   الصفحة والروابط والشارات وبصمة التذييل وبيان `SoftwareApplication` تُقرأ
+   من هذا الكائن، فلا حاجة لتعديل `index.html` إلا إذا تغيّر النص أو التصميم.
 4. في `docs/sitemap.xml`، حدّث `lastmod`.
 5. شغّل خادماً محلياً وافتح الصفحة بالعربية والإنجليزية، داكن وفاتح، وتأكد من
-   عدم وجود أخطاء console أو صور مفقودة.
+   عدم وجود أخطاء console أو صور مفقودة، وأن بوابة الأوامر ما زالت ترفض
+   الفلاش والصدفة الحرّة.
 6. ارفع:
 
 ```powershell
