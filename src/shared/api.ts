@@ -1,5 +1,6 @@
 import type { DeviceState } from './device'
 import type { ToolLibrary } from './tools'
+import type { ChecklistLibrary } from './checklists'
 
 export type SectionId = 'device' | 'tools' | 'checklists' | 'lessons' | 'history' | 'settings'
 
@@ -20,6 +21,7 @@ export interface DroidCrateApi {
   rescanDevices(): Promise<DeviceState>
   onDeviceUpdate(listener: (state: DeviceState) => void): () => void
   getToolLibrary(): Promise<ToolLibrary>
+  getChecklistLibrary(): Promise<ChecklistLibrary>
 }
 
 export const IPC = {
@@ -28,7 +30,8 @@ export const IPC = {
   deviceState: 'device:state',
   deviceRescan: 'device:rescan',
   deviceUpdate: 'device:update',
-  toolsList: 'tools:list'
+  toolsList: 'tools:list',
+  checklistsList: 'checklists:list'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'

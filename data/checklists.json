@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-26",
+  "checklists": [
+    {
+      "id": "stock-firmware",
+      "title": "Restore stock firmware",
+      "summary": "Return the phone to the exact firmware that shipped for its model and region.",
+      "risk": "medium",
+      "warning": "A firmware package for another model, region, or carrier can brick the phone or wipe its radio calibration.",
+      "items": [
+        {
+          "id": "confirm-model",
+          "title": "Confirm the exact model and codename",
+          "detail": "Open Settings > About phone and compare the model number with the firmware package. Codename mismatches are a common cause of hard bricks.",
+          "required": true
+        },
+        {
+          "id": "official-source",
+          "title": "Use an official firmware source",
+          "detail": "Download from the manufacturer's support page or a signed OTA package. Avoid file-sharing mirrors and pre-rooted firmware.",
+          "required": true
+        },
+        {
+          "id": "correct-region",
+          "title": "Check region and carrier code",
+          "detail": "Samsung CSC, Xiaomi region, and carrier variants must match. A different CSC may flash but lose VoLTE or updates.",
+          "required": true
+        },
+        {
+          "id": "backup-data",
+          "title": "Back up photos, messages, and authenticators",
+          "detail": "Most restore methods erase user data. Copy the backup to another disk, not only to the phone.",
+          "required": true
+        },
+        {
+          "id": "battery",
+          "title": "Charge the phone above 60%",
+          "detail": "A power loss in the middle of a flash is one of the few ways to create a real brick.",
+          "required": true
+        },
+        {
+          "id": "drivers",
+          "title": "Install the official USB driver and test the cable",
+          "detail": "Use a data-capable cable and a rear USB port. Confirm the phone appears in Device Manager or with adb devices.",
+          "required": true
+        },
+        {
+          "id": "close-tools",
+          "title": "Close other phone tools",
+          "detail": "Samsung Smart Switch, Xiaomi Assistant, and virtual machines can claim the USB device while you flash.",
+          "required": true
+        },
+        {
+          "id": "read-steps",
+          "title": "Read the restore steps twice",
+          "detail": "Know which slot or partition is being written and what the tool will do when it finishes.",
+          "required": true
+        },
+        {
+          "id": "dont-unplug",
+          "title": "Never unplug during the write",
+          "detail": "Wait for the tool to report success and for the phone to reboot on its own before touching the cable.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "bootloader-unlock",
+      "title": "Unlock the bootloader",
+      "summary": "Remove the bootloader lock so a custom recovery or boot image can be installed.",
+      "risk": "high",
+      "warning": "Unlocking usually wipes all user data, voids the warranty, and may disable DRM, banking apps, or OTA updates.",
+      "items": [
+        {
+          "id": "ownership",
+          "title": "Verify that you own the device",
+          "detail": "Never unlock a phone that is financed, reported stolen, or owned by someone else. The unlock may be irreversible.",
+          "required": true
+        },
+        {
+          "id": "backup",
+          "title": "Back up everything first",
+          "detail": "The unlock command normally performs a factory reset. Copy the backup off the phone before starting.",
+          "required": true
+        },
+        {
+          "id": "oem-toggle",
+          "title": "Enable OEM unlocking and USB debugging",
+          "detail": "Both switches are in Developer options. Enable Developer options by tapping the build number seven times.",
+          "required": true
+        },
+        {
+          "id": "account-wait",
+          "title": "Meet the manufacturer's waiting period",
+          "detail": "Xiaomi, Huawei, and some carriers require a signed-in account for several days before allowing the unlock.",
+          "required": true
+        },
+        {
+          "id": "platform-tools",
+          "title": "Install official Platform Tools",
+          "detail": "Use Google's official ADB and Fastboot package. Confirm that adb devices lists the phone with an authorized state.",
+          "required": true
+        },
+        {
+          "id": "battery",
+          "title": "Charge above 60%",
+          "detail": "The unlock sequence reboots the phone more than once and must not lose power.",
+          "required": true
+        },
+        {
+          "id": "unlock-command",
+          "title": "Run the manufacturer-approved unlock",
+          "detail": "Use fastboot flashing unlock, fastboot oem unlock, or the official vendor tool. Read the on-screen warning before confirming.",
+          "required": true
+        },
+        {
+          "id": "confirm-state",
+          "title": "Confirm the bootloader state",
+          "detail": "Run fastboot getvar unlocked or read the boot screen. Do not continue while the device still reports locked.",
+          "required": true
+        },
+        {
+          "id": "post-unlock",
+          "title": "Review what stopped working",
+          "detail": "Some banking, payment, and streaming apps refuse to run. Decide before unlocking whether that is acceptable.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "custom-recovery",
+      "title": "Install a custom recovery",
+      "summary": "Flash TWRP or OrangeFox to create backups and install community packages.",
+      "risk": "medium",
+      "warning": "A recovery image for a different model can cause a bootloop. Encryption support varies by build.",
+      "items": [
+        {
+          "id": "unlocked",
+          "title": "Confirm the bootloader is unlocked",
+          "detail": "Most phones refuse to flash a recovery while the bootloader is locked.",
+          "required": true
+        },
+        {
+          "id": "codename",
+          "title": "Match the exact codename",
+          "detail": "Recovery builds are device-specific. A build for a similar model is still the wrong build.",
+          "required": true
+        },
+        {
+          "id": "official-build",
+          "title": "Download from the official project",
+          "detail": "Use twrp.me or orangefox.download. Check whether the build is marked official or unofficial.",
+          "required": true
+        },
+        {
+          "id": "verify-download",
+          "title": "Verify the image checksum",
+          "detail": "Compare the file hash with the value published by the maintainer before flashing.",
+          "required": true
+        },
+        {
+          "id": "backup-boot",
+          "title": "Back up the current boot image",
+          "detail": "A stock boot image lets you recover from a bad recovery flash or a later root attempt.",
+          "required": true
+        },
+        {
+          "id": "fastboot-ready",
+          "title": "Test Fastboot before flashing",
+          "detail": "Run fastboot devices and confirm the serial number. Fix driver problems before writing anything.",
+          "required": true
+        },
+        {
+          "id": "battery",
+          "title": "Charge above 60%",
+          "detail": "Recovery installation is short, but the first boot and backup can take much longer.",
+          "required": true
+        },
+        {
+          "id": "prevent-overwrite",
+          "title": "Boot directly into recovery",
+          "detail": "Some stock ROMs restore the stock recovery on boot. Boot into the new recovery immediately after flashing.",
+          "required": true
+        },
+        {
+          "id": "full-backup",
+          "title": "Create a full recovery backup",
+          "detail": "Back up boot, system, data, and vendor partitions to an external drive if the recovery supports it.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "root",
+      "title": "Root the phone",
+      "summary": "Patch the boot image with Magisk, KernelSU, or APatch and verify root access.",
+      "risk": "high",
+      "warning": "Root weakens the security model, voids warranties, and can leave the phone unbootable if the wrong image is patched.",
+      "items": [
+        {
+          "id": "unlocked",
+          "title": "Confirm the bootloader is unlocked",
+          "detail": "Rooting a locked phone normally requires an exploit. DroidCrate does not provide exploits or bypasses.",
+          "required": true
+        },
+        {
+          "id": "exact-firmware",
+          "title": "Match the boot image to the installed firmware",
+          "detail": "A boot image from another build or region can fail to boot. Check the build number in Settings.",
+          "required": true
+        },
+        {
+          "id": "official-root",
+          "title": "Use the official root project",
+          "detail": "Download Magisk, KernelSU, or APatch from its official GitHub releases or website.",
+          "required": true
+        },
+        {
+          "id": "backup-boot",
+          "title": "Keep an untouched boot image",
+          "detail": "Store the original boot.img somewhere safe. It is your fastest way back to a bootable phone.",
+          "required": true
+        },
+        {
+          "id": "patch-image",
+          "title": "Patch the image with the manager app",
+          "detail": "Follow the official installation guide. Do not flash a pre-patched image from a stranger.",
+          "required": true
+        },
+        {
+          "id": "flash-boot",
+          "title": "Flash or boot the patched image",
+          "detail": "Prefer fastboot boot for a first test when supported. Flash only after the temporary boot succeeds.",
+          "required": true
+        },
+        {
+          "id": "verify-root",
+          "title": "Verify root and module support",
+          "detail": "Open the manager, confirm the installed version, and test one small module before installing more.",
+          "required": true
+        },
+        {
+          "id": "deny-list",
+          "title": "Configure the deny list",
+          "detail": "Hide root from banking and payment apps only after confirming the device is stable.",
+          "required": false
+        },
+        {
+          "id": "ota-plan",
+          "title": "Plan for OTA updates",
+          "detail": "System updates usually remove root. Keep the stock boot image and repeat the patch after each update.",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "custom-rom",
+      "title": "Install a custom ROM",
+      "summary": "Replace the stock system with a community build for the same device codename.",
+      "risk": "high",
+      "warning": "A custom ROM wipes data and can break the camera, VoLTE, or safety certifications. Anti-rollback can make downgrades impossible.",
+      "items": [
+        {
+          "id": "codename-match",
+          "title": "Confirm the ROM supports your exact codename",
+          "detail": "The maintainer page must list your model. Marketing names are not enough.",
+          "required": true
+        },
+        {
+          "id": "read-thread",
+          "title": "Read the full maintainer notes",
+          "detail": "Check the required firmware base, known bugs, and whether a clean flash is mandatory.",
+          "required": true
+        },
+        {
+          "id": "required-firmware",
+          "title": "Install the required stock firmware first",
+          "detail": "Many ROMs require a specific vendor or firmware version before installation.",
+          "required": true
+        },
+        {
+          "id": "recovery",
+          "title": "Install a compatible custom recovery",
+          "detail": "Use the recovery version recommended by the ROM maintainer, not an arbitrary newer build.",
+          "required": true
+        },
+        {
+          "id": "backup",
+          "title": "Back up the entire phone",
+          "detail": "Copy photos, messages, authenticators, and the stock boot image to another device.",
+          "required": true
+        },
+        {
+          "id": "battery",
+          "title": "Charge above 60%",
+          "detail": "First boot and data migration can take a long time. Do not let the phone die mid-install.",
+          "required": true
+        },
+        {
+          "id": "extras",
+          "title": "Download the matching extras",
+          "detail": "Use only the GApps, vendor, and firmware packages named in the ROM instructions.",
+          "required": true
+        },
+        {
+          "id": "clean-flash",
+          "title": "Format data when the ROM requires it",
+          "detail": "Encrypted data from the stock ROM often prevents the new system from booting.",
+          "required": true
+        },
+        {
+          "id": "keep-stock",
+          "title": "Keep the stock firmware package",
+          "detail": "You need it to return to a supported state, restore VoLTE, or recover from a failed boot.",
+          "required": true
+        },
+        {
+          "id": "imei",
+          "title": "Record the IMEI and back up the modem",
+          "detail": "Note the IMEI from the box or Settings. Never use tools that promise to rewrite or repair an IMEI.",
+          "required": false
+        }
+      ]
+    }
+  ]
+}
