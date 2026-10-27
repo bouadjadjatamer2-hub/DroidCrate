@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "2026.10.27",
+  "generatedAt": "2026-10-27T03:54:00.100Z",
+  "files": [
+    {
+      "path": "checklists.json",
+      "sha256": "3e1e876a178cd2ceda18ad7630ece74018f65c2c3e741d754c296571e36245e0",
+      "bytes": 13445
+    },
+    {
+      "path": "devices.json",
+      "sha256": "bb369663709b571c0d4e2a5367e9a44869618a40aefe16dc2dbdca09e548b82f",
+      "bytes": 9010
+    },
+    {
+      "path": "lessons.json",
+      "sha256": "c43f5cbd0508af0eb2e3824dca598b60b4e65e07fb23fc9e7b25599348dce285",
+      "bytes": 17435
+    },
+    {
+      "path": "lessons/android-boot-chain.md",
+      "sha256": "b04e621d1e1f8481b6c8d39b2d8c38ddbfdd70a2d3ec5b51271a2e8fda2ca64c",
+      "bytes": 2777
+    },
+    {
+      "path": "lessons/bootloader-unlock.md",
+      "sha256": "19827ee0119da6aaab42f0a3f650812f66d2c48e64c8cfab5af154fff56b5e52",
+      "bytes": 2884
+    },
+    {
+      "path": "lessons/brick-triage.md",
+      "sha256": "448da0d49d71917501b26ce111100f00789c3c77d5d5d1d2afdc5321baa72393",
+      "bytes": 2325
+    },
+    {
+      "path": "lessons/custom-recovery-sideload.md",
+      "sha256": "01443ca033261eb2155243b1db75cdce70612afb1302f9fb04b86bdd27ce73e2",
+      "bytes": 2922
+    },
+    {
+      "path": "lessons/factory-firmware.md",
+      "sha256": "e0c4def50e7c2d606c04d65129ca4627e8cdeaf522e1ae2718267376e59e5ff6",
+      "bytes": 2725
+    },
+    {
+      "path": "lessons/post-service-qa.md",
+      "sha256": "7029e337ffc9109f5d3f55d37b9adc757b24dc67671aa82dad5407f3e9fbb1a3",
+      "bytes": 2392
+    },
+    {
+      "path": "lessons/reading-device-facts.md",
+      "sha256": "d59939d5688c99e1131f16466eac428c46afb7cf9bdc7c10f146092cbe8fb732",
+      "bytes": 2782
+    },
+    {
+      "path": "lessons/root-models.md",
+      "sha256": "6e453d1ad3da6b6a0de5f5ffc0fc3450644e69a418096acb56579793bc8a24d3",
+      "bytes": 2656
+    },
+    {
+      "path": "lessons/usb-modes-drivers.md",
+      "sha256": "ccfb04dc372f1cf56536dfbbb3b653738e97edf0ab570fc940cfcdac1b433773",
+      "bytes": 2707
+    },
+    {
+      "path": "tools.json",
+      "sha256": "412241adb6591548f68191cc53fa6365f21cc4f1cf2e9edfe12362b11d337b20",
+      "bytes": 16837
+    }
+  ]
+}

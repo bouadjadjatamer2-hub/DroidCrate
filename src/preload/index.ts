@@ -10,6 +10,11 @@ import type {
   QuizResult
 } from '@shared/learning'
 import type { HistoryEntry, HistoryExportResult } from '@shared/history'
+import type {
+  ContentApplyResult,
+  ContentCheckResult,
+  ContentStatus
+} from '@shared/contentUpdate'
 import type { PlatformToolsStatus } from '@shared/platformTools'
 import type {
   AdbActionId,
@@ -64,6 +69,11 @@ contextBridge.exposeInMainWorld('droidcrate', {
   clearHistory: (): Promise<void> => ipcRenderer.invoke(IPC.historyClear),
   exportHistory: (format: 'txt' | 'csv'): Promise<HistoryExportResult> =>
     ipcRenderer.invoke(IPC.historyExport, format),
+  getContentStatus: (): Promise<ContentStatus> => ipcRenderer.invoke(IPC.contentStatus),
+  checkContentUpdate: (): Promise<ContentCheckResult> => ipcRenderer.invoke(IPC.contentCheck),
+  applyContentUpdate: (version: string): Promise<ContentApplyResult> =>
+    ipcRenderer.invoke(IPC.contentApply, version),
+  resetContent: (): Promise<ContentStatus> => ipcRenderer.invoke(IPC.contentReset),
   onDeviceUpdate: (listener: (state: DeviceState) => void): (() => void) => {
     const handler = (_event: Electron.IpcRendererEvent, state: DeviceState): void => listener(state)
     ipcRenderer.on(IPC.deviceUpdate, handler)

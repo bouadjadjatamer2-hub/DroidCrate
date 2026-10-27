@@ -10,6 +10,11 @@ import type {
 } from './learning'
 import type { HistoryEntry, HistoryExportResult } from './history'
 import type {
+  ContentApplyResult,
+  ContentCheckResult,
+  ContentStatus
+} from './contentUpdate'
+import type {
   AdbActionId,
   AdbActionResult,
   AdbDevicesResult,
@@ -73,6 +78,10 @@ export interface DroidCrateApi {
   getHistory(): Promise<HistoryEntry[]>
   clearHistory(): Promise<void>
   exportHistory(format: 'txt' | 'csv'): Promise<HistoryExportResult>
+  getContentStatus(): Promise<ContentStatus>
+  checkContentUpdate(): Promise<ContentCheckResult>
+  applyContentUpdate(version: string): Promise<ContentApplyResult>
+  resetContent(): Promise<ContentStatus>
 }
 
 export const IPC = {
@@ -103,7 +112,11 @@ export const IPC = {
   learningChecklistImport: 'learning:checklist-import',
   historyList: 'history:list',
   historyClear: 'history:clear',
-  historyExport: 'history:export'
+  historyExport: 'history:export',
+  contentStatus: 'content:status',
+  contentCheck: 'content:check',
+  contentApply: 'content:apply',
+  contentReset: 'content:reset'
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'

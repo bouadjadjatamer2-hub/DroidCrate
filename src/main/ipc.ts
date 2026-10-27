@@ -10,6 +10,8 @@ import type { PlatformToolsService } from './platformTools/service'
 import type { AdbService } from './adb/service'
 import type { LearningService } from './learning/service'
 import type { HistoryService } from './history/service'
+import type { ContentService } from './content/service'
+import { invalidateContentCache } from './paths'
 
 function isAllowedExternalUrl(value: string): boolean {
   try {
@@ -29,7 +31,8 @@ export function registerIpc(
   platformTools: PlatformToolsService,
   adb: AdbService,
   learning: LearningService,
-  history: HistoryService
+  history: HistoryService,
+  content: ContentService
 ): void {
   ipcMain.handle(IPC.appInfo, (): AppInfo => {
     return {
@@ -187,5 +190,31 @@ export function registerIpc(
 
     await writeFile(result.filePath, history.exportContent(selected), 'utf8')
     return { saved: true, path: result.filePath, count: entries.length }
+  })
+
+  ipcMain.handle(IPC.contentStatus, () => content.getStatus())
+
+  ipcMain.handle(IPC.contentCheck, () => content.check())
+
+  ipcMain.handle(IPC.contentApply, async (_event, version: unknown) => {
+    if (typeof version !== 'string') {
+      return {
+        installed: false,
+        version: null,
+        fileCount: 0,
+        totalBytes: 0,
+        error: 'version',
+        message: 'A content version is required.'
+      }
+    }
+    const result = await content.apply(version)
+    if (result.installed) invalidateContentCache()
+    return result
+  })
+
+  ipcMain.handle(IPC.contentReset, async () => {
+    const status = await content.reset()
+    invalidateContentCache()
+    return status
   })
 }

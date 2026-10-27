@@ -995,6 +995,146 @@ h1 {
   font-size: 10.5px;
 }
 
+.settings-card__badge {
+  margin-inline-start: auto;
+}
+
+.content-update__facts {
+  margin: 16px 0 0;
+}
+
+.content-update__source {
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.content-update__progress-note {
+  padding: 9px 11px;
+  margin: 14px 0 0 !important;
+  color: var(--faint) !important;
+  font-size: 10px !important;
+  line-height: 1.6 !important;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.content-update .inline-note {
+  margin-top: 10px;
+}
+
+.content-update__available {
+  padding: 12px;
+  margin-top: 12px;
+  background: rgba(123, 216, 171, 0.04);
+  border: 1px solid rgba(123, 216, 171, 0.2);
+  border-radius: 10px;
+}
+
+.content-update__available-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.content-update__available-head strong {
+  font-size: 11.5px;
+}
+
+.content-update__available-head span {
+  color: var(--faint);
+  font-size: 9.5px;
+}
+
+.content-update__changes {
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  margin: 10px 0 0;
+  list-style: none;
+}
+
+.content-update__changes li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 7px;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+}
+
+.content-update__changes bdi {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content-change {
+  flex-shrink: 0;
+  padding: 1px 5px;
+  color: var(--accent);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(123, 216, 171, 0.1);
+  border-radius: 4px;
+}
+
+.content-change--removed {
+  color: #e6a4a4;
+  background: rgba(226, 140, 140, 0.1);
+}
+
+.content-update__more {
+  justify-content: flex-start !important;
+  color: var(--faint) !important;
+  font-family: var(--font-sans) !important;
+  background: transparent !important;
+}
+
+.content-update__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 11px;
+}
+
+.content-update__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding-top: 14px;
+  margin-top: 14px;
+  border-top: 1px solid rgba(34, 48, 42, 0.8);
+}
+
+.content-update__restore {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
+.content-update__restore span {
+  color: var(--faint);
+  font-size: 9px;
+}
+
+html[dir='rtl'] .content-update__changes bdi,
+html[dir='rtl'] .content-update__restore span {
+  text-align: start;
+}
+
 .settings-card--wide .settings-card__heading svg[data-lucide='shield-alert'] {
   color: var(--warm);
 }

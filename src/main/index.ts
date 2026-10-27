@@ -8,6 +8,8 @@ import { AdbService } from './adb/service'
 import { LearningStore } from './learning/store'
 import { LearningService } from './learning/service'
 import { HistoryService } from './history/service'
+import { ContentService } from './content/service'
+import { dataDirectory, userContentDirectory } from './paths'
 
 const isWindows = process.platform === 'win32'
 const deviceWatcher = new DeviceWatcher()
@@ -73,7 +75,11 @@ app.whenReady().then(async () => {
     const learning = new LearningService(learningStore)
     const history = new HistoryService(learningStore)
     const adbWithHistory = new AdbService(platformTools, (entry) => history.record(entry))
-    registerIpc(deviceWatcher, platformTools, adbWithHistory, learning, history)
+    const content = new ContentService({
+      bundledDirectory: dataDirectory(),
+      userDirectory: userContentDirectory()
+    })
+    registerIpc(deviceWatcher, platformTools, adbWithHistory, learning, history, content)
   } catch (error) {
     dialog.showErrorBox(
       'DroidCrate could not start',
