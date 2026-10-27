@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar'
 import { Titlebar } from './components/Titlebar'
 import { DeviceScreen } from './screens/DeviceScreen'
 import { ToolsScreen } from './screens/ToolsScreen'
+import { AdbScreen } from './screens/AdbScreen'
 import { ChecklistsScreen } from './screens/ChecklistsScreen'
 import { LessonsScreen } from './screens/LessonsScreen'
 import { HistoryScreen } from './screens/HistoryScreen'
@@ -21,6 +22,8 @@ function SectionContent({
       return <DeviceScreen />
     case 'tools':
       return <ToolsScreen />
+    case 'adb':
+      return <AdbScreen />
     case 'checklists':
       return <ChecklistsScreen />
     case 'lessons':

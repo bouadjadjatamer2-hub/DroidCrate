@@ -1,7 +1,10 @@
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, dialog, shell } from 'electron'
 import { join } from 'node:path'
 import { DeviceWatcher } from './device/watcher'
 import { registerIpc } from './ipc'
+import { loadPlatformToolsCatalog } from './platformTools/catalog'
+import { PlatformToolsService } from './platformTools/service'
+import { AdbService } from './adb/service'
 
 const isWindows = process.platform === 'win32'
 const deviceWatcher = new DeviceWatcher()
@@ -55,9 +58,24 @@ function createWindow(): BrowserWindow {
   return window
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   if (process.platform === 'win32') app.setAppUserModelId('app.droidcrate.desktop')
-  registerIpc(deviceWatcher)
+
+  try {
+    const catalog = await loadPlatformToolsCatalog()
+    const platformTools = new PlatformToolsService(catalog, app.getPath('userData'))
+    await platformTools.initialize()
+    const adb = new AdbService(platformTools)
+    registerIpc(deviceWatcher, platformTools, adb)
+  } catch (error) {
+    dialog.showErrorBox(
+      'DroidCrate could not start',
+      `The bundled tool catalog could not be loaded.\n\n${error instanceof Error ? error.message : String(error)}`
+    )
+    app.quit()
+    return
+  }
+
   const window = createWindow()
   deviceWatcher.start()
 

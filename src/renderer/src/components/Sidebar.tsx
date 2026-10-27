@@ -6,6 +6,7 @@ import {
   Settings,
   ShieldCheck,
   Smartphone,
+  Terminal,
   Wrench,
   type LucideIcon
 } from 'lucide-react'
@@ -16,6 +17,7 @@ import { useI18n } from '../i18n'
 const sections: Array<{ id: SectionId; label: string; icon: LucideIcon }> = [
   { id: 'device', label: 'nav.device', icon: Smartphone },
   { id: 'tools', label: 'nav.tools', icon: Wrench },
+  { id: 'adb', label: 'nav.adb', icon: Terminal },
   { id: 'checklists', label: 'nav.checklists', icon: ListChecks },
   { id: 'lessons', label: 'nav.lessons', icon: GraduationCap },
   { id: 'history', label: 'nav.history', icon: History },

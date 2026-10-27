@@ -1,8 +1,11 @@
 import { app, ipcMain, shell } from 'electron'
 import { IPC, type AppInfo } from '@shared/api'
+import type { AdbActionId, AdbToolName } from '@shared/adb'
 import type { DeviceWatcher } from './device/watcher'
 import { loadToolLibrary } from './tools/library'
 import { loadChecklistLibrary } from './checklists/library'
+import type { PlatformToolsService } from './platformTools/service'
+import type { AdbService } from './adb/service'
 
 function isAllowedExternalUrl(value: string): boolean {
   try {
@@ -13,7 +16,15 @@ function isAllowedExternalUrl(value: string): boolean {
   }
 }
 
-export function registerIpc(watcher: DeviceWatcher): void {
+function isToolName(value: unknown): value is AdbToolName {
+  return value === 'adb' || value === 'fastboot'
+}
+
+export function registerIpc(
+  watcher: DeviceWatcher,
+  platformTools: PlatformToolsService,
+  adb: AdbService
+): void {
   ipcMain.handle(IPC.appInfo, (): AppInfo => {
     return {
       name: 'DroidCrate',
@@ -39,4 +50,31 @@ export function registerIpc(watcher: DeviceWatcher): void {
   ipcMain.handle(IPC.toolsList, () => loadToolLibrary())
 
   ipcMain.handle(IPC.checklistsList, () => loadChecklistLibrary())
+
+  ipcMain.handle(IPC.platformToolsStatus, () => platformTools.getStatus())
+
+  ipcMain.handle(IPC.platformToolsInstall, () => platformTools.install())
+
+  ipcMain.handle(IPC.platformToolsCancel, () => {
+    platformTools.cancel()
+  })
+
+  ipcMain.handle(IPC.platformToolsRecheck, () => platformTools.detectInstalled())
+
+  ipcMain.handle(IPC.adbDevices, (_event, tool: unknown) => {
+    const selected: AdbToolName = isToolName(tool) ? tool : 'adb'
+    return adb.listDevices(selected)
+  })
+
+  ipcMain.handle(
+    IPC.adbRun,
+    (_event, action: unknown, serial: unknown, confirmed: unknown) =>
+      adb.run(action as AdbActionId, serial, confirmed)
+  )
+
+  ipcMain.handle(IPC.adbLog, () => adb.getLog())
+
+  ipcMain.handle(IPC.adbLogClear, () => {
+    adb.clearLog()
+  })
 }

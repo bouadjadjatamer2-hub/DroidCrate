@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-26",
+  "version": "37.0.1",
+  "released": "July 2026",
+  "fileName": "platform-tools-latest-windows.zip",
+  "url": "https://dl.google.com/android/repository/platform-tools-latest-windows.zip",
+  "sha256": "45f4d63113e895ebde0c90f194099a4676b6ac653bd28d54314a9e022bbc1a99",
+  "sha1": "e03e78b1d80b396f1c3358e31251cb31740e1110",
+  "sizeBytes": 8044989,
+  "source": {
+    "releasePage": "https://developer.android.com/tools/releases/platform-tools",
+    "catalog": "https://dl.google.com/android/repository/repository2-3.xml",
+    "collectedAt": "2026-10-26",
+    "note": "SHA-256 was computed locally from the official zip downloaded from dl.google.com. The SHA-1 and size match the platform-tools 37.0.1 Windows entry in Google's repository2-3.xml catalog."
+  }
+}
