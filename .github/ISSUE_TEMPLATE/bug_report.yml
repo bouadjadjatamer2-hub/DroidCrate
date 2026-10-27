@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a bug in DroidCrate
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make DroidCrate better. Please do not include personal
+        data, firmware files, account credentials, or device unlock codes.
+  - type: input
+    id: version
+    attributes:
+      label: DroidCrate version
+      description: Find it in Settings or in the installer filename.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 24H2, 64-bit"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you click, and in what order?
+      placeholder: |
+        1. Open...
+        2. Connect...
+        3. Click...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Remove serial numbers and personal information first.
+      render: text
+    validations:
+      required: false

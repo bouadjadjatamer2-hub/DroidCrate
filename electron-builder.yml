@@ -1,0 +1,40 @@
+appId: app.droidcrate.desktop
+productName: DroidCrate
+copyright: Copyright © 2026 DroidCrate contributors.
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!docs/*'
+  - '!tests/*'
+  - '!e2e/*'
+  - '!scripts/*'
+  - '!build/*'
+  - '!.github/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!vitest.config.{js,ts,mjs,cjs}'
+  - '!{.eslintcache,.prettierignore,.prettierrc.yaml,.editorconfig,README.md,CONTRIBUTING.md,NOTICE.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+asarUnpack:
+  - resources/**
+extraResources:
+  - from: data
+    to: data
+  - from: NOTICE.md
+    to: NOTICE.md
+  - from: LICENSE
+    to: LICENSE
+win:
+  executableName: droidcrate
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  artifactName: ${productName}-${version}-Setup.${ext}
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+npmRebuild: false

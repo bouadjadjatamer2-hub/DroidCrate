@@ -1,0 +1,28 @@
+# Build output
+out/
+dist/
+dist-electron/
+release/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Local data
+*.db
+*.db-shm
+*.db-wal
+data/updates/
+test-results/
+playwright-report/
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Environment
+.env
+.env.*

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/bouadjadjatamer2-hub/DroidCrate/security/advisories/new
+    about: Please report vulnerabilities privately.
+  - name: Asraab project page
+    url: https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/
+    about: Downloads and project notes.

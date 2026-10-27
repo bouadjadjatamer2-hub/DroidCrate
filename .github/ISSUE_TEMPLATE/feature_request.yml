@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest a focused improvement to DroidCrate
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        DroidCrate only links to official sources. Requests for cracked tools,
+        unofficial mirrors, firmware files, or account/password bypasses will be
+        closed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Device detection
+        - Tool library
+        - Checklists
+        - ADB / Fastboot
+        - Lessons
+        - History
+        - Settings
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Project rules
+      options:
+        - label: This request uses free and open-source components only.
+          required: true
+        - label: This request does not ask for unofficial, cracked, or firmware files.
+          required: true

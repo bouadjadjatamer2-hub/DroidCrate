@@ -1,0 +1,52 @@
+{
+  "name": "droidcrate",
+  "version": "0.1.0",
+  "description": "DroidCrate — a free, open-source Android service bench for Windows.",
+  "main": "./out/main/index.js",
+  "author": "DroidCrate contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/bouadjadjatamer2-hub/DroidCrate",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bouadjadjatamer2-hub/DroidCrate.git"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "start": "electron-vite preview",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "build": "npm run typecheck && electron-vite build",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "extract-zip": "^2.0.1",
+    "lucide-react": "^0.468.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "electron": "^44.4.4",
+    "electron-builder": "^26.16.1",
+    "electron-vite": "^5.0.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.6",
+    "vitest": "^3.2.4"
+  },
+  "allowScripts": {
+    "electron@44.9.3": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true,
+    "electron-winstaller@5.4.0": true
+  }
+}
