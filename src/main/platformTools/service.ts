@@ -6,7 +6,7 @@ import { get as httpsGet, type RequestOptions } from 'node:https'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
 import { BrowserWindow } from 'electron'
-import extract from 'extract-zip'
+import { extractZip } from './zip'
 import { IPC } from '@shared/api'
 import type {
   PlatformToolsCatalog,
@@ -400,7 +400,7 @@ export class PlatformToolsService {
 
       this.patch({ stage: 'extracting' })
       await mkdir(stagingDir, { recursive: true })
-      await extract(zipPath, { dir: stagingDir })
+      await extractZip(zipPath, stagingDir)
       await removeQuietly(zipPath)
 
       const nested = join(stagingDir, 'platform-tools')
@@ -540,3 +540,4 @@ export class PlatformToolsService {
     }
   }
 }
+

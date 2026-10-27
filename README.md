@@ -25,7 +25,24 @@ DroidCrate يجمع في مكان واحد أربع أدوات: التعرّف �
 | 5 — مسار التعلم | ✅ مكتملة |
 | 6 — سجل العمليات | ✅ مكتملة |
 | 7 — التحديث وبدون إنترنت | ✅ مكتملة |
-| 8 — التلميع والإصدار | ⏳ قادمة |
+| 8 — التلميع والإصدار | ✅ مكتملة |
+
+## التنزيل
+
+- **المثبّت (ويندوز 10/11، x64):**
+  [DroidCrate-0.1.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe)
+- **صفحة التنزيل العربية:** [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/)
+- **كل الإصدارات:** [GitHub Releases](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases)
+
+بصمة SHA-256 للمثبّت 0.1.0:
+`8c785fbaffd9f9472082bd87f84c634db077616fd4cbb4f0529008de8529789c`
+
+المثبّت غير موقّع بشهادة تجارية، لذلك قد يعرض SmartScreen تحذير «ناشر غير معروف».
+تحقق من البصمة أعلاه قبل التشغيل:
+
+```powershell
+Get-FileHash .\DroidCrate-0.1.0-Setup.exe -Algorithm SHA256
+```
 
 ## التقنيات
 
@@ -54,6 +71,7 @@ npm run typecheck    # فحص الأنواع
 npm run test         # اختبارات الوحدة
 npm run build        # بناء الإنتاج
 npm run build:win    # إنشاء مثبّت ويندوز
+npm run content:manifest  # إعادة توليد بيان المحتوى بعد تعديل data/
 ```
 
 ## المساهمة
@@ -70,5 +88,12 @@ npm run build:win    # إنشاء مثبّت ويندوز
 ## موقع المشروع
 
 - الموقع: [Asraab](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/)
+- صفحة DroidCrate: [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/)
 - المستودع: [github.com/bouadjadjatamer2-hub/DroidCrate](https://github.com/bouadjadjatamer2-hub/DroidCrate)
 - المشاكل والاقتراحات: [Issues](https://github.com/bouadjadjatamer2-hub/DroidCrate/issues)
+
+## التوثيق
+
+- [مراحل البناء](docs/STAGES.md) — ما أُنجز في كل مرحلة وكيفية التحقق منه.
+- [التقرير النهائي](docs/FINAL-REPORT.md) — ملخص العمل، ما تبقّى، والأخطاء المعروفة.
+- [دليل الإصدار](docs/RELEASE.md) — خطوات إصدار نسخة جديدة خطوة بخطوة.

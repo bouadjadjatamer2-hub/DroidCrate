@@ -11,10 +11,12 @@ import {
   Loader2,
   RefreshCw,
   RotateCcw,
-  ShieldAlert
+  ShieldAlert,
+  ShieldCheck
 } from 'lucide-react'
 import type { AppInfo } from '@shared/api'
 import { PROJECT_URL } from '@shared/api'
+import { WELCOME_STORAGE_KEY } from '@shared/welcome'
 import { SectionHeader } from '../components/SectionHeader'
 import { useContentUpdate } from '../hooks/useContentUpdate'
 import { useI18n, type Language } from '../i18n'
@@ -309,6 +311,23 @@ export function SettingsScreen({ info }: SettingsScreenProps) {
             <h2>{t('settings.safetyTitle')}</h2>
           </div>
           <p>{t('settings.safetyBody')}</p>
+          <div className="settings-card__action">
+            <div>
+              <strong>{t('welcome.legal.title')}</strong>
+              <span>{t('welcome.legal.ownership')}</span>
+            </div>
+            <button
+              type="button"
+              className="button button--ghost button--compact"
+              onClick={() => {
+                localStorage.removeItem(WELCOME_STORAGE_KEY)
+                window.location.reload()
+              }}
+            >
+              <ShieldCheck size={14} aria-hidden="true" />
+              {t('settings.reviewNotice')}
+            </button>
+          </div>
         </section>
 
         <section className="panel settings-card settings-card--wide">

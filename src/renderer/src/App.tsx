@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import type { AppInfo, SectionId } from '@shared/api'
+import { WELCOME_STORAGE_KEY, createWelcomeRecord, isWelcomeAccepted } from '@shared/welcome'
 import { Sidebar } from './components/Sidebar'
 import { Titlebar } from './components/Titlebar'
+import { WelcomeGate } from './components/WelcomeGate'
 import { DeviceScreen } from './screens/DeviceScreen'
 import { ToolsScreen } from './screens/ToolsScreen'
 import { AdbScreen } from './screens/AdbScreen'
@@ -38,6 +40,9 @@ function SectionContent({
 export function App() {
   const [section, setSection] = useState<SectionId>('device')
   const [info, setInfo] = useState<AppInfo | null>(null)
+  const [welcomeAccepted, setWelcomeAccepted] = useState(() =>
+    isWelcomeAccepted(localStorage.getItem(WELCOME_STORAGE_KEY))
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -57,14 +62,23 @@ export function App() {
   return (
     <div className="app-shell">
       <Titlebar version={info?.version ?? '0.1.0'} />
-      <div className="shell">
-        <Sidebar active={section} version={info?.version ?? '0.1.0'} onSelect={setSection} />
-        <main className="main">
-          <div key={section} className="screen-wrap">
-            <SectionContent section={section} info={info} />
-          </div>
-        </main>
-      </div>
+      {welcomeAccepted ? (
+        <div className="shell">
+          <Sidebar active={section} version={info?.version ?? '0.1.0'} onSelect={setSection} />
+          <main className="main">
+            <div key={section} className="screen-wrap">
+              <SectionContent section={section} info={info} />
+            </div>
+          </main>
+        </div>
+      ) : (
+        <WelcomeGate
+          onAccept={() => {
+            localStorage.setItem(WELCOME_STORAGE_KEY, JSON.stringify(createWelcomeRecord()))
+            setWelcomeAccepted(true)
+          }}
+        />
+      )}
     </div>
   )
 }

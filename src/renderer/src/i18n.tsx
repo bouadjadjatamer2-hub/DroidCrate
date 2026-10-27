@@ -29,6 +29,37 @@ const messages: Record<Language, Record<string, string>> = {
     'footer.version': 'Version {version}',
     'footer.license': 'MIT licensed',
     'footer.docs': 'Documentation',
+    'welcome.eyebrow': 'Before you start',
+    'welcome.title': 'A careful workbench for your own phones',
+    'welcome.lead':
+      'DroidCrate identifies connected devices, links only official tools, and walks you through risky operations with checklists and lessons.',
+    'welcome.feature.devices.title': 'Know what is connected',
+    'welcome.feature.devices.body': 'USB mode and suggested next step, read locally from Windows.',
+    'welcome.feature.library.title': 'Official sources only',
+    'welcome.feature.library.body':
+      'Vendor tools open on their official page. Nothing closed-source is bundled.',
+    'welcome.feature.checklists.title': 'Checklists before risk',
+    'welcome.feature.checklists.body':
+      'Ownership gate, ordered steps, and a progress trail you can review.',
+    'welcome.feature.offline.title': 'Works offline',
+    'welcome.feature.offline.body':
+      'Lessons, checklists, and history stay on this computer. Updates are manual.',
+    'welcome.legal.title': 'Rules this app enforces',
+    'welcome.legal.ownership':
+      'Use DroidCrate only on devices you own or are explicitly authorised to service.',
+    'welcome.legal.bypass':
+      'It does not bypass screen locks, accounts, FRP, or ownership protection, and it never will.',
+    'welcome.legal.sources':
+      'Firmware and vendor tools are never bundled or mirrored; the app links official pages only.',
+    'welcome.legal.warranty':
+      'The software is provided as-is under the MIT licence, without warranty. Flashing can erase data and brick hardware.',
+    'welcome.confirm.ownership':
+      'I own the devices I will connect, or I have explicit permission from their owner.',
+    'welcome.confirm.limits':
+      'I understand DroidCrate cannot unlock devices and that servicing carries risk.',
+    'welcome.source': 'Project source',
+    'welcome.accept': 'Enter the workbench',
+    'welcome.note': 'This notice is stored on this computer and can be shown again from Settings.',
     'device.eyebrow': 'Workspace / Device',
     'device.title': 'Device',
     'device.subtitle':
@@ -295,6 +326,7 @@ const messages: Record<Language, Record<string, string>> = {
     'settings.source': 'Source code',
     'settings.sourceHint': 'Report bugs and follow releases on GitHub.',
     'settings.safetyTitle': 'Safety and legal notice',
+    'settings.reviewNotice': 'Show start notice again',
     'settings.safetyBody':
       'DroidCrate is an educational tool. It does not bypass locks, accounts, or ownership protections. Use it only on devices you own or are authorised to service. Vendor tools are linked from official sources and are never bundled.',
     'settings.openSource': 'Open project',
@@ -320,6 +352,37 @@ const messages: Record<Language, Record<string, string>> = {
     'footer.version': 'الإصدار {version}',
     'footer.license': 'ترخيص MIT',
     'footer.docs': 'الوثائق',
+    'welcome.eyebrow': 'قبل أن تبدأ',
+    'welcome.title': 'ورشة عمل حذرة لهواتفك أنت',
+    'welcome.lead':
+      'DroidCrate يتعرّف على الأجهزة الموصولة، ويربط الأدوات الرسمية فقط، ويرشدك خطوة بخطوة في العمليات الخطيرة عبر قوائم تحقق ودروس.',
+    'welcome.feature.devices.title': 'اعرف ما هو موصول',
+    'welcome.feature.devices.body': 'وضع USB والخطوة التالية المقترحة، تُقرأ محلياً من ويندوز.',
+    'welcome.feature.library.title': 'مصادر رسمية فقط',
+    'welcome.feature.library.body':
+      'أدوات الشركات تُفتح على صفحتها الرسمية. لا يُضمَّن أي برنامج مغلق المصدر.',
+    'welcome.feature.checklists.title': 'قوائم تحقق قبل المخاطرة',
+    'welcome.feature.checklists.body':
+      'بوابة ملكية، خطوات مرتّبة، وأثر تقدم يمكنك مراجعته.',
+    'welcome.feature.offline.title': 'يعمل دون إنترنت',
+    'welcome.feature.offline.body':
+      'الدروس وقوائم التحقق والسجل تبقى على هذا الحاسوب. التحديث يدوي.',
+    'welcome.legal.title': 'قواعد يفرضها التطبيق',
+    'welcome.legal.ownership':
+      'استعمل DroidCrate فقط على أجهزة تملكها أو لديك إذن صريح بصيانتها.',
+    'welcome.legal.bypass':
+      'لا يتجاوز قفل الشاشة أو الحسابات أو FRP أو حماية الملكية، ولن يفعل ذلك أبداً.',
+    'welcome.legal.sources':
+      'ملفات الفيرموير وأدوات الشركات لا تُضمَّن ولا تُنسَخ؛ التطبيق يربط الصفحات الرسمية فقط.',
+    'welcome.legal.warranty':
+      'البرنامج يُقدَّم كما هو تحت ترخيص MIT دون ضمان. الفلاش قد يمحو البيانات ويُعطّل العتاد.',
+    'welcome.confirm.ownership':
+      'أملك الأجهزة التي سأوصلها، أو لديّ إذن صريح من أصحابها.',
+    'welcome.confirm.limits':
+      'أفهم أن DroidCrate لا يمكنه فتح الأجهزة، وأن الصيانة تنطوي على مخاطر.',
+    'welcome.source': 'مصدر المشروع',
+    'welcome.accept': 'دخول مساحة العمل',
+    'welcome.note': 'يُحفظ هذا التنبيه على هذا الحاسوب، ويمكن عرضه مجدداً من الإعدادات.',
     'device.eyebrow': 'مساحة العمل / الجهاز',
     'device.title': 'الجهاز',
     'device.subtitle': 'وصّل هاتفاً لتتعرف على وضع USB والخطوة الرسمية التالية.',
@@ -576,6 +639,7 @@ const messages: Record<Language, Record<string, string>> = {
     'settings.source': 'الشيفرة المصدرية',
     'settings.sourceHint': 'أبلغ عن الأخطاء وتابع الإصدارات على GitHub.',
     'settings.safetyTitle': 'تنبيه أمان وقانوني',
+    'settings.reviewNotice': 'عرض تنبيه البداية مجدداً',
     'settings.safetyBody':
       'DroidCrate أداة تعليمية. لا يتجاوز الأقفال أو الحسابات أو حماية الملكية. استعمله فقط على الأجهزة التي تملكها أو لديك إذن بصيانتها. أدوات الشركات مرتبطة بمصادرها الرسمية ولا تُدمج أبداً.',
     'settings.openSource': 'فتح المشروع',
