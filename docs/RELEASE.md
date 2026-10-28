@@ -153,7 +153,7 @@ git push origin main
 ثم تحقق من الرابط الحقيقي بعد دقيقة:
 
 ```powershell
-(Invoke-WebRequest 'https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/' -UseBasicParsing).StatusCode
+(Invoke-WebRequest 'https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/' -UseBasicParsing).StatusCode
 ```
 
 ## 8. ارفع المستودع

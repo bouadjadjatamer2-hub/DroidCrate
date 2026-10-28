@@ -4,7 +4,7 @@
 
 - المستودع: <https://github.com/bouadjadjatamer2-hub/DroidCrate>
 - الإصدار: <https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0>
-- صفحة التنزيل: <https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/>
+- صفحة التنزيل: <https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/>
 - الرخصة: MIT
 
 ## 1. ما تم تسليمه

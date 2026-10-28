@@ -120,4 +120,4 @@ export const IPC = {
 } as const
 
 export const PROJECT_URL = 'https://github.com/bouadjadjatamer2-hub/DroidCrate'
-export const WEBSITE_URL = 'https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/'
+export const WEBSITE_URL = 'https://bouadjadjatamer2-hub.github.io/asraab/'

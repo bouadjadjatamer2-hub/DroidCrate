@@ -31,7 +31,7 @@ DroidCrate يجمع في مكان واحد أربع أدوات: التعرّف �
 
 - **المثبّت (ويندوز 10/11، x64):**
   [DroidCrate-0.1.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe)
-- **صفحة التنزيل العربية:** [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/)
+- **صفحة التنزيل العربية:** [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/)
 - **كل الإصدارات:** [GitHub Releases](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases)
 
 بصمة SHA-256 للمثبّت 0.1.0:
@@ -87,8 +87,8 @@ npm run content:manifest  # إعادة توليد بيان المحتوى بعد
 
 ## موقع المشروع
 
-- الموقع: [Asraab](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/)
-- صفحة DroidCrate: [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/Majra-download-manager-/apps/droidcrate/)
+- الموقع: [Asraab](https://bouadjadjatamer2-hub.github.io/asraab/)
+- صفحة DroidCrate: [Asraab / DroidCrate](https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/)
 - المستودع: [github.com/bouadjadjatamer2-hub/DroidCrate](https://github.com/bouadjadjatamer2-hub/DroidCrate)
 - المشاكل والاقتراحات: [Issues](https://github.com/bouadjadjatamer2-hub/DroidCrate/issues)
 
