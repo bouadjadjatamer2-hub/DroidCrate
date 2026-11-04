@@ -28,6 +28,23 @@
   <a href="README.ar.md">العربية</a>
 </p>
 
+## Get DroidCrate
+
+<p align="center">
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe">
+    <img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate">
+    <img alt="DroidCrate app page" src="https://img.shields.io/badge/Page-DroidCrate-4CC38A?style=for-the-badge&label=page&color=4CC38A" />
+  </a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0">
+    <img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-B45309?style=for-the-badge&label=release&color=B45309" />
+  </a>
+</p>
+
 <a href="docs/screenshots/stage-1-device.png"><img src="docs/screenshots/stage-1-device.png" alt="DroidCrate identifying a connected Android phone and its USB mode" width="100%" /></a>
 
 ## Why DroidCrate
@@ -42,17 +59,17 @@ procedure. It will not unlock it, flash it, wipe it, or bypass an account.
 
 ## Features
 
-| | |
-| --- | --- |
-| **Know what is connected** | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM. Suggests the official next step. |
-| **16 tools, official links only** | A curated index of platform tools, flashers, drivers, recoveries and root managers. No mirrors, no cracked builds, no bundled vendor software. |
-| **5 pre-flight checklists** | 46 ordered steps across stock firmware, bootloader unlock, custom recovery, root and custom ROM. Every required step must be checked. |
-| **10 fixed ADB/Fastboot actions** | Five read-only queries, three restarts that require confirmation, and two Fastboot checks. The interface cannot send arbitrary commands. |
-| **Verified Platform Tools** | Installs Google's Platform Tools 37.0.1 from `dl.google.com`, checks the pinned SHA-256 before extraction, and runs ADB only from that verified copy. |
-| **9 lessons and a quiz** | Foundation, intermediate and advanced lessons with a 60% pass mark and an explanation for every answer. Progress stays on the PC. |
-| **Local operation history** | Every ADB action, Platform Tools install and completed checklist is recorded in local SQLite, with search, filters and TXT/CSV export. |
-| **Bilingual and offline-first** | English and a full Arabic RTL interface. Lessons, checklists and history work without a connection; content updates are manual and verified. |
-| **No account, no telemetry** | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates. |
+|                                   |                                                                                                                                                       |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Know what is connected**        | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM. Suggests the official next step.                    |
+| **16 tools, official links only** | A curated index of platform tools, flashers, drivers, recoveries and root managers. No mirrors, no cracked builds, no bundled vendor software.        |
+| **5 pre-flight checklists**       | 46 ordered steps across stock firmware, bootloader unlock, custom recovery, root and custom ROM. Every required step must be checked.                 |
+| **10 fixed ADB/Fastboot actions** | Five read-only queries, three restarts that require confirmation, and two Fastboot checks. The interface cannot send arbitrary commands.              |
+| **Verified Platform Tools**       | Installs Google's Platform Tools 37.0.1 from `dl.google.com`, checks the pinned SHA-256 before extraction, and runs ADB only from that verified copy. |
+| **9 lessons and a quiz**          | Foundation, intermediate and advanced lessons with a 60% pass mark and an explanation for every answer. Progress stays on the PC.                     |
+| **Local operation history**       | Every ADB action, Platform Tools install and completed checklist is recorded in local SQLite, with search, filters and TXT/CSV export.                |
+| **Bilingual and offline-first**   | English and a full Arabic RTL interface. Lessons, checklists and history work without a connection; content updates are manual and verified.          |
+| **No account, no telemetry**      | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates.                                   |
 
 ## Screenshots
 
@@ -188,14 +205,14 @@ npm install
 npm run dev
 ```
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the app in development mode |
-| `npm run typecheck` | Type-check the main and renderer code |
-| `npm test` | Run the unit tests |
-| `npm run test:e2e` | Run the Playwright end-to-end suite |
-| `npm run build` | Build the production app |
-| `npm run build:win` | Build the Windows installer |
+| Command                    | What it does                                          |
+| -------------------------- | ----------------------------------------------------- |
+| `npm run dev`              | Start the app in development mode                     |
+| `npm run typecheck`        | Type-check the main and renderer code                 |
+| `npm test`                 | Run the unit tests                                    |
+| `npm run test:e2e`         | Run the Playwright end-to-end suite                   |
+| `npm run build`            | Build the production app                              |
+| `npm run build:win`        | Build the Windows installer                           |
 | `npm run content:manifest` | Regenerate the content manifest after editing `data/` |
 
 Release steps, checksums and rollback notes live in [docs/RELEASE.md](docs/RELEASE.md). The build
