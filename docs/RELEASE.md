@@ -1,7 +1,7 @@
 # دليل إصدار نسخة جديدة
 
 هذا الملف يشرح كيف تُصدر نسخة جديدة من DroidCrate خطوة بخطوة، بما في ذلك تحديث
-الموقع، والتحقق، والتراجع عند الحاجة. كل الأوامر تُنفَّذ من جذر المستودع.
+صفحة المستودع، والتحقق، والتراجع عند الحاجة. كل الأوامر تُنفَّذ من جذر المستودع.
 
 ## 0. المتطلبات
 
@@ -26,9 +26,9 @@ npm ci
 | `package.json` | `"version": "0.2.0"` |
 | `docs/releases/v0.2.0.md` | ملف ملاحظات جديد (يُنشأ) |
 | `README.md` | رقم الإصدار، رابط المثبّت، البصمة (بعد البناء) |
+| `README.ar.md` | نفس التحديثات في النسخة العربية |
 | `src/shared/welcome.ts` | `WELCOME_NOTICE_VERSION` فقط إذا تغيّر نص التنبيه القانوني |
 | `docs/STAGES.md` أو `docs/FINAL-REPORT.md` | الأرقام والنتائج إن تغيّرت |
-| `docs/sitemap.xml` (أسراب) | تاريخ `lastmod` لصفحة DroidCrate |
 
 لا تنسَ أن `electron-builder` يأخذ اسم الملف من `version`:
 
@@ -94,7 +94,7 @@ node scripts/verify-packaged.mjs
 (Get-Item .\dist\DroidCrate-<version>-Setup.exe).Length
 ```
 
-حدّث `README.md`، `docs/releases/<tag>.md`، وصفحة أسراب بالبصمة والحجم.
+حدّث `README.md` و`README.ar.md` و`docs/releases/<tag>.md` بالبصمة والحجم.
 
 ## 5. اكتب ملاحظات الإصدار
 
@@ -127,36 +127,30 @@ $r = Invoke-RestMethod -Uri 'https://api.github.com/repos/bouadjadjatamer2-hub/D
 $r.assets | Select-Object name, size
 ```
 
-## 7. حدّث موقع أسراب
+## 7. حدّث صفحة المستودع
 
-1. انسخ لقطات جديدة إلى `docs/apps/droidcrate/` عند تغيّر الواجهة.
-2. في `docs/assets/apps.js`، حدّث `version` و`size` لكائن `droidcrate`،
-   و`window.ASRAAB_CATALOG.updated`.
-3. في `docs/assets/config.js`، حدّث كائن `DROIDCRATE_CONFIG` فقط:
-   - `version` و`releaseTagUrl` و`installerUrl` (اسم الملف يحمل الإصدار).
-   - `installerName` و`installerSize` و`installerBytes`.
-   - `sha256`، و`year` إن تغيّر.
-   الصفحة والروابط والشارات وبصمة التذييل وبيان `SoftwareApplication` تُقرأ
-   من هذا الكائن، فلا حاجة لتعديل `index.html` إلا إذا تغيّر النص أو التصميم.
-4. في `docs/sitemap.xml`، حدّث `lastmod`.
-5. شغّل خادماً محلياً وافتح الصفحة بالعربية والإنجليزية، داكن وفاتح، وتأكد من
-   عدم وجود أخطاء console أو صور مفقودة، وأن بوابة الأوامر ما زالت ترفض
-   الفلاش والصدفة الحرّة.
-6. ارفع:
+صفحة التطبيق هي `README.md` و`README.ar.md` في جذر المستودع، وليست موقعاً منفصلاً.
+
+1. في `README.md` و`README.ar.md`، حدّث رقم الإصدار ورابط المثبّت والحجم والبصمة.
+2. إذا تغيّرت الواجهة، استبدل اللقطات في `docs/screenshots/` بنفس الأسماء التي
+   تشير إليها الصفحتان، أو حدّث المسارات في الاثنتين.
+3. عاين الصفحتين في معاينة Markdown وتأكد من أن البانر والشارات واللقطات
+   وروابط التنزيل تعمل، وأن النسختين تشيران إلى بعضهما.
+4. ارفع:
 
 ```powershell
 git add -A
-git commit -m "feat(site): publish DroidCrate <version>"
+git commit -m "docs: update the app page for <version>"
 git push origin main
 ```
 
-ثم تحقق من الرابط الحقيقي بعد دقيقة:
+ثم تحقق من أن GitHub يعرض الصفحة:
 
 ```powershell
-(Invoke-WebRequest 'https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/' -UseBasicParsing).StatusCode
+(Invoke-WebRequest 'https://github.com/bouadjadjatamer2-hub/DroidCrate' -UseBasicParsing).StatusCode
 ```
 
-## 8. ارفع المستودع
+## 8. ارفع بقية التغييرات
 
 ```powershell
 git add -A
@@ -164,7 +158,7 @@ git commit -m "release: DroidCrate <version>"
 git push origin main
 ```
 
-GitHub Actions/الصفحات ليست ضرورية للموقع لأنه يُنشر من مجلد `docs` مباشرة.
+GitHub Actions غير مطلوب؛ الرفع إلى `main` يكفي، وصفحة المستودع تُحدَّث تلقائياً.
 
 ## 9. قائمة تحقق نهائية
 
@@ -173,9 +167,9 @@ GitHub Actions/الصفحات ليست ضرورية للموقع لأنه يُن
 - [ ] `npm audit` بلا ثغرات عالية/حرجة.
 - [ ] `data/content-manifest.json` محدّث إن تغيّر `data/`.
 - [ ] المثبّت بُني واختُبر من `win-unpacked`.
-- [ ] البصمة والحجم محدّثان في README وملاحظات الإصدار والموقع.
+- [ ] البصمة والحجم محدّثان في `README.md` و`README.ar.md` وملاحظات الإصدار.
 - [ ] GitHub Release يحمل المثبّت و`latest.yml` بالحجم الصحيح.
-- [ ] صفحة أسراب تعمل بالعربية والإنجليزية، داكن وفاتح.
+- [ ] صفحة المستودع تعرض البانر والشارات واللقطات بلا روابط ميتة.
 - [ ] روابط التنزيل والشيفرة والرخصة تعمل.
 - [ ] `docs/FINAL-REPORT.md` محدّث إن تغيّر النطاق أو القيود.
 
@@ -186,8 +180,8 @@ GitHub Actions/الصفحات ليست ضرورية للموقع لأنه يُن
 1. لا تحذف الإصدار فوراً إن كان هناك مستخدمون؛ انشر إصداراً مصححاً `0.2.1`.
 2. يمكن تعليم الإصدار السابق كـ `prerelease` أو إخفاؤه من واجهة GitHub، مع
    إبقاء الأصل للتنزيل المباشر.
-3. أعد صفحة أسراب إلى الإصدار السابق: `version`، `size`، رابط التنزيل،
-   البصمة، ثم ارفع.
+3. أعد `README.md` و`README.ar.md` إلى الإصدار السابق: `version`، `size`، رابط
+   التنزيل، البصمة، ثم ارفع.
 4. لا تحذف `latest.yml` إن كنت ستستخدم التحديث التلقائي لاحقاً؛ أبقِه متوافقاً
    مع آخر إصدار مستقر.
 

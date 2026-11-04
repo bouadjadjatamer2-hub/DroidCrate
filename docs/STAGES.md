@@ -374,7 +374,7 @@ node scripts/capture-stage-7.mjs
   `app.isPackaged = true`، والبيانات تُقرأ من `resources/data` (16 أداة،
   9 دروس، 5 قوائم، بيان محتوى 13 ملفاً)، و`adb version` نجح من داخل الحزمة.
 - **النشر:** إصدار GitHub موسوم `v0.1.0` يحمل المثبّت وملف `latest.yml`، وصفحة
-  تنزيل عربية على موقع Asraab.
+  تطبيق عربية/إنجليزية في `README.md` و`README.ar.md`.
 
 ### التحقق
 
