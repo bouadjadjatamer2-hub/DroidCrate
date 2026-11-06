@@ -11,10 +11,15 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/latest"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/latest"><img alt="آخر إصدار" src="https://img.shields.io/github/v/release/bouadjadjatamer2-hub/DroidCrate?style=for-the-badge&label=release&color=B45309" /></a>
-  <a href="LICENSE"><img alt="رخصة MIT" src="https://img.shields.io/badge/license-MIT-4CC38A?style=for-the-badge" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="عدد التنزيلات" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=for-the-badge&color=1F7D5C" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="صفحة DroidCrate" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=for-the-badge&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-24292F?style=for-the-badge&logo=git&logoColor=white" /></a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="رخصة MIT" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="عدد التنزيلات" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
+  <img alt="ويندوز 10 و11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
 </p>
 
 <p align="center">
@@ -26,23 +31,6 @@
   <a href="#البناء-من-المصدر">البناء من المصدر</a> ·
   <a href="#أسئلة-شائعة">أسئلة شائعة</a> ·
   <a href="README.md">English</a>
-</p>
-
-## خذ DroidCrate
-
-<p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe">
-    <img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate">
-    <img alt="صفحة DroidCrate" src="https://img.shields.io/badge/Page-DroidCrate-4CC38A?style=for-the-badge&label=page&color=4CC38A" />
-  </a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0">
-    <img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-B45309?style=for-the-badge&label=release&color=B45309" />
-  </a>
 </p>
 
 <a href="docs/screenshots/stage-1-device-ar.png"><img src="docs/screenshots/stage-1-device-ar.png" alt="DroidCrate يتعرّف على هاتف أندرويد متصل ووضعه على USB" width="100%" /></a>
@@ -58,7 +46,7 @@
 
 ## المميزات
 
-|                                   |                                                                                                                                  |
+| الميزة                            | ما تفعله                                                                                                                         |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | **اعرف ما هو موصول**              | يقرأ Plug and Play في ويندوز محلياً ويسمّي وضع USB: ADB أو Fastboot أو Download أو EDL أو BROM. يقترح الخطوة الرسمية التالية.    |
 | **16 أداة بروابط رسمية فقط**      | فهرس منسّق لأدوات المنصّة والفلاش والتعريفات والاسترداد وإدارة الروت. بلا مرايا، بلا نسخ مكركة، وبلا برامج شركات مرفقة.          |
@@ -75,32 +63,32 @@
 <table>
   <tr>
     <td width="50%">
-      <a href="docs/screenshots/stage-1-device-ar.png"><img src="docs/screenshots/stage-1-device-ar.png" alt="شاشة الجهاز: وضع USB والخطوة التالية المقترحة" /></a>
-      <br /><sub><b>التعرّف أولاً.</b> وضع USB للهاتف، والقاعدة المطابقة، والخطوة الرسمية التالية — تُقرأ محلياً من ويندوز.</sub>
-    </td>
-    <td width="50%">
       <a href="docs/screenshots/stage-2-tools-ar.png"><img src="docs/screenshots/stage-2-tools-ar.png" alt="مكتبة الأدوات مع المصادر الرسمية وملاحظات التوافق" /></a>
       <br /><sub><b>مصادر رسمية فقط.</b> ست عشرة أداة مع فلاتر العلامة والشريحة ومستوى الصعوبة — وبلا مرايا.</sub>
     </td>
-  </tr>
-  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-3-checklists-ar.png"><img src="docs/screenshots/stage-3-checklists-ar.png" alt="خمس قوائم تحقق مع مستويات الخطر" /></a>
       <br /><sub><b>تمهّل قبل الخطر.</b> خمس عمليات، و46 خطوة مطلوبة، ومستوى خطر على كل واحدة.</sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-8-welcome-ar.png"><img src="docs/screenshots/stage-8-welcome-ar.png" alt="شاشة أول تشغيل مع تأكيد الملكية وقواعد التطبيق" /></a>
       <br /><sub><b>بوابة الملكية.</b> أول تشغيل يطلب تأكيد ملكية الأجهزة وفهم الحدود قبل الدخول.</sub>
     </td>
-  </tr>
-  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-5-lessons-ar.png"><img src="docs/screenshots/stage-5-lessons-ar.png" alt="مسار التعلّم مع دروس تأسيسية ومتوسطة ومتقدمة" /></a>
       <br /><sub><b>تعلّم السلسلة.</b> تسعة دروس تشرح كل مرحلة من إقلاع أندرويد — ومتى تتوقف.</sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-6-history-ar.png"><img src="docs/screenshots/stage-6-history-ar.png" alt="سجل العمليات المحلي مع البحث والتصدير" /></a>
       <br /><sub><b>كل شيء مسجّل.</b> ابحث وفلتر وصدّر ما جُرّب، على أي جهاز، وكيف انتهى.</sub>
+    </td>
+    <td width="50%">
+      <a href="docs/screenshots/stage-0-settings-ar.png"><img src="docs/screenshots/stage-0-settings-ar.png" alt="الإعدادات مع خيارات اللغة الإنجليزية والعربية" /></a>
+      <br /><sub><b>إنجليزي وعربي.</b> الواجهة كلها تنقلب إلى RTL؛ التقدّم والسجل لا يتركان الجهاز.</sub>
     </td>
   </tr>
 </table>

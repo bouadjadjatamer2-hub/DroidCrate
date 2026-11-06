@@ -11,10 +11,15 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/latest"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/bouadjadjatamer2-hub/DroidCrate?style=for-the-badge&label=release&color=B45309" /></a>
-  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=for-the-badge" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=for-the-badge&color=1F7D5C" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="DroidCrate app page" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=for-the-badge&logo=github&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-24292F?style=for-the-badge&logo=git&logoColor=white" /></a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
+  <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
 </p>
 
 <p align="center">
@@ -26,23 +31,6 @@
   <a href="#build-from-source">Build from source</a> ·
   <a href="#faq">FAQ</a> ·
   <a href="README.ar.md">العربية</a>
-</p>
-
-## Get DroidCrate
-
-<p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe">
-    <img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download_for_Windows-v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate">
-    <img alt="DroidCrate app page" src="https://img.shields.io/badge/Page-DroidCrate-4CC38A?style=for-the-badge&label=page&color=4CC38A" />
-  </a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0">
-    <img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-B45309?style=for-the-badge&label=release&color=B45309" />
-  </a>
 </p>
 
 <a href="docs/screenshots/stage-1-device.png"><img src="docs/screenshots/stage-1-device.png" alt="DroidCrate identifying a connected Android phone and its USB mode" width="100%" /></a>
@@ -59,7 +47,7 @@ procedure. It will not unlock it, flash it, wipe it, or bypass an account.
 
 ## Features
 
-|                                   |                                                                                                                                                       |
+| Feature                           | What it does                                                                                                                                          |
 | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Know what is connected**        | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM. Suggests the official next step.                    |
 | **16 tools, official links only** | A curated index of platform tools, flashers, drivers, recoveries and root managers. No mirrors, no cracked builds, no bundled vendor software.        |
@@ -76,32 +64,32 @@ procedure. It will not unlock it, flash it, wipe it, or bypass an account.
 <table>
   <tr>
     <td width="50%">
-      <a href="docs/screenshots/stage-1-device.png"><img src="docs/screenshots/stage-1-device.png" alt="Device screen: USB mode and suggested next step" /></a>
-      <br /><sub><b>Identify first.</b> The phone's USB mode, matched rule and official next step — read locally from Windows.</sub>
-    </td>
-    <td width="50%">
       <a href="docs/screenshots/stage-2-tools.png"><img src="docs/screenshots/stage-2-tools.png" alt="Tool library with official sources and compatibility notes" /></a>
       <br /><sub><b>Official sources only.</b> Sixteen tools with brand, chipset and difficulty filters — and no mirrors.</sub>
     </td>
-  </tr>
-  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-3-checklists.png"><img src="docs/screenshots/stage-3-checklists.png" alt="Five pre-flight checklists with risk levels" /></a>
       <br /><sub><b>Slow down before risk.</b> Five operations, 46 required steps, and a risk level on each one.</sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-3-ownership.png"><img src="docs/screenshots/stage-3-ownership.png" alt="Ownership confirmation before opening a checklist" /></a>
       <br /><sub><b>Ownership gate.</b> Every high-risk checklist asks you to confirm the device is yours before it opens.</sub>
     </td>
-  </tr>
-  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-4-installed.png"><img src="docs/screenshots/stage-4-installed.png" alt="Platform Tools installed and verified, with the fixed command panel" /></a>
       <br /><sub><b>Verified tooling.</b> Platform Tools 37.0.1 is checked against a pinned SHA-256 before ADB runs.</sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-5-lessons.png"><img src="docs/screenshots/stage-5-lessons.png" alt="Learning path with foundation, intermediate and advanced lessons" /></a>
       <br /><sub><b>Learn the chain.</b> Nine lessons explain what each stage of an Android boot does — and when to stop.</sub>
+    </td>
+    <td width="50%">
+      <a href="docs/screenshots/stage-5-quiz.png"><img src="docs/screenshots/stage-5-quiz.png" alt="Lesson quiz with explanations for every answer" /></a>
+      <br /><sub><b>Check the gaps.</b> Every lesson ends with a quiz and an explanation for each answer; 60% passes.</sub>
     </td>
   </tr>
   <tr>
