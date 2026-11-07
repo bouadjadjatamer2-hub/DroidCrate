@@ -9,18 +9,18 @@
 <h1 align="center">DroidCrate</h1>
 
 <p align="center">
-  <strong>Know the phone. Before you touch it.</strong><br />
-  A free, open-source Android service bench for Windows: local USB detection, official tool links,
-  gated checklists, nine lessons, and ten fixed ADB and Fastboot actions.
+  <strong>Everything you need for the phone, in one window.</strong><br />
+  A free, open-source Android workbench for Windows: install apps, move files, mirror the screen,
+  flash partitions and run adb or fastboot commands — without opening another program or website.
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.1.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="DroidCrate app page" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.1.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.1.0-24292F?style=flat-square&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.0-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
@@ -28,7 +28,7 @@
 
 <p align="center">
   <a href="#install">Install</a> ·
-  <a href="#features">Features</a> ·
+  <a href="#the-workbench">The workbench</a> ·
   <a href="#screenshots">Screenshots</a> ·
   <a href="#safety">Safety</a> ·
   <a href="#how-it-works">How it works</a> ·
@@ -37,154 +37,162 @@
   <a href="README.ar.md">العربية</a>
 </p>
 
-<a href="docs/screenshots/stage-1-device.png"><img src="docs/screenshots/stage-1-device.png" alt="DroidCrate identifying a connected Android phone and its USB mode" width="100%" /></a>
+<a href="docs/screenshots/workbench-overview-en.png"><img src="docs/screenshots/workbench-overview-en.png" alt="DroidCrate workbench showing a connected phone, its Android version, chipset and restart actions" width="100%" /></a>
 
 ## Why DroidCrate
 
-Android service work is full of unofficial mirrors, bundled vendor tools, and instructions that
-skip the part where you check what you are actually holding. DroidCrate takes the opposite approach:
-identify the device locally, open the official source, slow down before a risky step, and keep every
-action inside a fixed, reviewable table.
+Most Android tasks are scattered across five different programs, three websites and a folder of
+remembered command lines. DroidCrate puts them in one place: a single workbench that talks to the
+phone over USB, reads it, and does the job with the adb and fastboot binaries it installs once.
 
-It is a workbench, not a magic box. It will help you read a phone, prepare it, and follow a safe
-procedure. It will not unlock it, flash it, wipe it, or bypass an account.
+You pick the files from your own PC. The app never sends you to a download site, never opens another
+program, and never needs an account.
+
+## The workbench
+
+One screen, six tabs. The phone stays connected while you move between them.
+
+| Tab            | What you can do                                                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Overview**   | Read the model, Android version, build, security patch, chipset and bootloader state. Restart to system, bootloader, recovery, fastbootd or power off — each with a second-click guard. |
+| **Apps**       | List every installed package, install an APK by picking it or dropping it on the window, export an APK to the PC, freeze/unfreeze a package, clear its data, or uninstall it.          |
+| **Files**      | Send any file from the PC to any phone path, pull a file or folder back, and run a full backup/restore of DCIM, Pictures, Download, Documents, Movies, Music and WhatsApp.             |
+| **Screen**     | Take a PNG screenshot, record up to three minutes of MP4, or open a live view of the phone and tap it directly from the window.                                                       |
+| **Flash**      | Pick a local boot/recovery/system image and flash it in fastboot, erase a partition, sideload an OTA ZIP from the PC, unlock or lock the bootloader, and read fastboot variables.       |
+| **Terminal**   | Run any adb or fastboot command with presets, and stream logcat with a live text filter.                                                                                              |
+
+Everything above runs on the bundled Platform Tools. There is no second app to install, no external
+tool page, and no in-app ROM browser: you choose the image or ZIP from your own disk.
 
 ## Features
 
-| Feature                           | What it does                                                                                                                                          |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Know what is connected**        | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM. Suggests the official next step.                    |
-| **16 tools, official links only** | A curated index of platform tools, flashers, drivers, recoveries and root managers. No mirrors, no cracked builds, no bundled vendor software.        |
-| **5 pre-flight checklists**       | 46 ordered steps across stock firmware, bootloader unlock, custom recovery, root and custom ROM. Every required step must be checked.                 |
-| **10 fixed ADB/Fastboot actions** | Five read-only queries, three restarts that require confirmation, and two Fastboot checks. The interface cannot send arbitrary commands.              |
-| **Verified Platform Tools**       | Installs Google's Platform Tools 37.0.1 from `dl.google.com`, checks the pinned SHA-256 before extraction, and runs ADB only from that verified copy. |
-| **9 lessons and a quiz**          | Foundation, intermediate and advanced lessons with a 60% pass mark and an explanation for every answer. Progress stays on the PC.                     |
-| **Local operation history**       | Every ADB action, Platform Tools install and completed checklist is recorded in local SQLite, with search, filters and TXT/CSV export.                |
-| **Bilingual and offline-first**   | English and a full Arabic RTL interface. Lessons, checklists and history work without a connection; content updates are manual and verified.          |
-| **No account, no telemetry**      | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates.                                   |
+| Feature                            | What it does                                                                                                                                          |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **One workbench, six tools**       | Apps, files, screen, flashing, commands and device information in a single window, with one device picker shared by every tab.                         |
+| **Real APK management**            | Install from a file picker or drag-and-drop, export any installed APK, freeze, unfreeze, clear data and uninstall — all through `pm` with safe arguments. |
+| **Files and full backup**          | Push and pull files or folders with progress, then copy the usual phone folders to the PC and restore them later in one run.                            |
+| **Screen capture and live view**   | Screenshot, screen recording, and a live view that refreshes about once per second; click the image to tap, and use Back, Home, Recents and Power.     |
+| **Fastboot flashing from local files** | Flash any partition from an image on your PC, erase a partition, sideload an update ZIP, and lock or unlock the bootloader. Nothing is downloaded.   |
+| **ADB and Fastboot terminal**      | A real command box with presets, output, exit status and duration, plus a streaming logcat with filter and clear.                                      |
+| **Know what is connected**         | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM.                                                     |
+| **Verified Platform Tools**        | Installs Google's Platform Tools 37.0.1 from `dl.google.com`, checks the pinned SHA-256 before extraction, and runs adb only from that verified copy.  |
+| **5 pre-flight checklists**        | 46 ordered steps across stock firmware, bootloader unlock, custom recovery, root and custom ROM. Every required step must be checked.                 |
+| **9 lessons and a quiz**           | Foundation, intermediate and advanced lessons with a 60% pass mark and an explanation for every answer. Progress stays on the PC.                     |
+| **Local operation history**        | Every command, install, backup, flash and completed checklist is recorded locally, with search, filters and TXT/CSV export.                           |
+| **Bilingual and offline-first**    | English and a full Arabic RTL interface. The workbench, lessons, checklists and history work without a connection.                                    |
+| **No account, no telemetry**       | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates.                                   |
 
 ## Screenshots
 
 <table>
   <tr>
     <td width="50%">
-      <a href="docs/screenshots/stage-2-tools.png"><img src="docs/screenshots/stage-2-tools.png" alt="Tool library with official sources and compatibility notes" /></a>
-      <br /><sub><b>Official sources only.</b> Sixteen tools with brand, chipset and difficulty filters — and no mirrors.</sub>
+      <a href="docs/screenshots/workbench-apps-en.png"><img src="docs/screenshots/workbench-apps-en.png" alt="App manager with install, export, freeze, clear data and uninstall" /></a>
+      <br /><sub><b>Apps without another tool.</b> Install, export, freeze, clear or uninstall any package.</sub>
     </td>
+    <td width="50%">
+      <a href="docs/screenshots/workbench-files-en.png"><img src="docs/screenshots/workbench-files-en.png" alt="Files tab for sending, receiving and backing up phone folders" /></a>
+      <br /><sub><b>Move everything.</b> Send a file, pull a folder, or back up the usual phone folders in one run.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <a href="docs/screenshots/workbench-flash-en.png"><img src="docs/screenshots/workbench-flash-en.png" alt="Fastboot flashing from a local image with partition picker and confirmation" /></a>
+      <br /><sub><b>Flash from your own disk.</b> Pick the image, pick the partition, confirm once — no download page.</sub>
+    </td>
+    <td width="50%">
+      <a href="docs/screenshots/workbench-terminal-en.png"><img src="docs/screenshots/workbench-terminal-en.png" alt="ADB terminal and live logcat with filter" /></a>
+      <br /><sub><b>Commands and logs.</b> Run adb or fastboot directly, then watch logcat update in the same window.</sub>
+    </td>
+  </tr>
+  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-3-checklists.png"><img src="docs/screenshots/stage-3-checklists.png" alt="Five pre-flight checklists with risk levels" /></a>
       <br /><sub><b>Slow down before risk.</b> Five operations, 46 required steps, and a risk level on each one.</sub>
     </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <a href="docs/screenshots/stage-3-ownership.png"><img src="docs/screenshots/stage-3-ownership.png" alt="Ownership confirmation before opening a checklist" /></a>
-      <br /><sub><b>Ownership gate.</b> Every high-risk checklist asks you to confirm the device is yours before it opens.</sub>
-    </td>
-    <td width="50%">
-      <a href="docs/screenshots/stage-4-installed.png"><img src="docs/screenshots/stage-4-installed.png" alt="Platform Tools installed and verified, with the fixed command panel" /></a>
-      <br /><sub><b>Verified tooling.</b> Platform Tools 37.0.1 is checked against a pinned SHA-256 before ADB runs.</sub>
-    </td>
-  </tr>
-  <tr>
     <td width="50%">
       <a href="docs/screenshots/stage-5-lessons.png"><img src="docs/screenshots/stage-5-lessons.png" alt="Learning path with foundation, intermediate and advanced lessons" /></a>
       <br /><sub><b>Learn the chain.</b> Nine lessons explain what each stage of an Android boot does — and when to stop.</sub>
-    </td>
-    <td width="50%">
-      <a href="docs/screenshots/stage-5-quiz.png"><img src="docs/screenshots/stage-5-quiz.png" alt="Lesson quiz with explanations for every answer" /></a>
-      <br /><sub><b>Check the gaps.</b> Every lesson ends with a quiz and an explanation for each answer; 60% passes.</sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <a href="docs/screenshots/stage-6-history.png"><img src="docs/screenshots/stage-6-history.png" alt="Local operation history with search and export" /></a>
-      <br /><sub><b>Everything is recorded.</b> Search, filter and export what was attempted, on which device, and how it ended.</sub>
-    </td>
-    <td width="50%">
-      <a href="docs/screenshots/stage-0-settings.png"><img src="docs/screenshots/stage-0-settings.png" alt="Settings with English and Arabic language options" /></a>
-      <br /><sub><b>English and Arabic.</b> The whole interface flips to RTL; progress and history never leave the machine.</sub>
     </td>
   </tr>
 </table>
 
 ## Safety
 
-DroidCrate is built around one rule: the tool should slow you down before a risky step, not make
-risky steps easier to reach.
+DroidCrate gives you real tools, so the guard rails are explicit:
 
 - **No bypasses, ever.** It cannot remove a screen lock, bypass an account or FRP, or defeat
   ownership protection. There is no hidden command, plugin or build that adds this.
-- **No flashing, wiping or unlocking.** It links the official vendor tool and explains the process;
-  it does not execute the flash.
-- **No free shell.** The interface can only request an action from a fixed table in
-  [`src/shared/adb.ts`](src/shared/adb.ts). There is no `adb shell` text box.
+- **Flashing is a deliberate act.** The Flash tab only works with a fastboot device and a local image
+  you selected, and it asks for a confirmation checkbox before every write. DroidCrate never
+  downloads firmware and never guesses a partition.
+- **Erase and unlock are gated.** Erasing a partition and locking or unlocking the bootloader each
+  require a second click.
+- **Commands are visible.** The terminal shows the exact command, its output, exit status and
+  duration, and every command is written to the local history.
 - **Ownership gate.** First launch asks you to confirm that you own the devices you will connect.
   Every high-risk checklist asks again before it opens.
-- **Official sources only.** Vendor tools open on the vendor's own page. Firmware and installers are
-  never bundled or mirrored.
-- **Self-declared ownership is not verification.** The real guarantee is the closed command table and
-  the absence of bypass features — not the checkbox.
+- **Nothing leaves the PC.** No telemetry, no account, no cloud. The only network calls are the
+  one-time Platform Tools download and the optional content update.
 
 ## Install
 
 ### Windows 10 / 11 · 64-bit
 
-1. Download **[DroidCrate-0.1.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.1.0/DroidCrate-0.1.0-Setup.exe)** (117.6 MB).
+1. Download **[DroidCrate-0.2.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe)** (117.6 MB).
 2. Run the installer. It is unsigned, so Windows SmartScreen may warn you — choose **More info → Run anyway**, or build from source.
-3. On first launch, read the notice, confirm ownership, and enter the workbench.
+3. On first launch, read the notice and confirm ownership.
 4. Connect a phone with a data-capable USB cable. For ADB, enable **USB debugging** and accept the prompt on the phone.
 
 The installer is per-user, lets you choose the folder, and creates a desktop shortcut.
 
 ### Platform Tools
 
-ADB and Fastboot are not bundled. The ADB console downloads **Android SDK Platform Tools 37.0.1**
-(about 8 MB) from `dl.google.com`, verifies the pinned SHA-256, and extracts it into the app's data
-folder. The download is needed once; after that the console works offline.
+ADB and Fastboot are installed once from **Android SDK Platform Tools 37.0.1** (about 8 MB) from
+`dl.google.com`. DroidCrate checks the pinned SHA-256 before extracting, then runs adb and fastboot
+only from that verified copy. After the one-time download, the whole workbench works offline.
 
 ### Verify the download
 
 ```powershell
-Get-FileHash .\DroidCrate-0.1.0-Setup.exe -Algorithm SHA256
+Get-FileHash .\DroidCrate-0.2.0-Setup.exe -Algorithm SHA256
 ```
 
-The SHA-256 for `v0.1.0` is:
+The SHA-256 for `v0.2.0` is:
 
 ```text
-8C785FBAFFD9F9472082BD87F84C634DB077616FD4CBB4F0529008DE8529789C
+CC0870A424F6B9D04BCBF7D7A8F1BC3ABB2D5D11D468DC96313397135FE3A5F9
 ```
 
 ## How it works
 
 ```text
-Windows Plug and Play ──► USB mode ──► suggested tool or checklist
-                                         │
-                               fixed action table ──► adb / fastboot
-                                         │
-                                  local SQLite history
+USB device ──► workbench tab ──► validated adb / fastboot command ──► phone
+                                        │
+                                 local history (SQLite)
 ```
 
-1. DroidCrate reads USB identifiers from Windows. Nothing is sent anywhere.
-2. The rules in `data/devices.json` map those identifiers to a mode and a suggested next step.
-3. The checklist gate records the ownership acknowledgement and the required steps.
-4. The main process resolves every ADB and Fastboot action from a fixed table. The UI cannot pass raw commands.
-5. Results, durations and errors are written to the local history database.
+1. DroidCrate reads USB identifiers from Windows and lists the phone in the workbench.
+2. The renderer asks for a typed operation (install, pull, flash, command) — it never spawns a shell.
+3. The main process validates every argument, resolves the bundled adb or fastboot path, and runs it.
+4. Output, duration and errors are streamed back to the tab and written to the local history.
 
 Content updates are optional and manual: the app checks the official manifest from the repository,
-validates SHA-256 and the schema, then installs atomically. If anything fails, the
-bundled content is restored and the app keeps working offline.
+validates SHA-256 and the schema, then installs atomically. If anything fails, the bundled content
+is restored and the app keeps working offline.
 
 ## Honest limits
 
 - **The installer is unsigned.** There is no code-signing certificate yet, so SmartScreen may ask you to confirm.
 - **Windows x64 only.** There is no ARM64 build yet.
+- **Live view is a fast screenshot loop, not a video stream.** It refreshes about once per second and is meant for checking and tapping, not for watching video on the phone.
+- **Screen recording stops at three minutes.** Android's `screenrecord` limit; start a second recording for longer clips.
 - **Device detection depends on Windows drivers.** A phone without a proper driver may not appear, or may appear with a generic name. Only one device (Realme RMX3263) was tested at release.
-- **ADB needs authorisation on the phone.** The first connection requires "Allow USB debugging"; wireless ADB is not supported.
-- **Platform Tools need one download.** About 8 MB from Google; there is deliberately no mirror.
+- **ADB needs authorisation on the phone.** The first connection requires "Allow USB debugging"; wireless ADB is not supported yet.
+- **Platform Tools need one download.** About 8 MB from Google; after that everything works offline.
 - **The technical content is English.** The interface is bilingual, but lessons and checklist steps are written in English.
 - **History shows the latest 500 rows.** Older rows stay in the database but are not displayed yet.
-- **A checklist is guidance, not a guarantee.** Flashing can still erase data or brick hardware.
+- **Flashing can still erase data or brick hardware.** A wrong image or the wrong partition is not recoverable by the app.
 
 ## Build from source
 
@@ -214,8 +222,15 @@ history is documented in [docs/STAGES.md](docs/STAGES.md).
 
 <details>
 <summary><b>Is DroidCrate a flashing tool?</b></summary>
-No. It links the official flashing tool and walks you through a checklist, but it does not execute
-the flash itself. Flashing, wiping, unlocking and bypassing are outside its command table.
+Yes, for images you already have. The Flash tab writes a boot, recovery, system or any other partition
+from a file on your PC, and it can sideload an update ZIP. It never downloads firmware and it will not
+help you bypass a lock or an account.
+</details>
+
+<details>
+<summary><b>Do I need to install adb, fastboot or another program?</b></summary>
+No. DroidCrate installs the official Google Platform Tools once, verifies the SHA-256, and uses that
+copy for every tab. You do not need a separate terminal, flasher or file manager.
 </details>
 
 <details>
@@ -227,13 +242,14 @@ lost or stolen devices, and an app cannot verify ownership. There is no hidden f
 <details>
 <summary><b>Does it root my phone?</b></summary>
 No. It explains the three common root models (Magisk, KernelSU and APatch) and links their official
-pages. The actual patching and flashing remain manual, and the app does not run those commands.
+pages. Patching and flashing a rooted boot image is something you do deliberately in the Flash tab.
 </details>
 
 <details>
 <summary><b>Does it work without internet?</b></summary>
-Yes, after installation. Lessons, checklists, device rules and history are bundled or local. The two
-network features are the one-time Platform Tools download and the optional content update.
+Yes, after installation. The workbench, lessons, checklists, device rules and history are bundled or
+local. The two network features are the one-time Platform Tools download and the optional content
+update.
 </details>
 
 <details>

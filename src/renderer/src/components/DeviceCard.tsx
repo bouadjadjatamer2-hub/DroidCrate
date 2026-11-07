@@ -1,14 +1,16 @@
-import { AlertTriangle, ArrowUpRight, Download, Smartphone, Usb } from 'lucide-react'
-import type { DetectedDevice } from '@shared/device'
-import { useI18n } from '../i18n'
+import { AlertTriangle, Smartphone, Terminal, Usb } from "lucide-react";
+import type { DetectedDevice } from "@shared/device";
+import { useI18n } from "../i18n";
 
-function openLink(url: string): void {
-  void window.droidcrate.openExternal(url)
-}
-
-export function DeviceCard({ device }: { device: DetectedDevice }) {
-  const { t } = useI18n()
-  const hasMode = device.mode !== 'unknown'
+export function DeviceCard({
+  device,
+  onOpenWorkbench,
+}: {
+  device: DetectedDevice;
+  onOpenWorkbench: () => void;
+}) {
+  const { t } = useI18n();
+  const hasMode = device.mode !== "unknown";
 
   return (
     <article className="device-card">
@@ -18,9 +20,9 @@ export function DeviceCard({ device }: { device: DetectedDevice }) {
         </span>
         <div className="device-card__identity">
           <span className="device-card__brand">
-            {device.brand || t('device.unknownBrand')}
+            {device.brand || t("device.unknownBrand")}
           </span>
-          <h2>{device.model ?? t('device.modelUnknown')}</h2>
+          <h2>{device.model ?? t("device.modelUnknown")}</h2>
         </div>
         <span className={`mode-badge mode-badge--${device.mode}`}>
           {t(`device.mode.${device.mode}`)}
@@ -29,11 +31,11 @@ export function DeviceCard({ device }: { device: DetectedDevice }) {
 
       <dl className="device-facts">
         <div>
-          <dt>{t('device.usbId')}</dt>
+          <dt>{t("device.usbId")}</dt>
           <dd>{device.usbId}</dd>
         </div>
         <div>
-          <dt>{t('device.match')}</dt>
+          <dt>{t("device.match")}</dt>
           <dd>
             <span className={`confidence confidence--${device.confidence}`}>
               {t(`device.confidence.${device.confidence}`)}
@@ -41,8 +43,8 @@ export function DeviceCard({ device }: { device: DetectedDevice }) {
           </dd>
         </div>
         <div>
-          <dt>{t('device.rule')}</dt>
-          <dd>{device.ruleId ?? t('device.ruleNone')}</dd>
+          <dt>{t("device.rule")}</dt>
+          <dd>{device.ruleId ?? t("device.ruleNone")}</dd>
         </div>
       </dl>
 
@@ -65,50 +67,33 @@ export function DeviceCard({ device }: { device: DetectedDevice }) {
         <div className="inline-note inline-note--warn">
           <AlertTriangle size={15} aria-hidden="true" />
           <div>
-            <strong>{t('device.unknownModeTitle')}</strong>
-            <span>{t('device.unknownModeBody')}</span>
+            <strong>{t("device.unknownModeTitle")}</strong>
+            <span>{t("device.unknownModeBody")}</span>
           </div>
         </div>
       ) : null}
 
-      {device.tool || device.driver ? (
+      {hasMode ? (
         <div className="device-card__tools">
-          {device.tool ? (
-            <div className="tool-suggestion">
-              <div className="tool-suggestion__copy">
-                <span className="tool-suggestion__label">{t('device.suggestedTool')}</span>
-                <strong>{device.tool.name}</strong>
-                {device.tool.note ? <span>{device.tool.note}</span> : null}
-              </div>
-              <button
-                type="button"
-                className="button button--ghost"
-                onClick={() => openLink(device.tool!.url)}
-              >
-                {device.tool.linkKind === 'download' ? (
-                  <Download size={14} aria-hidden="true" />
-                ) : (
-                  <ArrowUpRight size={14} aria-hidden="true" />
-                )}
-                {device.tool.linkKind === 'download'
-                  ? t('device.officialDownload')
-                  : t('device.supportPage')}
-              </button>
+          <div className="tool-suggestion">
+            <div className="tool-suggestion__copy">
+              <span className="tool-suggestion__label">
+                {t("device.nextStep")}
+              </span>
+              <strong>{t("device.workbenchTitle")}</strong>
+              <span>{t("device.workbenchBody")}</span>
             </div>
-          ) : null}
-
-          {device.driver ? (
             <button
               type="button"
-              className="link-button"
-              onClick={() => openLink(device.driver!.url)}
+              className="button button--primary"
+              onClick={onOpenWorkbench}
             >
-              <ArrowUpRight size={13} aria-hidden="true" />
-              {t('device.driverLink', { name: device.driver.name })}
+              <Terminal size={14} aria-hidden="true" />
+              {t("device.openWorkbench")}
             </button>
-          ) : null}
+          </div>
         </div>
       ) : null}
     </article>
-  )
+  );
 }
