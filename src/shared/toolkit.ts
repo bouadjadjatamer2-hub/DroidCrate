@@ -62,6 +62,8 @@ export interface RecordingState {
   active: boolean;
   serial: string | null;
   startedAt: string | null;
+  /** True when screenrecord stopped on its own (3-minute limit or unplug). */
+  ended: boolean;
 }
 
 export interface RecordingStopResult {
@@ -118,6 +120,8 @@ export type FastbootOemAction = "unlock" | "lock";
 export interface LogcatState {
   active: boolean;
   serial: string | null;
+  /** The most recent lines, so switching tabs does not lose the stream. */
+  lines: string[];
 }
 
 export interface LogcatBatch {

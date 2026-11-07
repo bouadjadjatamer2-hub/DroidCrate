@@ -15,12 +15,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.1-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="صفحة DroidCrate" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.0-24292F?style=flat-square&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.1"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.1-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="رخصة MIT" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="عدد التنزيلات" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
   <img alt="ويندوز 10 و11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
@@ -126,7 +126,7 @@ DroidCrate يعطيك أدوات حقيقية، لذا الحدود واضحة:
 
 ### ويندوز 10 / 11 · 64-bit
 
-1. نزّل **[DroidCrate-0.2.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe)** (117.6 ميغابايت).
+1. نزّل **[DroidCrate-0.2.1-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe)** (117.6 ميغابايت).
 2. شغّل المثبّت. الملف غير موقّع، لذا قد يُنبّهك Windows SmartScreen — اختر **More info → Run anyway**، أو ابنِ من المصدر.
 3. عند أول تشغيل، اقرأ التنبيه وأكّد الملكية.
 4. وصّل هاتفاً بكابل USB يدعم نقل البيانات. لـ ADB، فعّل **تصحيح USB** واقبل التنبيه على الهاتف.
@@ -145,13 +145,13 @@ ADB وFastboot يُثبَّتان مرة واحدة من **Android SDK Platform 
 ### تحقّق من التنزيل
 
 ```powershell
-Get-FileHash .\DroidCrate-0.2.0-Setup.exe -Algorithm SHA256
+Get-FileHash .\DroidCrate-0.2.1-Setup.exe -Algorithm SHA256
 ```
 
-بصمة SHA-256 للإصدار `v0.2.0`:
+بصمة SHA-256 للإصدار `v0.2.1`:
 
 ```text
-CC0870A424F6B9D04BCBF7D7A8F1BC3ABB2D5D11D468DC96313397135FE3A5F9
+AB714C54412CC396F3D4F5154FE3817D0099049350754565346A1B24EC08123A
 ```
 
 ## كيف يعمل

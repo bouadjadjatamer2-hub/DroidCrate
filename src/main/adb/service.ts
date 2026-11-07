@@ -7,12 +7,15 @@ import {
   isSafeSerial,
   parseAdbDevices,
   parseFastbootDevices,
+  parseGetProp,
+  summariseDevice,
   type AdbActionId,
   type AdbActionResult,
   type AdbDevicesResult,
   type AdbErrorCode,
   type AdbLogEntry,
-  type AdbToolName
+  type AdbToolName,
+  type DeviceSummary
 } from '@shared/adb'
 import type { PlatformToolsService } from '../platformTools/service'
 import type { HistoryInput } from '@shared/history'
@@ -102,7 +105,28 @@ export class AdbService {
     this.log = []
   }
 
-  async listDevices(tool: AdbToolName): Promise<AdbDevicesResult> {
+  /** True when the verified adb.exe is ready to answer. */
+  isReady(): boolean {
+    return this.platformTools.getStatus().installed && this.platformTools.getAdbPath() !== null
+  }
+
+  /**
+   * Reads the phone facts for the device list. Read-only, never recorded in
+   * history, and short enough to run inside the background watcher.
+   */
+  async getSummary(serial: string): Promise<DeviceSummary | null> {
+    if (!isSafeSerial(serial)) return null
+    const resolved = this.resolveTool('adb')
+    if ('error' in resolved) return null
+
+    const result = await execute(resolved.path, ['-s', serial, 'shell', 'getprop'], 12_000)
+    if (result.timedOut || result.spawnError) return null
+    const props = parseGetProp(result.stdout)
+    if (Object.keys(props).length === 0) return null
+    return summariseDevice(props)
+  }
+
+  async listDevices(tool: AdbToolName, timeoutMs = 25_000): Promise<AdbDevicesResult> {
     const resolved = this.resolveTool(tool)
     if ('error' in resolved) {
       return {
@@ -114,7 +138,7 @@ export class AdbService {
       }
     }
 
-    const result = await execute(resolved.path, tool === 'adb' ? ['devices', '-l'] : ['devices'])
+    const result = await execute(resolved.path, tool === 'adb' ? ['devices', '-l'] : ['devices'], timeoutMs)
     const output = [result.stdout, result.stderr].filter(Boolean).join('\n').trim()
     if (result.timedOut) {
       return {
@@ -136,12 +160,13 @@ export class AdbService {
     }
 
     const devices = tool === 'adb' ? parseAdbDevices(output) : parseFastbootDevices(output)
+    const ok = result.exitCode === 0
     return {
-      ok: true,
+      ok,
       devices,
       output,
-      error: result.exitCode === 0 ? null : failureMessage(result, `${tool} returned an error.`),
-      errorCode: result.exitCode === 0 ? null : 'failed'
+      error: ok ? null : failureMessage(result, `${tool} returned an error.`),
+      errorCode: ok ? null : 'failed'
     }
   }
 

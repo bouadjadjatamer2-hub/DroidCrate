@@ -5,6 +5,7 @@ import {
   LockOpen,
   RefreshCw,
   Smartphone,
+  Terminal,
   Usb,
 } from "lucide-react";
 import { SectionHeader } from "../components/SectionHeader";
@@ -33,7 +34,14 @@ export function DeviceScreen({
   const { t, lang } = useI18n();
   const { state, loading, scanning, rescan } = useDeviceState();
   const detected = state.devices.length;
+  const connected = state.devices.filter(
+    (device) => device.state === "device",
+  ).length;
   const activeModes = new Set(state.devices.map((device) => device.mode));
+  const adbKnown = !loading && state.scannedAt !== "";
+  const adbMissing = adbKnown && state.adb.installed === false;
+  const adbReady = adbKnown && state.adb.ok;
+  const adbFailing = adbKnown && state.adb.installed && !state.adb.ok;
 
   return (
     <div className="screen">
@@ -44,7 +52,7 @@ export function DeviceScreen({
         aside={
           <div className="status-chip">
             <span
-              className={`status-chip__dot${detected > 0 ? " status-chip__dot--live" : ""}`}
+              className={`status-chip__dot${connected > 0 ? " status-chip__dot--live" : ""}`}
               aria-hidden="true"
             />
             <span>
@@ -55,9 +63,7 @@ export function DeviceScreen({
                   : t("device.liveWaiting")}
             </span>
             <span className="status-chip__sep" aria-hidden="true" />
-            <span className="status-chip__muted">
-              {t("device.autoRefresh")}
-            </span>
+            <span className="status-chip__muted">{t("device.autoRefresh")}</span>
           </div>
         }
       />
@@ -74,6 +80,38 @@ export function DeviceScreen({
                 </div>
               </div>
               <p className="panel--alert__hint">{t("device.errorHint")}</p>
+            </section>
+          ) : null}
+
+          {adbMissing ? (
+            <section className="panel panel--alert">
+              <div className="inline-note inline-note--warn">
+                <Terminal size={16} aria-hidden="true" />
+                <div>
+                  <strong>{t("device.adbMissingTitle")}</strong>
+                  <span>{t("device.adbMissingBody")}</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="button button--primary"
+                onClick={onOpenWorkbench}
+              >
+                <Terminal size={14} aria-hidden="true" />
+                {t("device.adbInstall")}
+              </button>
+            </section>
+          ) : null}
+
+          {adbFailing && state.adb.error ? (
+            <section className="panel panel--alert">
+              <div className="inline-note inline-note--warn">
+                <AlertTriangle size={16} aria-hidden="true" />
+                <div>
+                  <strong>{t("device.adbErrorTitle")}</strong>
+                  <span>{state.adb.error}</span>
+                </div>
+              </div>
             </section>
           ) : null}
 
@@ -162,6 +200,31 @@ export function DeviceScreen({
               <dt>{t("device.usbRecords")}</dt>
               <dd>{state.usbDevices}</dd>
             </div>
+            <div>
+              <dt>{t("device.adbStatus")}</dt>
+              <dd>
+                <span
+                  className={`adb-status adb-status--${
+                    !adbKnown
+                      ? "checking"
+                      : adbMissing
+                        ? "missing"
+                        : adbReady
+                          ? "ok"
+                          : "error"
+                  }`}
+                >
+                  <span className="adb-status__dot" aria-hidden="true" />
+                  {!adbKnown
+                    ? t("device.adbChecking")
+                    : adbMissing
+                      ? t("device.adbNotInstalled")
+                      : adbReady
+                        ? t("device.adbReady")
+                        : t("device.adbFailing")}
+                </span>
+              </dd>
+            </div>
           </dl>
 
           <ul className="mode-list">
@@ -196,8 +259,8 @@ export function DeviceScreen({
           </button>
 
           <div className="side-panel__footer">
-            <span className="badge">{t("common.stage", { stage: 1 })}</span>
-            <span className="muted">{t("device.live")}</span>
+            <span className="badge">{t("device.live")}</span>
+            <span className="muted">{t("device.localOnly")}</span>
           </div>
         </aside>
       </div>

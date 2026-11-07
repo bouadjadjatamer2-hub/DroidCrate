@@ -1,6 +1,24 @@
+import type { DeviceSummary } from './adb'
+
 export type DeviceMode = 'adb' | 'fastboot' | 'download' | 'edl' | 'brom' | 'unknown'
 export type SupportedMode = Exclude<DeviceMode, 'unknown'>
 export type MatchConfidence = 'high' | 'medium' | 'low'
+
+/**
+ * Connection state as reported by the tool that owns the device. USB-only
+ * devices have no state until adb or fastboot answers.
+ */
+export type DeviceConnectionState =
+  | 'device'
+  | 'unauthorized'
+  | 'offline'
+  | 'recovery'
+  | 'sideload'
+  | 'bootloader'
+  | 'fastbootd'
+  | 'unknown'
+
+export type DeviceSource = 'usb' | 'adb' | 'fastboot' | 'usb+adb'
 
 export interface UsbDeviceRecord {
   vid: string
@@ -69,6 +87,20 @@ export interface DetectedDevice {
   tool: ToolSuggestion | null
   driver: DriverSuggestion | null
   names: string[]
+  /** adb or fastboot serial when the device answers one of those tools. */
+  serial: string | null
+  /** Raw state from adb/fastboot, null for USB-only devices. */
+  state: DeviceConnectionState | null
+  /** Real device facts read with getprop; null until the phone authorises adb. */
+  summary: DeviceSummary | null
+  source: DeviceSource
+  lastSeenAt: string
+}
+
+export interface AdbLinkState {
+  installed: boolean
+  ok: boolean
+  error: string | null
 }
 
 export interface DeviceState {
@@ -76,4 +108,5 @@ export interface DeviceState {
   scannedAt: string
   error: string | null
   usbDevices: number
+  adb: AdbLinkState
 }

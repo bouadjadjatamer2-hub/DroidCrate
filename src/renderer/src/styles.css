@@ -1303,9 +1303,207 @@ html[dir="rtl"] .content-update__restore span {
   border-color: rgba(135, 100, 165, 0.32);
 }
 
+.device-card__badges {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.state-badge {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 9px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.state-badge__dot {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.state-badge--device {
+  color: var(--accent-strong);
+  background: rgba(123, 216, 171, 0.09);
+  border-color: rgba(83, 145, 113, 0.34);
+}
+
+.state-badge--device .state-badge__dot {
+  animation: state-pulse 2s ease-in-out infinite;
+}
+
+.state-badge--unauthorized {
+  color: var(--warm);
+  background: rgba(223, 178, 108, 0.08);
+  border-color: rgba(160, 125, 70, 0.3);
+}
+
+.state-badge--offline,
+.state-badge--unknown {
+  color: var(--danger);
+  background: rgba(226, 140, 140, 0.07);
+  border-color: rgba(170, 100, 100, 0.28);
+}
+
+.state-badge--bootloader,
+.state-badge--fastbootd {
+  color: #b7d3ee;
+  background: rgba(120, 168, 214, 0.08);
+  border-color: rgba(90, 130, 170, 0.3);
+}
+
+.state-badge--usb,
+.state-badge--recovery,
+.state-badge--sideload {
+  color: var(--muted);
+}
+
+@keyframes state-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.device-card__live {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 11px;
+  margin-top: 13px;
+  color: var(--accent-strong);
+  background: rgba(123, 216, 171, 0.06);
+  border: 1px solid rgba(83, 145, 113, 0.28);
+  border-radius: 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.device-card__live svg {
+  flex-shrink: 0;
+}
+
+.device-card__reading {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 13px;
+  color: var(--faint);
+  font-size: 11.5px;
+}
+
+.reading-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: reading-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes reading-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.device-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.spec-row {
+  min-width: 0;
+  padding: 9px 11px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.spec-row dt {
+  color: var(--faint);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.spec-row dd {
+  margin-top: 4px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-card__lock {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin-top: 12px;
+  color: var(--faint);
+  font-size: 10.5px;
+}
+
+.device-card__lock--open {
+  color: var(--warm);
+}
+
+.adb-status {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 11px;
+}
+
+.adb-status__dot {
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.adb-status--ok {
+  color: var(--accent-strong);
+}
+
+.adb-status--missing {
+  color: var(--faint);
+}
+
+.adb-status--checking {
+  color: var(--muted);
+}
+
+.adb-status--error {
+  color: var(--danger);
+}
+
 .device-facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 8px;
   margin-top: 16px;
 }
@@ -1460,7 +1658,7 @@ html[dir="rtl"] .content-update__restore span {
 
 .monitor-facts {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 8px;
   margin: 14px 0 4px;
 }
@@ -4057,7 +4255,9 @@ html[dir="rtl"] .mode-list li,
 html[dir="rtl"] .facts dd,
 html[dir="rtl"] .level-card__value,
 html[dir="rtl"] .titlebar__version,
-html[dir="rtl"] .tool-card__meta {
+html[dir="rtl"] .tool-card__meta,
+html[dir="rtl"] .state-badge,
+html[dir="rtl"] .adb-status {
   font-family: "Segoe UI", Tahoma, sans-serif;
 }
 

@@ -21,7 +21,7 @@ No account, no sign-up, no administrator rights.
 
 ## 2. Install
 
-1. Download `DroidCrate-0.2.0-Setup.exe` from the releases page.
+1. Download `DroidCrate-0.2.1-Setup.exe` from the releases page.
 2. Run it. If SmartScreen warns you, choose **More info → Run anyway** (the installer is unsigned).
 3. Pick an install folder and finish. The installer creates a desktop shortcut.
 

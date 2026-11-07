@@ -1,12 +1,13 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, stat, unlink } from "node:fs/promises";
-import { basename, dirname, join } from "node:path";
+import { basename, dirname, isAbsolute, join } from "node:path";
 import { app, BrowserWindow } from "electron";
 import { IPC } from "@shared/api";
 import { isSafeSerial } from "@shared/adb";
 import type { HistoryInput } from "@shared/history";
 import {
+  BACKUP_FOLDERS,
   commandDisplay,
   isSafePackageName,
   isSafePartition,
@@ -45,6 +46,9 @@ const DEFAULT_TIMEOUT_MS = 120_000;
 const LONG_TIMEOUT_MS = 20 * 60_000;
 const MAX_ARGS = 64;
 const MAX_ARG_LENGTH = 2048;
+/** Keeps logcat memory bounded while still restoring a useful window. */
+const MAX_LOGCAT_LINES = 2000;
+const BACKUP_FOLDER_SET = new Set<string>(BACKUP_FOLDERS);
 
 interface ProcessOutcome {
   exitCode: number | null;
@@ -67,12 +71,14 @@ interface RecordingSession {
   remotePath: string;
   startedAt: string;
   child: ChildProcess;
+  ended: boolean;
 }
 
 interface LogcatSession {
   serial: string;
   child: ChildProcess;
   pending: string[];
+  recent: string[];
   buffer: string;
   timer: NodeJS.Timeout;
 }
@@ -98,17 +104,48 @@ function pngSize(buffer: Buffer): { width: number; height: number } | null {
 export class ToolkitService {
   private recording: RecordingSession | null = null;
   private logcat: LogcatSession | null = null;
+  /** Survives stopLogcat so the Workbench can rebuild its log after remount. */
+  private logcatRecent: string[] = [];
 
   constructor(
     private readonly platformTools: PlatformToolsService,
     private readonly recordHistory?: (entry: HistoryInput) => void,
   ) {}
 
+  /**
+   * Stops every background child process. Called once from before-quit so no
+   * screenrecord or logcat process is left orphaned on the phone.
+   */
+  dispose(): void {
+    this.stopLogcat();
+    const session = this.recording;
+    this.recording = null;
+    if (session && session.child.exitCode === null) {
+      try {
+        session.child.kill();
+      } catch {
+        // The process may already be gone.
+      }
+    }
+  }
+
   // ---------------------------------------------------------------- commands
 
   async runCommand(input: ToolkitCommandRequest): Promise<ToolkitResult> {
     const startedAt = new Date().toISOString();
     const started = Date.now();
+    if (!input || typeof input !== "object") {
+      return {
+        ok: false,
+        tool: "adb",
+        command: "adb",
+        output: "",
+        error: "The command request is not valid.",
+        exitCode: null,
+        durationMs: 0,
+        startedAt,
+      };
+    }
     const tool: ToolkitTool = input.tool === "fastboot" ? "fastboot" : "adb";
     const args = Array.isArray(input.args)
       ? input.args.filter((arg) => typeof arg === "string")
@@ -206,6 +243,9 @@ export class ToolkitService {
       enable: ["shell", "pm", "enable", packageName],
       clear: ["shell", "pm", "clear", packageName],
     };
+    if (!Object.prototype.hasOwnProperty.call(map, action)) {
+      return { ok: false, output: "", error: "Invalid package action." };
+    }
     const outcome = await this.runProcess(
       resolved.path,
       ["-s", serial, ...map[action]],
@@ -313,6 +353,7 @@ export class ToolkitService {
 
     if ("error" in resolved) return reject(resolved.error);
     if (!isSafeToolkitSerial(serial)) return reject("Invalid device serial.");
+    if (!isAbsolute(apkPath)) return reject("The APK path is not valid.");
     const info = await stat(apkPath).catch(() => null);
     if (!info || !info.isFile())
       return reject("The APK file could not be read.");
@@ -344,7 +385,9 @@ export class ToolkitService {
           });
       },
     );
-    const ok = outcome.exitCode === 0 && /Success/i.test(outcome.stdout);
+    const ok =
+      outcome.exitCode === 0 &&
+      /Success/i.test(`${outcome.stdout}\n${outcome.stderr}`);
     this.emitProgress({
       id,
       label,
@@ -484,6 +527,7 @@ export class ToolkitService {
       active: this.recording !== null,
       serial: this.recording?.serial ?? null,
       startedAt: this.recording?.startedAt ?? null,
+      ended: this.recording?.ended ?? false,
     };
   }
 
@@ -509,15 +553,35 @@ export class ToolkitService {
       ],
       { windowsHide: true },
     );
-    child.on("error", () => undefined);
-    child.stdout?.resume();
-    child.stderr?.resume();
-    this.recording = {
+
+    const session: RecordingSession = {
       serial,
       remotePath,
       startedAt: new Date().toISOString(),
       child,
+      ended: false,
     };
+
+    child.on("error", (error) => {
+      if (this.recording === session) this.recording = null;
+      this.record(
+        "adb",
+        "record-start",
+        `adb -s ${serial} screenrecord`,
+        serial,
+        false,
+        error.message,
+      );
+    });
+    child.on("close", () => {
+      // screenrecord stops on its own after 3 minutes or when the phone
+      // disappears. Keep the file so "Stop and save" can still pull it.
+      if (this.recording === session) session.ended = true;
+    });
+    child.stdout?.resume();
+    child.stderr?.resume();
+
+    this.recording = session;
     this.record(
       "adb",
       "record-start",
@@ -530,56 +594,89 @@ export class ToolkitService {
   }
 
   async stopRecording(): Promise<RecordingStopResult> {
-    const resolved = this.resolveTool("adb");
-    if ("error" in resolved)
-      return { path: null, bytes: 0, error: resolved.error };
     const session = this.recording;
-    if (!session)
-      return { path: null, bytes: 0, error: "No recording is running." };
-
-    await this.runProcess(
-      resolved.path,
-      ["-s", session.serial, "shell", "pkill", "-2", "screenrecord"],
-      15_000,
-    );
-    await sleep(1_800);
-    session.child.kill();
+    if (!session) return { path: null, bytes: 0, error: "No recording is running." };
+    // Claim the session first so a double click cannot pull twice.
     this.recording = null;
 
-    const directory = join(app.getPath("videos"), "DroidCrate");
-    await mkdir(directory, { recursive: true });
-    const local = join(directory, `recording-${timestamp()}.mp4`);
-    const pull = await this.runProcess(
-      resolved.path,
-      ["-s", session.serial, "pull", session.remotePath, local],
-      LONG_TIMEOUT_MS,
-    );
-    void this.runProcess(
-      resolved.path,
-      ["-s", session.serial, "shell", "rm", "-f", session.remotePath],
-      20_000,
-    );
-    if (pull.exitCode !== 0) {
-      return { path: null, bytes: 0, error: this.describeFailure(pull) };
+    const resolved = this.resolveTool("adb");
+    if ("error" in resolved) {
+      session.child.kill();
+      return { path: null, bytes: 0, error: resolved.error };
     }
-    const info = await stat(local).catch(() => null);
-    this.record(
-      "adb",
-      "record-stop",
-      `adb -s ${session.serial} pull ${session.remotePath}`,
-      session.serial,
-      true,
-      null,
-    );
-    return { path: local, bytes: info?.size ?? 0, error: null };
+
+    try {
+      if (!session.ended) {
+        await this.runProcess(
+          resolved.path,
+          ["-s", session.serial, "shell", "pkill", "-2", "screenrecord"],
+          10_000,
+        );
+        await sleep(900);
+        session.child.kill();
+        await this.waitForExit(session.child, 2_500);
+      } else {
+        await sleep(250);
+      }
+
+      const directory = join(app.getPath("videos"), "DroidCrate");
+      await mkdir(directory, { recursive: true });
+      const local = join(directory, `recording-${timestamp()}.mp4`);
+      const pull = await this.runProcess(
+        resolved.path,
+        ["-s", session.serial, "pull", session.remotePath, local],
+        LONG_TIMEOUT_MS,
+      );
+      void this.runProcess(
+        resolved.path,
+        ["-s", session.serial, "shell", "rm", "-f", session.remotePath],
+        20_000,
+      );
+      if (pull.exitCode !== 0) {
+        this.record(
+          "adb",
+          "record-stop",
+          `adb -s ${session.serial} pull ${session.remotePath}`,
+          session.serial,
+          false,
+          this.describeFailure(pull),
+        );
+        return { path: null, bytes: 0, error: this.describeFailure(pull) };
+      }
+      const info = await stat(local).catch(() => null);
+      this.record(
+        "adb",
+        "record-stop",
+        `adb -s ${session.serial} pull ${session.remotePath}`,
+        session.serial,
+        true,
+        null,
+      );
+      return { path: local, bytes: info?.size ?? 0, error: null };
+    } finally {
+      if (session.child.exitCode === null) session.child.kill();
+    }
+  }
+
+  private waitForExit(child: ChildProcess, timeoutMs: number): Promise<void> {
+    if (child.exitCode !== null) return Promise.resolve();
+    return new Promise((resolve) => {
+      const timer = setTimeout(resolve, timeoutMs);
+      child.once("close", () => {
+        clearTimeout(timer);
+        resolve();
+      });
+    });
   }
 
   // ------------------------------------------------------------------ logcat
 
   getLogcatState(): LogcatState {
+    const lines = this.logcat ? this.logcat.recent : this.logcatRecent;
     return {
       active: this.logcat !== null,
       serial: this.logcat?.serial ?? null,
+      lines: lines.slice(-MAX_LOGCAT_LINES),
     };
   }
 
@@ -588,6 +685,7 @@ export class ToolkitService {
     if ("error" in resolved) throw new Error(resolved.error);
     if (!isSafeToolkitSerial(serial)) throw new Error("Invalid device serial.");
     this.stopLogcat();
+    this.logcatRecent = [];
 
     const child = spawn(resolved.path, ["-s", serial, "logcat", "-v", "time"], {
       windowsHide: true,
@@ -599,6 +697,7 @@ export class ToolkitService {
       serial,
       child,
       pending: [],
+      recent: [],
       buffer: "",
       timer: setInterval(() => this.flushLogcat(), 400),
     };
@@ -619,8 +718,12 @@ export class ToolkitService {
     child.stderr?.on("data", onData);
     child.on("error", () => undefined);
     child.on("close", () => {
+      // Flush whatever arrived after the last tick, then keep the tail so a
+      // remounted Workbench still shows the session that just ended.
       if (this.logcat === session) {
+        this.flushLogcat();
         clearInterval(session.timer);
+        this.logcatRecent = session.recent.slice(-MAX_LOGCAT_LINES);
         this.logcat = null;
       }
     });
@@ -639,12 +742,13 @@ export class ToolkitService {
 
   stopLogcat(): LogcatState {
     const session = this.logcat;
-    if (!session) return { active: false, serial: null };
+    if (!session) return this.getLogcatState();
     this.flushLogcat();
     clearInterval(session.timer);
     session.child.kill();
+    this.logcatRecent = session.recent.slice(-MAX_LOGCAT_LINES);
     this.logcat = null;
-    return { active: false, serial: null };
+    return this.getLogcatState();
   }
 
   clearLogcat(serial: string): Promise<ToolkitResult> {
@@ -660,6 +764,11 @@ export class ToolkitService {
     const session = this.logcat;
     if (!session || session.pending.length === 0) return;
     const lines = session.pending.splice(0, session.pending.length);
+    session.recent.push(...lines);
+    if (session.recent.length > MAX_LOGCAT_LINES) {
+      session.recent.splice(0, session.recent.length - MAX_LOGCAT_LINES);
+    }
+    this.logcatRecent = session.recent.slice(-MAX_LOGCAT_LINES);
     this.broadcast(IPC.toolkitLogcat, {
       serial: session.serial,
       lines,
@@ -687,6 +796,8 @@ export class ToolkitService {
     if ("error" in resolved) return reject(resolved.error);
     if (!isSafeToolkitSerial(request.serial))
       return reject("Invalid device serial.");
+    if (!isAbsolute(request.localPath))
+      return reject("The local file path is not valid.");
     if (!isSafeRemotePath(request.remotePath))
       return reject('The phone path must start with / and contain no "..".');
     const info = await stat(request.localPath).catch(() => null);
@@ -743,6 +854,8 @@ export class ToolkitService {
     if ("error" in resolved) return reject(resolved.error);
     if (!isSafeToolkitSerial(request.serial))
       return reject("Invalid device serial.");
+    if (!isAbsolute(request.localPath))
+      return reject("The local save path is not valid.");
     if (!isSafeRemotePath(request.remotePath))
       return reject('The phone path must start with / and contain no "..".');
     await mkdir(dirname(request.localPath), { recursive: true }).catch(
@@ -787,6 +900,8 @@ export class ToolkitService {
     if ("error" in resolved) throw new Error(resolved.error);
     if (!isSafeToolkitSerial(request.serial))
       throw new Error("Invalid device serial.");
+    if (!isAbsolute(request.destination))
+      throw new Error("The backup folder is not valid.");
     if (request.folders.length === 0)
       throw new Error("Pick at least one folder.");
 
@@ -796,6 +911,10 @@ export class ToolkitService {
     let index = 0;
 
     for (const folder of request.folders) {
+      if (!BACKUP_FOLDER_SET.has(folder)) {
+        folders.push({ folder, ok: false, error: "Invalid folder name." });
+        continue;
+      }
       const relative = toSdcardRelative(`/sdcard/${folder}`);
       if (!relative) {
         folders.push({ folder, ok: false, error: "Invalid folder name." });
@@ -869,11 +988,21 @@ export class ToolkitService {
     if ("error" in resolved) throw new Error(resolved.error);
     if (!isSafeToolkitSerial(request.serial))
       throw new Error("Invalid device serial.");
+    if (!isAbsolute(request.destination))
+      throw new Error("The backup folder is not valid.");
+    if (request.folders.length === 0)
+      throw new Error("Pick at least one folder.");
 
     const folders: BackupResult["folders"] = [];
     const id = randomUUID();
     let index = 0;
     for (const folder of request.folders) {
+      // Only the known media folders are accepted, and never as a path, so a
+      // crafted request cannot escape the backup directory.
+      if (!BACKUP_FOLDER_SET.has(folder)) {
+        folders.push({ folder, ok: false, error: "Invalid folder name." });
+        continue;
+      }
       const local = join(request.destination, folder);
       const info = await stat(local).catch(() => null);
       if (!info?.isDirectory()) {
@@ -965,6 +1094,8 @@ export class ToolkitService {
       return reject("Invalid device serial.");
     if (!isSafePartition(request.partition))
       return reject("Invalid partition name.");
+    if (!isAbsolute(request.imagePath))
+      return reject("The image path is not valid.");
     const info = await stat(request.imagePath).catch(() => null);
     if (!info?.isFile()) return reject("The image file could not be read.");
 
@@ -992,7 +1123,9 @@ export class ToolkitService {
         });
       },
     );
-    const ok = outcome.exitCode === 0 && /Finished\./.test(outcome.stdout);
+    const ok =
+      outcome.exitCode === 0 &&
+      /Finished\./.test(`${outcome.stdout}\n${outcome.stderr}`);
     this.emitProgress({
       id,
       label,
@@ -1049,6 +1182,8 @@ export class ToolkitService {
     if ("error" in resolved) return reject(resolved.error);
     if (!isSafeToolkitSerial(request.serial))
       return reject("Invalid device serial.");
+    if (!isAbsolute(request.zipPath))
+      return reject("The update package path is not valid.");
     const info = await stat(request.zipPath).catch(() => null);
     if (!info?.isFile()) return reject("The update package could not be read.");
 
@@ -1107,20 +1242,24 @@ export class ToolkitService {
   }
 
   async oem(serial: string, action: FastbootOemAction): Promise<ToolkitResult> {
-    const resolved = this.resolveTool("fastboot");
-    if ("error" in resolved) {
-      return {
-        ok: false,
-        tool: "fastboot",
-        command: `fastboot flashing ${action}`,
-        output: "",
-        error: resolved.error,
-        exitCode: null,
-        durationMs: 0,
-        startedAt: new Date().toISOString(),
-      };
-    }
     const startedAt = new Date().toISOString();
+    const reject = (error: string): ToolkitResult => ({
+      ok: false,
+      tool: "fastboot",
+      command: `fastboot flashing ${action}`,
+      output: "",
+      error,
+      exitCode: null,
+      durationMs: 0,
+      startedAt,
+    });
+
+    if (!isSafeToolkitSerial(serial)) return reject("Invalid device serial.");
+    if (action !== "unlock" && action !== "lock")
+      return reject("Invalid bootloader action.");
+
+    const resolved = this.resolveTool("fastboot");
+    if ("error" in resolved) return reject(resolved.error);
     const started = Date.now();
     const first = await this.runProcess(
       resolved.path,
@@ -1157,6 +1296,26 @@ export class ToolkitService {
     target: RebootTarget,
     tool: ToolkitTool = "adb",
   ): Promise<ToolkitResult> {
+    const allowed: RebootTarget[] = [
+      "system",
+      "bootloader",
+      "recovery",
+      "fastbootd",
+      "sideload",
+      "poweroff",
+    ];
+    if (!allowed.includes(target)) {
+      return {
+        ok: false,
+        tool,
+        command: `${tool} reboot`,
+        output: "",
+        error: "Invalid reboot target.",
+        exitCode: null,
+        durationMs: 0,
+        startedAt: new Date().toISOString(),
+      };
+    }
     const args =
       target === "system"
         ? ["reboot"]
@@ -1221,6 +1380,17 @@ export class ToolkitService {
       });
       child.on("error", (error) => {
         spawnError = error.message;
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve({
+          exitCode: null,
+          stdout,
+          stderr,
+          timedOut,
+          spawnError,
+          durationMs: Date.now() - started,
+        });
       });
       child.on("close", (code) => {
         if (settled) return;
@@ -1248,7 +1418,20 @@ export class ToolkitService {
       const chunks: Buffer[] = [];
       let stderr = "";
       let spawnError: string | null = null;
+      let settled = false;
       const timer = setTimeout(() => child.kill(), timeoutMs);
+
+      const settle = (code: number | null): void => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        resolve({
+          exitCode: code,
+          buffer: Buffer.concat(chunks),
+          stderr,
+          spawnError,
+        });
+      };
 
       child.stdout?.on("data", (chunk: Buffer) => chunks.push(chunk));
       child.stderr?.setEncoding("utf8");
@@ -1257,16 +1440,9 @@ export class ToolkitService {
       });
       child.on("error", (error) => {
         spawnError = error.message;
+        settle(null);
       });
-      child.on("close", (code) => {
-        clearTimeout(timer);
-        resolve({
-          exitCode: code,
-          buffer: Buffer.concat(chunks),
-          stderr,
-          spawnError,
-        });
-      });
+      child.on("close", (code) => settle(code));
     });
   }
 
@@ -1339,7 +1515,12 @@ export class ToolkitService {
 
   private broadcast(channel: string, payload: unknown): void {
     for (const window of BrowserWindow.getAllWindows()) {
-      if (!window.isDestroyed()) window.webContents.send(channel, payload);
+      if (window.isDestroyed()) continue;
+      try {
+        window.webContents.send(channel, payload);
+      } catch {
+        // A window that is closing must not break a running device command.
+      }
     }
   }
 }

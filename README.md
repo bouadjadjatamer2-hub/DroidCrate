@@ -15,12 +15,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.0-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.1-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="DroidCrate app page" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.0"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.0-24292F?style=flat-square&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.1"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.1-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
@@ -140,7 +140,7 @@ DroidCrate gives you real tools, so the guard rails are explicit:
 
 ### Windows 10 / 11 · 64-bit
 
-1. Download **[DroidCrate-0.2.0-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.0/DroidCrate-0.2.0-Setup.exe)** (117.6 MB).
+1. Download **[DroidCrate-0.2.1-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe)** (117.6 MB).
 2. Run the installer. It is unsigned, so Windows SmartScreen may warn you — choose **More info → Run anyway**, or build from source.
 3. On first launch, read the notice and confirm ownership.
 4. Connect a phone with a data-capable USB cable. For ADB, enable **USB debugging** and accept the prompt on the phone.
@@ -160,13 +160,13 @@ only from that verified copy. After the one-time download, the whole workbench w
 ### Verify the download
 
 ```powershell
-Get-FileHash .\DroidCrate-0.2.0-Setup.exe -Algorithm SHA256
+Get-FileHash .\DroidCrate-0.2.1-Setup.exe -Algorithm SHA256
 ```
 
-The SHA-256 for `v0.2.0` is:
+The SHA-256 for `v0.2.1` is:
 
 ```text
-CC0870A424F6B9D04BCBF7D7A8F1BC3ABB2D5D11D468DC96313397135FE3A5F9
+AB714C54412CC396F3D4F5154FE3817D0099049350754565346A1B24EC08123A
 ```
 
 ## How it works

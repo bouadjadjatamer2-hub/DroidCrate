@@ -384,6 +384,7 @@ export function WorkbenchScreen() {
         <TerminalTab
           serial={serial}
           fastbootSerial={fastbootSerial}
+          scanFastboot={workspace.scanFastboot}
           notify={notify}
         />
       ) : null}
@@ -1262,12 +1263,23 @@ function ScreenTab({
     active: false,
     serial: null,
     startedAt: null,
+    ended: false,
   });
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     void window.droidcrate.getRecordingState().then(setRecording);
   }, []);
+
+  // screenrecord stops by itself after 3 minutes or when the cable is pulled.
+  // Poll while active so the button and the notice stay truthful.
+  useEffect(() => {
+    if (!recording.active) return;
+    const timer = window.setInterval(() => {
+      void window.droidcrate.getRecordingState().then(setRecording);
+    }, 2_000);
+    return () => window.clearInterval(timer);
+  }, [recording.active]);
 
   useEffect(() => {
     if (!live || !serial) return;
@@ -1327,7 +1339,12 @@ function ScreenTab({
     try {
       if (recording.active) {
         const result = await window.droidcrate.stopRecording();
-        setRecording({ active: false, serial: null, startedAt: null });
+        setRecording({
+          active: false,
+          serial: null,
+          startedAt: null,
+          ended: false,
+        });
         if (result.path) {
           notify("success", t("wb.screen.recordSaved", { path: result.path }));
           void window.droidcrate.revealPath(result.path);
@@ -1450,6 +1467,9 @@ function ScreenTab({
             ? t("wb.screen.stopRecord")
             : t("wb.screen.startRecord")}
         </button>
+        {recording.active && recording.ended ? (
+          <p className="wb-note">{t("wb.screen.recordEnded")}</p>
+        ) : null}
       </section>
 
       <section className="panel wb-span">
@@ -1931,10 +1951,12 @@ function FlashTab({
 function TerminalTab({
   serial,
   fastbootSerial,
+  scanFastboot,
   notify,
 }: {
   serial: string | null;
   fastbootSerial: string | null;
+  scanFastboot: () => Promise<void>;
   notify: Notify;
 }): ReactElement {
   const { t } = useI18n();
@@ -1945,13 +1967,17 @@ function TerminalTab({
   const [logcat, setLogcat] = useState<LogcatState>({
     active: false,
     serial: null,
+    lines: [],
   });
   const [lines, setLines] = useState<string[]>([]);
   const [filter, setFilter] = useState("");
   const logRef = useRef<HTMLPreElement | null>(null);
 
   useEffect(() => {
-    void window.droidcrate.getLogcatState().then(setLogcat);
+    void window.droidcrate.getLogcatState().then((next) => {
+      setLogcat(next);
+      if (next.lines.length > 0) setLines(next.lines);
+    });
     return window.droidcrate.onLogcat((batch) => {
       setLines((previous) =>
         batch.reset ? [] : [...previous, ...batch.lines].slice(-2000),
@@ -1972,18 +1998,32 @@ function TerminalTab({
 
   const activeSerial = tool === "adb" ? serial : fastbootSerial;
 
+  useEffect(() => {
+    if (tool === "fastboot") void scanFastboot();
+  }, [scanFastboot, tool]);
+
   async function run(): Promise<void> {
-    if (!activeSerial) {
+    const args = command.trim().split(/\s+/).filter(Boolean);
+    if (args.length === 0) return;
+
+    // Host-level commands belong to the tool, not to a device, so adding
+    // "-s serial" would make adb/fastboot reject them.
+    const hostCommand =
+      args.includes("-s") ||
+      /^(devices|start-server|kill-server|version|connect|disconnect|pair|mdns)$/i.test(
+        args[0],
+      );
+    const targetSerial = hostCommand ? null : activeSerial;
+    if (!hostCommand && !targetSerial) {
       notify("error", t("wb.term.noDevice"));
       return;
     }
-    const args = command.trim().split(/\s+/).filter(Boolean);
-    if (args.length === 0) return;
+
     setBusy(true);
     try {
       const next = await window.droidcrate.runToolkitCommand({
         tool,
-        serial: activeSerial,
+        serial: targetSerial,
         args,
       });
       setResult(next);

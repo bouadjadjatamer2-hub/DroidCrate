@@ -19,12 +19,12 @@ npm ci
 
 ## 1. اختر رقم الإصدار وحدّث كل المواضع
 
-مثال: من `0.1.0` إلى `0.2.0`.
+مثال: من `0.1.0` إلى `0.2.1`.
 
 | الملف                                      | ما يُغيَّر                                                 |
 | ------------------------------------------ | ---------------------------------------------------------- |
-| `package.json`                             | `"version": "0.2.0"`                                       |
-| `docs/releases/v0.2.0.md`                  | ملف ملاحظات جديد (يُنشأ)                                   |
+| `package.json`                             | `"version": "0.2.1"`                                       |
+| `docs/releases/v0.2.1.md`                  | ملف ملاحظات جديد (يُنشأ)                                   |
 | `README.md`                                | رقم الإصدار، رابط المثبّت، البصمة (بعد البناء)             |
 | `README.ar.md`                             | نفس التحديثات في النسخة العربية                            |
 | `src/shared/welcome.ts`                    | `WELCOME_NOTICE_VERSION` فقط إذا تغيّر نص التنبيه القانوني |
@@ -109,7 +109,7 @@ node scripts/verify-packaged.mjs
 ## 6. انشر على GitHub Releases
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-release.ps1 -Version 0.2.0 -Tag v0.2.0
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-release.ps1 -Version 0.2.1 -Tag v0.2.1
 ```
 
 السكربت:
@@ -123,7 +123,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-release.ps1 
 بعد النشر، تحقق من صفحة الإصدار ومن أن حجم الأصل المرفوع يطابق الملف المحلي:
 
 ```powershell
-$r = Invoke-RestMethod -Uri 'https://api.github.com/repos/bouadjadjatamer2-hub/DroidCrate/releases/tags/v0.2.0' -Headers @{ 'User-Agent' = 'droidcrate' }
+$r = Invoke-RestMethod -Uri 'https://api.github.com/repos/bouadjadjatamer2-hub/DroidCrate/releases/tags/v0.2.1' -Headers @{ 'User-Agent' = 'droidcrate' }
 $r.assets | Select-Object name, size
 ```
 

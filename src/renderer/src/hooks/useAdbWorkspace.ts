@@ -54,6 +54,7 @@ export function useAdbWorkspace(): AdbWorkspace {
   const [bridgeError, setBridgeError] = useState<string | null>(null);
   const readyRef = useRef(false);
   const mountedRef = useRef(true);
+  const inFlightRef = useRef(false);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -63,6 +64,8 @@ export function useAdbWorkspace(): AdbWorkspace {
   }, []);
 
   const loadDevices = useCallback(async (announce: boolean): Promise<void> => {
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
     if (announce) setRefreshing(true);
     try {
       const result = await window.droidcrate.listAdbDevices("adb");
@@ -75,6 +78,7 @@ export function useAdbWorkspace(): AdbWorkspace {
         error instanceof Error ? error.message : "ADB bridge unavailable",
       );
     } finally {
+      inFlightRef.current = false;
       if (mountedRef.current && announce) setRefreshing(false);
     }
   }, []);
@@ -128,6 +132,8 @@ export function useAdbWorkspace(): AdbWorkspace {
       readyRef.current = false;
       setAdbDevices([]);
       setFastbootDevices([]);
+      setAdbError(null);
+      setFastbootError(null);
       return;
     }
     if (readyRef.current) return;
@@ -137,9 +143,15 @@ export function useAdbWorkspace(): AdbWorkspace {
 
   useEffect(() => {
     if (!status?.installed) return;
-    const timer = setInterval(() => void loadDevices(false), 3_000);
+    const timer = setInterval(() => void loadDevices(false), 2_000);
     return () => clearInterval(timer);
   }, [loadDevices, status?.installed]);
+
+  useEffect(() => {
+    const onFocus = (): void => void loadDevices(false);
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [loadDevices]);
 
   useEffect(() => {
     setSelectedSerial((previous) => {

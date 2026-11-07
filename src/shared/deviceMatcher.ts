@@ -1,5 +1,7 @@
+import type { AdbDevice, DeviceSummary } from './adb'
 import type {
   DetectedDevice,
+  DeviceConnectionState,
   DeviceMode,
   DeviceRule,
   DeviceRules,
@@ -14,6 +16,13 @@ interface DeviceGroup {
   vid: string
   pid: string
   records: UsbDeviceRecord[]
+}
+
+/** Everything the watcher learned from adb/fastboot in one polling pass. */
+export interface DeviceProbe {
+  adb: AdbDevice[]
+  fastboot: AdbDevice[]
+  summaries: Record<string, DeviceSummary>
 }
 
 const MODE_KEYWORDS: Array<{ mode: SupportedMode; patterns: RegExp[] }> = [
@@ -63,7 +72,10 @@ const GENERIC_NAMES = new Set([
 ])
 
 const BAD_MODEL_HINTS =
-  /usb composite|composite device|adb interface|bootloader|rndis|remote ndis|\bmtp\b|\bptp\b|winusb|modem|serial port|usb device|^android$/i
+  /usb composite|composite device|adb interface|bootloader|rndis|remote ndis|\bmtp\b|\bptp\b|winusb|modem|serial port|usb device|input device|keyboard|mouse|gamepad|hub|bluetooth|audio|card reader|^android$/i
+
+/** Windows instance IDs end with the device serial: USB\VID_x&PID_y\SERIAL. */
+const INSTANCE_SERIAL = /^USB\\[^\\]+\\([^\\]+)$/i
 
 function normalizeHex(value: string): string {
   return value.trim().toUpperCase()
@@ -130,7 +142,19 @@ function isCandidate(group: DeviceGroup, rules: DeviceRules): boolean {
     return /mediatek usb port|preloader|mtk usb|qdl|9008|android|edl/.test(text)
   }
 
-  return /android|adb|fastboot|mtp|ptp|download mode|odin|qdl|preloader|bootloader/.test(text)
+  if (/android|adb|fastboot|mtp|ptp|download mode|odin|qdl|preloader|bootloader/.test(text)) {
+    return true
+  }
+
+  // A known phone vendor can expose a plain USB device (often the model name)
+  // before adb is authorised. Show it instead of pretending nothing is plugged
+  // in, but require a model-like name so hubs, audio and HID hardware stay out.
+  if (rules.vendors[group.vid]) {
+    const model = extractModel(group)
+    return model !== null && looksLikeModelName(model)
+  }
+
+  return false
 }
 
 function extractModel(group: DeviceGroup): string | null {
@@ -155,6 +179,27 @@ function extractModel(group: DeviceGroup): string | null {
   return null
 }
 
+/** A model-like name has letters and digits, e.g. RMX3263, SM-G991B, Pixel 7. */
+function looksLikeModelName(value: string): boolean {
+  if (!/[A-Za-z]/.test(value) || !/\d/.test(value)) return false
+  if (BAD_MODEL_HINTS.test(value)) return false
+  if (GENERIC_NAMES.has(value.toLowerCase())) return false
+  return value.length >= 3 && value.length <= 48
+}
+
+function extractSerial(group: DeviceGroup): string | null {
+  for (const record of group.records) {
+    const match = INSTANCE_SERIAL.exec(record.instanceId)
+    if (!match) continue
+    const value = match[1].trim()
+    if (value.length < 3 || value.length > 64) continue
+    if (value.includes('&')) continue
+    if (!/^[A-Za-z0-9][A-Za-z0-9._:-]*$/.test(value)) continue
+    return value
+  }
+  return null
+}
+
 function resolveTool(
   vid: string,
   mode: SupportedMode,
@@ -175,7 +220,7 @@ function confidenceFor(rule: DeviceRule | null, mode: DeviceMode): MatchConfiden
   return 'low'
 }
 
-function matchGroup(group: DeviceGroup, rules: DeviceRules): DetectedDevice {
+function matchGroup(group: DeviceGroup, rules: DeviceRules, seenAt: string): DetectedDevice {
   const rule = findRule(group, rules)
   const inferred = inferMode(group)
   const mode: DeviceMode = rule?.mode ?? inferred ?? 'unknown'
@@ -203,20 +248,150 @@ function matchGroup(group: DeviceGroup, rules: DeviceRules): DetectedDevice {
     note: rule?.note ?? null,
     tool: mode === 'unknown' ? null : resolveTool(group.vid, mode, rule, rules),
     driver: vendor?.driver ?? null,
-    names
+    names,
+    serial: extractSerial(group),
+    state: null,
+    summary: null,
+    source: 'usb',
+    lastSeenAt: seenAt
   }
 }
 
 export function detectDevices(scan: UsbScan, rules: DeviceRules): DetectedDevice[] {
   return groupDevices(scan.devices)
     .filter((group) => isCandidate(group, rules))
-    .map((group) => matchGroup(group, rules))
+    .map((group) => matchGroup(group, rules, scan.scannedAt))
     .sort((left, right) => {
       const leftUnknown = left.mode === 'unknown' ? 1 : 0
       const rightUnknown = right.mode === 'unknown' ? 1 : 0
       if (leftUnknown !== rightUnknown) return leftUnknown - rightUnknown
       return `${left.brand} ${left.model ?? ''}`.localeCompare(`${right.brand} ${right.model ?? ''}`)
     })
+}
+
+export function toConnectionState(value: string): DeviceConnectionState {
+  switch (value) {
+    case 'device':
+    case 'unauthorized':
+    case 'offline':
+    case 'recovery':
+    case 'sideload':
+    case 'bootloader':
+    case 'fastbootd':
+      return value
+    case 'fastboot':
+      return 'bootloader'
+    default:
+      return 'unknown'
+  }
+}
+
+function findUsbMatch(
+  usbDevices: DetectedDevice[],
+  consumed: Set<number>,
+  entry: AdbDevice
+): number {
+  const candidates = [entry.model, entry.product, entry.device]
+    .filter((value): value is string => Boolean(value))
+    .map((value) => value.toLowerCase())
+  return usbDevices.findIndex((device, index) => {
+    if (consumed.has(index)) return false
+    if (
+      device.serial &&
+      entry.serial &&
+      device.serial.toLowerCase() === entry.serial.toLowerCase()
+    ) {
+      return true
+    }
+    if (device.model && candidates.includes(device.model.toLowerCase())) return true
+    if (
+      device.names.some((name) => candidates.includes(name.toLowerCase()))
+    ) {
+      return true
+    }
+    return false
+  })
+}
+
+/**
+ * Merges the Windows USB inventory with the authoritative adb/fastboot list.
+ * The tools win: they know the serial, the real state and (for authorised
+ * devices) the actual model, Android version and chipset.
+ */
+export function mergeDevices(
+  scan: UsbScan,
+  probe: DeviceProbe,
+  rules: DeviceRules
+): DetectedDevice[] {
+  const seenAt = scan.scannedAt
+  const usbDevices = detectDevices(scan, rules)
+  const consumed = new Set<number>()
+  const merged: DetectedDevice[] = []
+
+  const attach = (
+    entry: AdbDevice,
+    mode: 'adb' | 'fastboot',
+    summary: DeviceSummary | null
+  ): void => {
+    if (merged.some((device) => device.serial === entry.serial)) return
+    const index = findUsbMatch(usbDevices, consumed, entry)
+    const base = index >= 0 ? usbDevices[index] : null
+    if (index >= 0) consumed.add(index)
+
+    const vendor = base ? rules.vendors[base.vid] : undefined
+    const state: DeviceConnectionState =
+      mode === 'fastboot'
+        ? entry.state === 'fastbootd'
+          ? 'fastbootd'
+          : 'bootloader'
+        : toConnectionState(entry.state)
+
+    merged.push({
+      id: entry.serial,
+      vid: base?.vid ?? '',
+      pid: base?.pid ?? '',
+      usbId: base?.usbId ?? '',
+      brand: summary?.manufacturer ?? base?.brand ?? vendor?.brand ?? '',
+      model: summary?.model ?? entry.model ?? base?.model ?? null,
+      mode,
+      confidence: 'high',
+      ruleId: base?.ruleId ?? null,
+      note: base?.note ?? null,
+      tool: base?.tool ?? resolveTool(base?.vid ?? '', mode, null, rules),
+      driver: base?.driver ?? vendor?.driver ?? null,
+      names: base?.names ?? [],
+      serial: entry.serial,
+      state,
+      summary,
+      source: base ? 'usb+adb' : mode === 'fastboot' ? 'fastboot' : 'adb',
+      lastSeenAt: seenAt
+    })
+  }
+
+  for (const entry of probe.adb) {
+    attach(entry, 'adb', probe.summaries[entry.serial] ?? null)
+  }
+  for (const entry of probe.fastboot) {
+    attach(entry, 'fastboot', null)
+  }
+  for (let index = 0; index < usbDevices.length; index += 1) {
+    if (!consumed.has(index)) merged.push(usbDevices[index])
+  }
+
+  const rank = (device: DetectedDevice): number => {
+    if (device.state === 'device') return 0
+    if (device.state === 'unauthorized') return 1
+    if (device.state === 'offline') return 2
+    if (device.mode === 'fastboot') return 3
+    if (device.mode === 'unknown') return 5
+    return 4
+  }
+
+  return merged.sort((left, right) => {
+    const byState = rank(left) - rank(right)
+    if (byState !== 0) return byState
+    return `${left.brand} ${left.model ?? ''}`.localeCompare(`${right.brand} ${right.model ?? ''}`)
+  })
 }
 
 export function isSupportedMode(mode: DeviceMode): mode is SupportedMode {

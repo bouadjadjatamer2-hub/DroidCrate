@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { DeviceState } from '@shared/device'
 
 const initialState: DeviceState = {
   devices: [],
   scannedAt: '',
   error: null,
-  usbDevices: 0
+  usbDevices: 0,
+  adb: { installed: false, ok: false, error: null }
 }
 
 export interface DeviceStateResult {
@@ -19,8 +20,10 @@ export function useDeviceState(): DeviceStateResult {
   const [state, setState] = useState<DeviceState>(initialState)
   const [loading, setLoading] = useState(true)
   const [scanning, setScanning] = useState(false)
+  const mounted = useRef(true)
 
   useEffect(() => {
+    mounted.current = true
     let cancelled = false
 
     const unsubscribe = window.droidcrate.onDeviceUpdate((next) => {
@@ -46,8 +49,17 @@ export function useDeviceState(): DeviceStateResult {
         if (!cancelled) setLoading(false)
       })
 
+    // Coming back to the window is a strong hint that a cable was just
+    // plugged in, so ask the main process for an immediate scan.
+    const onFocus = (): void => {
+      void window.droidcrate.rescanDevices().catch(() => undefined)
+    }
+    window.addEventListener('focus', onFocus)
+
     return () => {
       cancelled = true
+      mounted.current = false
+      window.removeEventListener('focus', onFocus)
       unsubscribe()
     }
   }, [])
@@ -55,14 +67,17 @@ export function useDeviceState(): DeviceStateResult {
   const rescan = useCallback(async (): Promise<void> => {
     setScanning(true)
     try {
-      setState(await window.droidcrate.rescanDevices())
+      const next = await window.droidcrate.rescanDevices()
+      if (mounted.current) setState(next)
     } catch (error) {
-      setState({
-        ...initialState,
-        error: error instanceof Error ? error.message : 'Device bridge unavailable'
-      })
+      if (mounted.current) {
+        setState({
+          ...initialState,
+          error: error instanceof Error ? error.message : 'Device bridge unavailable'
+        })
+      }
     } finally {
-      setScanning(false)
+      if (mounted.current) setScanning(false)
     }
   }, [])
 

@@ -13,7 +13,8 @@ import { ContentService } from "./content/service";
 import { dataDirectory, userContentDirectory } from "./paths";
 
 const isWindows = process.platform === "win32";
-const deviceWatcher = new DeviceWatcher();
+let deviceWatcher: DeviceWatcher | null = null;
+let toolkitService: ToolkitService | null = null;
 let learningStore: LearningStore | null = null;
 
 function createWindow(): BrowserWindow {
@@ -56,6 +57,11 @@ function createWindow(): BrowserWindow {
     if (url !== current) event.preventDefault();
   });
 
+  // A cable can be plugged in while the window is in the background. Refresh
+  // the moment the user comes back instead of waiting for the next poll.
+  window.on("focus", () => void deviceWatcher?.scanNow(true));
+  window.webContents.on("did-finish-load", () => void deviceWatcher?.scanNow(true));
+
   const devUrl = process.env["ELECTRON_RENDERER_URL"];
   if (devUrl) {
     void window.loadURL(devUrl);
@@ -66,7 +72,7 @@ function createWindow(): BrowserWindow {
   return window;
 }
 
-app.whenReady().then(async () => {
+async function startApp(): Promise<void> {
   if (process.platform === "win32")
     app.setAppUserModelId("app.droidcrate.desktop");
 
@@ -88,12 +94,16 @@ app.whenReady().then(async () => {
     const toolkit = new ToolkitService(platformTools, (entry) =>
       history.record(entry),
     );
+    toolkitService = toolkit;
     const content = new ContentService({
       bundledDirectory: dataDirectory(),
       userDirectory: userContentDirectory(),
     });
+    const watcher = new DeviceWatcher();
+    watcher.attachAdb(adbWithHistory);
+    deviceWatcher = watcher;
     registerIpc(
-      deviceWatcher,
+      watcher,
       platformTools,
       adbWithHistory,
       toolkit,
@@ -110,21 +120,42 @@ app.whenReady().then(async () => {
     return;
   }
 
-  const window = createWindow();
-  deviceWatcher.start();
+  createWindow();
+  deviceWatcher?.start();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    else window.focus();
+    else BrowserWindow.getAllWindows()[0]?.focus();
+  });
+}
+
+const hasSingleInstanceLock = app.requestSingleInstanceLock();
+
+if (!hasSingleInstanceLock) {
+  // Two copies would fight over adb, the SQLite history and the USB watcher.
+  app.quit();
+} else {
+  app.on("second-instance", () => {
+    const existing = BrowserWindow.getAllWindows()[0];
+    if (!existing) return;
+    if (existing.isMinimized()) existing.restore();
+    existing.show();
+    existing.focus();
+    void deviceWatcher?.scanNow(true);
   });
 
-  app.on("window-all-closed", () => {
-    if (process.platform !== "darwin") app.quit();
-  });
+  void app.whenReady().then(startApp);
+}
+
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });
 
 app.on("before-quit", () => {
-  deviceWatcher.stop();
+  deviceWatcher?.stop();
+  deviceWatcher = null;
+  toolkitService?.dispose();
+  toolkitService = null;
   learningStore?.close();
   learningStore = null;
 });

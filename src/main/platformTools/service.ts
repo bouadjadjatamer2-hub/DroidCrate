@@ -534,8 +534,11 @@ export class PlatformToolsService {
   private broadcast(): void {
     const snapshot = this.getStatus()
     for (const window of BrowserWindow.getAllWindows()) {
-      if (!window.isDestroyed()) {
+      if (window.isDestroyed()) continue
+      try {
         window.webContents.send(IPC.platformToolsUpdate, snapshot)
+      } catch {
+        // A closing window must not interrupt an installation.
       }
     }
   }
