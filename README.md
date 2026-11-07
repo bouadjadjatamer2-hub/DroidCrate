@@ -2,6 +2,10 @@
   <a href="docs/banner.png"><img src="docs/banner.png" alt="DroidCrate — know the phone before you touch it" width="100%" /></a>
 </p>
 
+<p align="center">
+  <img src="docs/icon.png" width="96" height="96" alt="DroidCrate app icon" />
+</p>
+
 <h1 align="center">DroidCrate</h1>
 
 <p align="center">

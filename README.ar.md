@@ -2,6 +2,10 @@
   <a href="docs/banner.png"><img src="docs/banner.png" alt="DroidCrate — اعرف الهاتف قبل أن تلمسه" width="100%" /></a>
 </p>
 
+<p align="center">
+  <img src="docs/icon.png" width="96" height="96" alt="أيقونة تطبيق DroidCrate" />
+</p>
+
 <h1 align="center">DroidCrate · درويد كريت</h1>
 
 <p align="center">
