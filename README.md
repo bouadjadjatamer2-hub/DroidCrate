@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#install">Install</a> ·
+  <a href="docs/USER-GUIDE.md">User guide</a> ·
   <a href="#the-workbench">The workbench</a> ·
   <a href="#screenshots">Screenshots</a> ·
   <a href="#safety">Safety</a> ·
@@ -146,6 +147,10 @@ DroidCrate gives you real tools, so the guard rails are explicit:
 
 The installer is per-user, lets you choose the folder, and creates a desktop shortcut.
 
+New to the app? The **[user guide](docs/USER-GUIDE.md)** walks through every tab step by step:
+connect the phone, install and freeze apps, move files, capture the screen, flash a partition and run
+adb or fastboot commands.
+
 ### Platform Tools
 
 ADB and Fastboot are installed once from **Android SDK Platform Tools 37.0.1** (about 8 MB) from
@@ -216,7 +221,8 @@ npm run dev
 | `npm run content:manifest` | Regenerate the content manifest after editing `data/` |
 
 Release steps, checksums and rollback notes live in [docs/RELEASE.md](docs/RELEASE.md). The build
-history is documented in [docs/STAGES.md](docs/STAGES.md).
+history is documented in [docs/STAGES.md](docs/STAGES.md), and end-user instructions in
+[docs/USER-GUIDE.md](docs/USER-GUIDE.md).
 
 ## FAQ
 

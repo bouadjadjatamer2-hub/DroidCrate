@@ -28,6 +28,7 @@
 
 <p align="center">
   <a href="#التثبيت">التثبيت</a> ·
+  <a href="docs/USER-GUIDE.ar.md">الدليل</a> ·
   <a href="#الورشة">الورشة</a> ·
   <a href="#لقطات-الشاشة">لقطات الشاشة</a> ·
   <a href="#الأمان">الأمان</a> ·
@@ -132,6 +133,9 @@ DroidCrate يعطيك أدوات حقيقية، لذا الحدود واضحة:
 
 المثبّت لكل مستخدم، ويسمح باختيار المجلد، وينشئ اختصاراً على سطح المكتب.
 
+جديد على التطبيق؟ **[دليل الاستعمال](docs/USER-GUIDE.ar.md)** يشرح كل تبويب خطوة بخطوة: وصل الهاتف،
+ثبّت التطبيقات وجمّدها، انقل الملفات، خذ لقطة أو سجّل الشاشة، فلّش قسماً، وشغّل أوامر adb وfastboot.
+
 ### Platform Tools
 
 ADB وFastboot يُثبَّتان مرة واحدة من **Android SDK Platform Tools 37.0.1** (نحو 8 ميغابايت) من
@@ -201,7 +205,7 @@ npm run dev
 | `npm run content:manifest` | إعادة توليد بيان المحتوى بعد تعديل `data/` |
 
 خطوات الإصدار والبصمات والتراجع في [docs/RELEASE.md](docs/RELEASE.md). تاريخ البناء موثّق في
-[docs/STAGES.md](docs/STAGES.md).
+[docs/STAGES.md](docs/STAGES.md)، وتعليمات المستخدم في [docs/USER-GUIDE.ar.md](docs/USER-GUIDE.ar.md).
 
 ## أسئلة شائعة
 
