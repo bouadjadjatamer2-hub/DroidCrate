@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "2026.10.27",
-  "generatedAt": "2026-10-27T03:54:00.100Z",
+  "contentVersion": "2026.11.13",
+  "generatedAt": "2026-11-13T16:37:09.488Z",
   "files": [
     {
       "path": "checklists.json",
@@ -15,8 +15,13 @@
     },
     {
       "path": "lessons.json",
-      "sha256": "c43f5cbd0508af0eb2e3824dca598b60b4e65e07fb23fc9e7b25599348dce285",
-      "bytes": 17435
+      "sha256": "e8fda5d99680e2e53cdf62458c9591f6a5dbcb767ccbecc0ffebfd9ff8ff98ab",
+      "bytes": 64446
+    },
+    {
+      "path": "lessons/android-boot-chain.ar.md",
+      "sha256": "cb1101638f223efff9af72990f1ddab61e18de11e97b43ef129bf472957bb748",
+      "bytes": 4354
     },
     {
       "path": "lessons/android-boot-chain.md",
@@ -24,9 +29,19 @@
       "bytes": 2777
     },
     {
+      "path": "lessons/bootloader-unlock.ar.md",
+      "sha256": "da3c83144cfa4e3afc0899ec43d58cbc05c0b980edac369aca05261af1c16c83",
+      "bytes": 4182
+    },
+    {
       "path": "lessons/bootloader-unlock.md",
       "sha256": "19827ee0119da6aaab42f0a3f650812f66d2c48e64c8cfab5af154fff56b5e52",
       "bytes": 2884
+    },
+    {
+      "path": "lessons/brick-triage.ar.md",
+      "sha256": "442bdf2d6d9ca86e280b9835f4a0d6f1045d96de3c9e3e5ecabc4487c1fa4a56",
+      "bytes": 3476
     },
     {
       "path": "lessons/brick-triage.md",
@@ -34,9 +49,19 @@
       "bytes": 2325
     },
     {
+      "path": "lessons/custom-recovery-sideload.ar.md",
+      "sha256": "2555e97e6aa2b9cbc76dcf61c430611b17d4c52dcda78e09a94a76464e0cb007",
+      "bytes": 4194
+    },
+    {
       "path": "lessons/custom-recovery-sideload.md",
       "sha256": "01443ca033261eb2155243b1db75cdce70612afb1302f9fb04b86bdd27ce73e2",
       "bytes": 2922
+    },
+    {
+      "path": "lessons/factory-firmware.ar.md",
+      "sha256": "be48333e5e73d1335ee9c65f040cca4d466cf12c18e12ce985322bfc3b5e20bb",
+      "bytes": 3945
     },
     {
       "path": "lessons/factory-firmware.md",
@@ -44,9 +69,19 @@
       "bytes": 2725
     },
     {
+      "path": "lessons/post-service-qa.ar.md",
+      "sha256": "4fb26f794fc0c0e5367fd4473218630e51cebd0e8d06a97425536aae9bbe1019",
+      "bytes": 3515
+    },
+    {
       "path": "lessons/post-service-qa.md",
       "sha256": "7029e337ffc9109f5d3f55d37b9adc757b24dc67671aa82dad5407f3e9fbb1a3",
       "bytes": 2392
+    },
+    {
+      "path": "lessons/reading-device-facts.ar.md",
+      "sha256": "6dc55e1654e21f81adafaafda287ea446e1c172dd35876eb8daa5a75eee99cd6",
+      "bytes": 3995
     },
     {
       "path": "lessons/reading-device-facts.md",
@@ -54,9 +89,19 @@
       "bytes": 2782
     },
     {
+      "path": "lessons/root-models.ar.md",
+      "sha256": "2957790b44596622e0366ad3e640302eb26f650d1d8a829dca4c04a0226014f2",
+      "bytes": 3895
+    },
+    {
       "path": "lessons/root-models.md",
       "sha256": "6e453d1ad3da6b6a0de5f5ffc0fc3450644e69a418096acb56579793bc8a24d3",
       "bytes": 2656
+    },
+    {
+      "path": "lessons/usb-modes-drivers.ar.md",
+      "sha256": "814ae8f0ff4533cae33a428719d0b856b8afccb6dcbf929a78b92a385d7157f3",
+      "bytes": 3859
     },
     {
       "path": "lessons/usb-modes-drivers.md",

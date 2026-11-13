@@ -1,21 +1,27 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-26",
+  "updated": "2026-11-13",
   "levels": [
     {
       "id": "basic",
       "title": "Foundations",
-      "summary": "How Android starts, how Windows talks to a phone, and how to read the facts before touching anything."
+      "titleAr": "الأساسيات",
+      "summary": "How Android starts, how Windows talks to a phone, and how to read the facts before touching anything.",
+      "summaryAr": "كيف يبدأ أندرويد، وكيف يتحدّث Windows إلى هاتف، وكيف تُقرأ الحقائق قبل لمس أي شيء."
     },
     {
       "id": "intermediate",
       "title": "Servicing",
-      "summary": "Bootloader rules, factory firmware, and recovery work, with the checks that keep a phone recoverable."
+      "titleAr": "الصيانة",
+      "summary": "Bootloader rules, factory firmware, and recovery work, with the checks that keep a phone recoverable.",
+      "summaryAr": "قواعد محمّل الإقلاع، والبرنامج الثابت للمصنع، وعمل الاسترداد، مع الفحوص التي تُبقي الهاتف قابلًا للاسترداد."
     },
     {
       "id": "advanced",
       "title": "Deep repair",
-      "summary": "Root models, hard-brick triage, and the quality checks that end every repair."
+      "titleAr": "الإصلاح العميق",
+      "summary": "Root models, hard-brick triage, and the quality checks that end every repair.",
+      "summaryAr": "نماذج الروت، وفرز الطوب الصلب، وفحوص الجودة التي تُنهي كل إصلاح."
     }
   ],
   "lessons": [
@@ -23,45 +29,134 @@
       "id": "android-boot-chain",
       "level": "basic",
       "title": "How an Android phone starts",
+      "titleAr": "كيف يبدأ هاتف أندرويد",
       "summary": "Follow the chain from BootROM to the home screen, and learn why each link matters before you flash.",
+      "summaryAr": "اتبع السلسلة من BootROM إلى الشاشة الرئيسية، وتعلّم لماذا تهمّ كل حلقة قبل أن تفلش.",
       "minutes": 8,
       "bodyFile": "lessons/android-boot-chain.md",
+      "bodyFileAr": "lessons/android-boot-chain.ar.md",
+      "glossary": [
+        {
+          "term": "BootROM",
+          "termAr": "بوت روم",
+          "arabic": "شيفرة أولى محروقة داخل الشريحة، لا يمكن تغييرها، وتتحقّق من المرحلة التالية.",
+          "english": "The first code burned into the chipset. It cannot be changed and verifies the next boot stage."
+        },
+        {
+          "term": "Bootloader / ABL",
+          "termAr": "محمّل الإقلاع / طبقة الإقلاع",
+          "arabic": "البرنامج الذي يقرّر الإقلاع العادي أو الاسترداد أو Fastboot، ويتحقّق من توقيع صورة الإقلاع.",
+          "english": "The program that chooses normal boot, recovery, or Fastboot, and checks the boot image signature."
+        },
+        {
+          "term": "Fastboot",
+          "termAr": "فلاش سريع",
+          "arabic": "بروتوكول من الحاسوب إلى محمّل الإقلاع لكتابة الأقسام؛ لا يعمل داخل أندرويد العامل.",
+          "english": "A host-to-bootloader protocol for writing partitions; it does not run inside a booted Android system."
+        },
+        {
+          "term": "ramdisk",
+          "termAr": "قرص ذاكرة مؤقّت",
+          "arabic": "نظام ملفات صغير يُحمّل في الذاكرة مع النواة لبدء التشغيل.",
+          "english": "A small filesystem loaded into memory with the kernel to start the system."
+        },
+        {
+          "term": "init_boot",
+          "termAr": "قسم إقلاع التهيئة",
+          "arabic": "قسم منفصل يحمل قرص الذاكرة المؤقّت على أجهزة أندرويد 13 وما بعده.",
+          "english": "A separate partition that holds the ramdisk on Android 13 and later devices."
+        },
+        {
+          "term": "A/B slots",
+          "termAr": "فتحتا A/B",
+          "arabic": "نسختان متعاقبتان من أقسام الإقلاع، تُكتب إحداهما بينما تعمل الأخرى.",
+          "english": "Two alternating copies of the boot partitions; one is written while the other runs."
+        },
+        {
+          "term": "Verified boot",
+          "termAr": "الإقلاع الموثّق",
+          "arabic": "سلسلة فحوص توقيع تربط كل مرحلة إقلاع بمفتاح مخزّن في العتاد.",
+          "english": "A chain of signature checks that ties each boot stage to a hardware-stored key."
+        },
+        {
+          "term": "partition",
+          "termAr": "قسم",
+          "arabic": "مساحة محدّدة على التخزين تحمل جزءًا من النظام أو البيانات.",
+          "english": "A defined area on storage that holds one part of the system or data."
+        },
+        {
+          "term": "eMMC",
+          "termAr": "ذاكرة مدمجة",
+          "arabic": "ذاكرة تخزين داخلية تُلحم على اللوحة؛ تلفها لا يُصلح بالفلاش.",
+          "english": "Embedded storage soldered to the board; its failure cannot be fixed by flashing."
+        },
+        {
+          "term": "power rail",
+          "termAr": "خط التغذية",
+          "arabic": "مسار كهربائي يغذّي جزءًا من العتاد؛ عطله يمنع الإقلاع.",
+          "english": "An electrical path that powers part of the hardware; a failure stops boot."
+        }
+      ],
       "quiz": [
         {
           "id": "boot-1",
           "prompt": "What is the first code that runs when an Android phone powers on?",
+          "promptAr": "ما أول شيفرة تعمل عندما يُشغّل هاتف أندرويد؟",
           "options": [
             "The bootloader",
             "The Linux kernel",
             "BootROM code inside the chipset",
             "The launcher app"
           ],
+          "optionsAr": [
+            "محمّل الإقلاع",
+            "نواة لينكس",
+            "شيفرة BootROM داخل الشريحة",
+            "تطبيق المشغّل"
+          ],
           "answer": 2,
-          "explanation": "BootROM is burned into the chipset. It loads and verifies the next stage, usually the bootloader."
+          "explanation": "BootROM is burned into the chipset. It loads and verifies the next stage, usually the bootloader.",
+          "explanationAr": "BootROM محروقة داخل الشريحة. إنها تُحمّل وتتحقّق من المرحلة التالية، وعادةً محمّل الإقلاع."
         },
         {
           "id": "boot-2",
           "prompt": "What does the boot partition contain on most modern Android phones?",
+          "promptAr": "ماذا يحتوي قسم الإقلاع على معظم هواتف أندرويد الحديثة؟",
           "options": [
             "User photos and app data",
             "The kernel and a small ramdisk",
             "The recovery log only",
             "The SIM card profile"
           ],
+          "optionsAr": [
+            "صور المستخدم وبيانات التطبيقات",
+            "النواة وقرص ذاكرة مؤقّت صغير",
+            "سجل الاسترداد فقط",
+            "ملف تعريف بطاقة SIM"
+          ],
           "answer": 1,
-          "explanation": "The boot image holds the kernel plus a ramdisk. On A/B devices it is paired with an inactive slot copy."
+          "explanation": "The boot image holds the kernel plus a ramdisk. On A/B devices it is paired with an inactive slot copy.",
+          "explanationAr": "صورة الإقلاع تحمل النواة زائد قرص الذاكرة المؤقّت. على أجهزة A/B تُقرن بنسخة فتحة غير نشطة."
         },
         {
           "id": "boot-3",
           "prompt": "Why does a failed system flash on an A/B phone often still boot?",
+          "promptAr": "لماذا غالبًا ما يُقلع هاتف A/B رغم فشل فلاش النظام؟",
           "options": [
             "Because the battery hides the failure",
             "Because the other slot can still boot",
             "Because Android always has two batteries",
             "Because fastboot repairs files automatically"
           ],
+          "optionsAr": [
+            "لأن البطارية تخفي الفشل",
+            "لأن الفتحة الأخرى ما زالت تستطيع الإقلاع",
+            "لأن أندرويد يملك دائمًا بطاريتين",
+            "لأن fastboot يصلح الملفات تلقائيًا"
+          ],
           "answer": 1,
-          "explanation": "A/B devices keep two bootable slots. The bootloader can fall back to the slot that was not being written."
+          "explanation": "A/B devices keep two bootable slots. The bootloader can fall back to the slot that was not being written.",
+          "explanationAr": "أجهزة A/B تحتفظ بفتحتين قابلتين للإقلاع. يستطيع محمّل الإقلاع التراجع إلى الفتحة التي لم تكن تُكتب."
         }
       ]
     },
@@ -69,45 +164,134 @@
       "id": "usb-modes-drivers",
       "level": "basic",
       "title": "USB modes, drivers, and authorisation",
+      "titleAr": "أوضاع USB، والتعريفات، والتفويض",
       "summary": "Tell MTP, ADB, Fastboot, and download modes apart, and fix the Windows side before blaming the phone.",
+      "summaryAr": "ميّز MTP وADB وFastboot وأوضاع التنزيل، وأصلح جانب Windows قبل لوم الهاتف.",
       "minutes": 9,
       "bodyFile": "lessons/usb-modes-drivers.md",
+      "bodyFileAr": "lessons/usb-modes-drivers.ar.md",
+      "glossary": [
+        {
+          "term": "MTP",
+          "termAr": "بروتوكول نقل الوسائط",
+          "arabic": "بروتوكول نقل الوسائط: نقل الملفات بين الهاتف والحاسوب أثناء عمل أندرويد.",
+          "english": "Media Transfer Protocol: file transfer between phone and computer while Android runs."
+        },
+        {
+          "term": "PTP",
+          "termAr": "بروتوكول نقل الصور",
+          "arabic": "بروتوكول نقل الصور: نقل بنمط الكاميرا أثناء عمل أندرويد.",
+          "english": "Picture Transfer Protocol: camera-style transfer while Android runs."
+        },
+        {
+          "term": "ADB",
+          "termAr": "جسر تنقيح أندرويد",
+          "arabic": "Android Debug Bridge: قناة أوامر إلى نظام أندرويد يعمل.",
+          "english": "Android Debug Bridge: a command channel into a running Android system."
+        },
+        {
+          "term": "Fastboot",
+          "termAr": "فلاش سريع",
+          "arabic": "بروتوكول وضع محمّل الإقلاع المستخدم لفلاش الأقسام.",
+          "english": "A bootloader-mode protocol used for flashing partitions."
+        },
+        {
+          "term": "EDL",
+          "termAr": "تنزيل الطوارئ",
+          "arabic": "Emergency Download: وضع استرداد لشرائح Qualcomm يُستخدم بملفات بائع موقّعة.",
+          "english": "Emergency Download: a Qualcomm chipset recovery mode used with signed vendor files."
+        },
+        {
+          "term": "BROM",
+          "termAr": "وضع إقلاع الشريحة",
+          "arabic": "وضع Boot ROM على شرائح MediaTek، تستخدمه أدوات خدمة البائع.",
+          "english": "Boot ROM mode on MediaTek chipsets, used by vendor service tools."
+        },
+        {
+          "term": "RSA fingerprint",
+          "termAr": "بصمة RSA",
+          "arabic": "بصمة مفتاح يعرضها الهاتف عندما يطلب حاسوب صلاحية ADB لأول مرة.",
+          "english": "A key fingerprint the phone shows when a computer first requests ADB access."
+        },
+        {
+          "term": "driver",
+          "termAr": "تعريف",
+          "arabic": "برنامج يتيح لـ Windows التحدّث إلى جهاز USB محدّد.",
+          "english": "Software that lets Windows talk to a specific USB device."
+        },
+        {
+          "term": "enumeration",
+          "termAr": "تعديد USB",
+          "arabic": "كيفية اكتشاف Windows لجهاز USB وتعرّفه عليه.",
+          "english": "How Windows detects and identifies a USB device."
+        },
+        {
+          "term": "unauthorized",
+          "termAr": "غير مفوّض",
+          "arabic": "حالة ADB تعني أن الهاتف لم يوافق بعد على مفتاح هذا الحاسوب.",
+          "english": "An ADB state meaning the phone has not yet approved this computer's key."
+        }
+      ],
       "quiz": [
         {
           "id": "usb-1",
           "prompt": "The phone shows up in Windows but adb devices lists it as unauthorized. What is the correct next step?",
+          "promptAr": "يظهر الهاتف في Windows لكن adb devices يدرجه كـ unauthorized. ما الخطوة التالية الصحيحة؟",
           "options": [
             "Reinstall Windows",
             "Unlock the phone and accept the USB debugging prompt",
             "Flash the boot partition",
             "Erase the user data partition"
           ],
+          "optionsAr": [
+            "إعادة تثبيت Windows",
+            "افتح قفل الهاتف واقبل مطالبة تنقيح USB",
+            "فلاش قسم الإقلاع",
+            "مسح قسم بيانات المستخدم"
+          ],
           "answer": 1,
-          "explanation": "Authorisation happens on the phone. Unlock it, then approve the RSA fingerprint prompt."
+          "explanation": "Authorisation happens on the phone. Unlock it, then approve the RSA fingerprint prompt.",
+          "explanationAr": "التفويض يحدث على الهاتف. افتح قفله، ثم وافق على مطالبة بصمة RSA."
         },
         {
           "id": "usb-2",
           "prompt": "Which mode is used for fastboot flash commands?",
+          "promptAr": "أي وضع تُستخدم فيه أوامر fastboot flash؟",
           "options": [
             "MTP",
             "ADB while Android is running",
             "Fastboot / bootloader mode",
             "Airplane mode"
           ],
+          "optionsAr": [
+            "MTP",
+            "ADB أثناء عمل أندرويد",
+            "وضع Fastboot / محمّل الإقلاع",
+            "وضع الطيران"
+          ],
           "answer": 2,
-          "explanation": "Fastboot talks to the bootloader, not to a running Android system."
+          "explanation": "Fastboot talks to the bootloader, not to a running Android system.",
+          "explanationAr": "Fastboot يتحدّث إلى محمّل الإقلاع، لا إلى نظام أندرويد يعمل."
         },
         {
           "id": "usb-3",
           "prompt": "Why should you avoid random USB driver packs from unofficial sites?",
+          "promptAr": "لماذا يجب تجنّب حزم تعريفات USB العشوائية من مواقع غير رسمية؟",
           "options": [
             "They always break the screen",
             "They can be outdated, bundled with unwanted software, or unsafe",
             "Windows cannot install drivers",
             "Drivers do not affect phones"
           ],
+          "optionsAr": [
+            "إنها تكسر الشاشة دائمًا",
+            "قد تكون قديمة، أو مرفقة ببرمجيات غير مرغوبة، أو غير آمنة",
+            "Windows لا يستطيع تثبيت التعريفات",
+            "التعريفات لا تؤثر على الهواتف"
+          ],
           "answer": 1,
-          "explanation": "Use the vendor's official driver page or the Google USB Driver. Unofficial bundles are a supply-chain risk."
+          "explanation": "Use the vendor's official driver page or the Google USB Driver. Unofficial bundles are a supply-chain risk.",
+          "explanationAr": "استخدم صفحة تعريفات البائع الرسمية أو تعريف USB من Google. الحزم غير الرسمية خطر على سلسلة التوريد."
         }
       ]
     },
@@ -115,45 +299,134 @@
       "id": "reading-device-facts",
       "level": "basic",
       "title": "Reading device facts without changing anything",
+      "titleAr": "قراءة حقائق الجهاز دون تغيير أي شيء",
       "summary": "Collect the model, build, patch level, and bootloader state first. Good notes prevent wrong firmware.",
+      "summaryAr": "اجمع الطراز والبناء ومستوى التحديث وحالة محمّل الإقلاع أولًا. الملاحظات الجيدة تمنع البرنامج الثابت الخاطئ.",
       "minutes": 7,
       "bodyFile": "lessons/reading-device-facts.md",
+      "bodyFileAr": "lessons/reading-device-facts.ar.md",
+      "glossary": [
+        {
+          "term": "property",
+          "termAr": "خاصية",
+          "arabic": "قيمة مسماة يعرضها أندرويد عبر getprop.",
+          "english": "A named value Android exposes through getprop."
+        },
+        {
+          "term": "getprop",
+          "termAr": "أمر جلب الخصائص",
+          "arabic": "أمر أندرويد الذي يطبع خصائص النظام.",
+          "english": "The Android command that prints system properties."
+        },
+        {
+          "term": "build string",
+          "termAr": "سلسلة البناء",
+          "arabic": "معرّف البرنامج الثابت المثبّت بدقة على الهاتف.",
+          "english": "The exact firmware identifier installed on the phone."
+        },
+        {
+          "term": "API level",
+          "termAr": "مستوى API",
+          "arabic": "رقم إصدار إطار عمل أندرويد الذي يستهدفه تطبيق.",
+          "english": "The Android framework version number an app targets."
+        },
+        {
+          "term": "security patch",
+          "termAr": "تحديث الأمان",
+          "arabic": "تاريخ آخر إصلاحات أمان أندرويد داخل البناء.",
+          "english": "The date of the latest Android security fixes in the build."
+        },
+        {
+          "term": "radio",
+          "termAr": "الراديو",
+          "arabic": "برنامج المودم ووظائفه الخلوية.",
+          "english": "The modem firmware and its cellular functions."
+        },
+        {
+          "term": "DRM",
+          "termAr": "إدارة الحقوق الرقمية",
+          "arabic": "حماية المحتوى المستخدمة في تطبيقات البث والتشغيل.",
+          "english": "Content protection used by streaming and playback apps."
+        },
+        {
+          "term": "Verified boot",
+          "termAr": "الإقلاع الموثّق",
+          "arabic": "تحقّق توقيع مدعوم بالعتاد لسلسلة الإقلاع.",
+          "english": "Hardware-backed signature verification of the boot chain."
+        },
+        {
+          "term": "serial",
+          "termAr": "الرقم التسلسلي",
+          "arabic": "معرّف الجهاز الفريد الذي يستخدمه البائع وأدوات الخدمة.",
+          "english": "The unique device identifier used by vendors and service tools."
+        },
+        {
+          "term": "Fastboot variable",
+          "termAr": "متغيّر Fastboot",
+          "arabic": "قيمة قابلة للقراءة يبلّغ عنها محمّل الإقلاع، مثل حالة القفل.",
+          "english": "A readable value reported by the bootloader, such as lock state."
+        }
+      ],
       "quiz": [
         {
           "id": "facts-1",
           "prompt": "Which property identifies the exact installed build?",
+          "promptAr": "أي خاصية تحدّد البناء المثبّت بدقة؟",
           "options": [
             "ro.product.model",
             "ro.build.display.id",
             "ro.serialno",
             "ro.boot.flash.locked"
           ],
+          "optionsAr": [
+            "ro.product.model",
+            "ro.build.display.id",
+            "ro.serialno",
+            "ro.boot.flash.locked"
+          ],
           "answer": 1,
-          "explanation": "ro.build.display.id is the build string. The model alone is not enough to choose firmware."
+          "explanation": "ro.build.display.id is the build string. The model alone is not enough to choose firmware.",
+          "explanationAr": "ro.build.display.id هو سلسلة البناء. الطراز وحده لا يكفي لاختيار البرنامج الثابت."
         },
         {
           "id": "facts-2",
           "prompt": "What does ro.boot.flash.locked=1 usually mean?",
+          "promptAr": "ماذا يعني ro.boot.flash.locked=1 عادةً؟",
           "options": [
             "The screen lock is enabled",
             "The bootloader is locked",
             "The battery is charging",
             "The SIM is locked"
           ],
+          "optionsAr": [
+            "قفل الشاشة مفعّل",
+            "محمّل الإقلاع مقفل",
+            "البطارية تشحن",
+            "SIM مقفلة"
+          ],
           "answer": 1,
-          "explanation": "A value of 1 means the bootloader reports a locked state. 0 usually means unlocked."
+          "explanation": "A value of 1 means the bootloader reports a locked state. 0 usually means unlocked.",
+          "explanationAr": "القيمة 1 تعني أن محمّل الإقلاع يبلّغ عن حالة مقفلة. 0 تعني عادةً مفتوح."
         },
         {
           "id": "facts-3",
           "prompt": "Why record the security patch date before servicing?",
+          "promptAr": "لماذا تسجّل تاريخ تحديث الأمان قبل الصيانة؟",
           "options": [
             "It changes the wallpaper",
             "It helps match compatible firmware and detect downgrade problems",
             "It is required to charge the phone",
             "It disables Fastboot"
           ],
+          "optionsAr": [
+            "إنه يغيّر خلفية الشاشة",
+            "يساعد في مطابقة البرنامج الثابت المتوافق وكشف مشاكل التخفيض",
+            "مطلوب لشحن الهاتف",
+            "إنه يعطّل Fastboot"
+          ],
           "answer": 1,
-          "explanation": "Patch level and build number are key inputs when choosing firmware and predicting anti-rollback behaviour."
+          "explanation": "Patch level and build number are key inputs when choosing firmware and predicting anti-rollback behaviour.",
+          "explanationAr": "مستوى التحديث ورقم البناء مدخلان أساسيان عند اختيار البرنامج الثابت وتوقّع سلوك منع التراجع."
         }
       ]
     },
@@ -161,45 +434,134 @@
       "id": "bootloader-unlock",
       "level": "intermediate",
       "title": "Bootloader unlocking, legally and safely",
+      "titleAr": "فتح محمّل الإقلاع، قانونيًا وبأمان",
       "summary": "Understand what unlocking changes, which phones allow it, and why it always starts with a backup.",
+      "summaryAr": "افهم ما يغيّره الفتح، وأي الهواتف تسمح به، ولماذا يبدأ دائمًا بنسخة احتياطية.",
       "minutes": 12,
       "bodyFile": "lessons/bootloader-unlock.md",
+      "bodyFileAr": "lessons/bootloader-unlock.ar.md",
+      "glossary": [
+        {
+          "term": "bootloader unlock",
+          "termAr": "فتح محمّل الإقلاع",
+          "arabic": "تخفيف فحص التوقيع حتى يمكن للصور غير الموقّعة أن تبدأ.",
+          "english": "Relaxing the signature check so unsigned images can start."
+        },
+        {
+          "term": "OEM unlocking",
+          "termAr": "فتح OEM",
+          "arabic": "مفتاح خيارات المطوّر الذي يسمح بفتح محمّل الإقلاع.",
+          "english": "The Developer options switch that permits bootloader unlocking."
+        },
+        {
+          "term": "AOSP",
+          "termAr": "أندرويد مفتوح المصدر",
+          "arabic": "مشروع أندرويد مفتوح المصدر: الشيفرة الأساسية التي يبني عليها كثير من البائعين.",
+          "english": "Android Open Source Project: the base Android code many vendors build on."
+        },
+        {
+          "term": "factory reset",
+          "termAr": "إعادة ضبط المصنع",
+          "arabic": "محو بيانات المستخدم وإعادة الهاتف إلى حالته الأولية.",
+          "english": "Erasing user data and returning the phone to its initial state."
+        },
+        {
+          "term": "Verified boot",
+          "termAr": "الإقلاع الموثّق",
+          "arabic": "تحقّق مدعوم بالعتاد من أن كل مرحلة إقلاع موقّعة وغير معدّلة.",
+          "english": "Hardware-backed verification that every boot stage is signed and unmodified."
+        },
+        {
+          "term": "DRM",
+          "termAr": "إدارة الحقوق الرقمية",
+          "arabic": "حماية محتوى قد ترفض العمل عندما تتغيّر ضمانات سلامة الجهاز.",
+          "english": "Content protection that may refuse to run when device integrity guarantees change."
+        },
+        {
+          "term": "re-lock",
+          "termAr": "إعادة القفل",
+          "arabic": "استعادة حالة محمّل الإقلاع المقفلة بعد تثبيت برنامج ثابت رسمي.",
+          "english": "Restoring the locked bootloader state after official firmware is installed."
+        },
+        {
+          "term": "bypass",
+          "termAr": "تجاوز",
+          "arabic": "تخطّي ضابط أمان؛ هنا يُرفض لأنه غير آمن وخارج النطاق.",
+          "english": "Skipping a security control; here it is refused as unsafe and out of scope."
+        },
+        {
+          "term": "Developer options",
+          "termAr": "خيارات المطوّر",
+          "arabic": "قائمة إعدادات أندرويد مخفية تعرض مفاتيح التنقيح وفتح OEM.",
+          "english": "A hidden Android settings menu that exposes debugging and OEM unlock switches."
+        },
+        {
+          "term": "carrier lock",
+          "termAr": "قفل المشغّل",
+          "arabic": "قيد يفرضه مشغّل الهاتف وقد يمنع الفتح.",
+          "english": "A restriction imposed by the mobile operator that can block unlocking."
+        }
+      ],
       "quiz": [
         {
           "id": "unlock-1",
           "prompt": "What is a normal side effect of unlocking the bootloader on most phones?",
+          "promptAr": "ما الأثر الجانبي الطبيعي لفتح محمّل الإقلاع على معظم الهواتف؟",
           "options": [
             "The screen becomes brighter",
             "User data is erased",
             "The battery capacity doubles",
             "The SIM is unlocked"
           ],
+          "optionsAr": [
+            "الشاشة تصبح أكثر سطوعًا",
+            "بيانات المستخدم تُمحى",
+            "سعة البطارية تتضاعف",
+            "SIM تُفتح"
+          ],
           "answer": 1,
-          "explanation": "Unlocking usually forces a factory reset to protect user data. Back up first."
+          "explanation": "Unlocking usually forces a factory reset to protect user data. Back up first.",
+          "explanationAr": "الفتح يفرض عادةً إعادة ضبط المصنع لحماية بيانات المستخدم. انسخ احتياطيًا أولًا."
         },
         {
           "id": "unlock-2",
           "prompt": "Which phones can be unlocked with fastboot flashing unlock?",
+          "promptAr": "أي الهواتف يمكن فتحها بـ fastboot flashing unlock؟",
           "options": [
             "Every Android phone",
             "Only phones whose vendor allows it and exposes the command",
             "Only phones with a broken screen",
             "Only phones without a SIM"
           ],
+          "optionsAr": [
+            "كل هاتف أندرويد",
+            "فقط الهواتف التي يسمح بائعها بذلك ويكشف الأمر",
+            "فقط الهواتف ذات الشاشة المكسورة",
+            "فقط الهواتف بلا SIM"
+          ],
           "answer": 1,
-          "explanation": "Vendors control unlock policy. Many carrier or regional models block it entirely."
+          "explanation": "Vendors control unlock policy. Many carrier or regional models block it entirely.",
+          "explanationAr": "البائعون يتحكّمون في سياسة الفتح. العديد من طرازات المشغّلين أو المناطق تحجبه تمامًا."
         },
         {
           "id": "unlock-3",
           "prompt": "What should you check before promising a customer an unlock?",
+          "promptAr": "ماذا يجب أن تفحص قبل أن تَعِد عميلًا بالفتح؟",
           "options": [
             "The wallpaper colour",
             "Vendor policy, carrier lock, warranty terms, and their explicit consent",
             "The phone's ringtone",
             "The number of installed games"
           ],
+          "optionsAr": [
+            "لون خلفية الشاشة",
+            "سياسة البائع، وقفل المشغّل، وشروط الضمان، وموافقته الصريحة",
+            "نغمة رنين الهاتف",
+            "عدد الألعاب المثبّتة"
+          ],
           "answer": 1,
-          "explanation": "Unlocking can void warranty and trip security features. Owner consent and vendor policy come first."
+          "explanation": "Unlocking can void warranty and trip security features. Owner consent and vendor policy come first.",
+          "explanationAr": "الفتح يمكن أن يُبطل الضمان ويُفعّل ميزات أمان. موافقة المالك وسياسة البائع تأتي أولًا."
         }
       ]
     },
@@ -207,45 +569,134 @@
       "id": "factory-firmware",
       "level": "intermediate",
       "title": "Choosing and flashing factory firmware",
+      "titleAr": "اختيار وفلاش البرنامج الثابت للمصنع",
       "summary": "Match the exact model and region, verify the archive, and flash in the order the vendor documents.",
+      "summaryAr": "طابق الطراز والمنطقة بدقة، وتحقّق من الأرشيف، وافلش بالترتيب الذي يوثّقه البائع.",
       "minutes": 14,
       "bodyFile": "lessons/factory-firmware.md",
+      "bodyFileAr": "lessons/factory-firmware.ar.md",
+      "glossary": [
+        {
+          "term": "firmware",
+          "termAr": "برنامج ثابت",
+          "arabic": "صورة البرمجيات الكاملة لطراز هاتف، بما فيها أقسام الإقلاع والنظام.",
+          "english": "The complete software image for a phone model, including boot and system partitions."
+        },
+        {
+          "term": "variant",
+          "termAr": "نسخة",
+          "arabic": "إصدار إقليمي أو خاص بمشغّل من الطراز نفسه.",
+          "english": "A regional or carrier-specific version of the same model."
+        },
+        {
+          "term": "checksum",
+          "termAr": "مجموع تحقّق",
+          "arabic": "بصمة تُستخدم للتأكّد من أن التنزيل لم يتلف أو يُعدّل.",
+          "english": "A hash used to confirm a download was not corrupted or altered."
+        },
+        {
+          "term": "firehose",
+          "termAr": "برنامج إقلاع Qualcomm",
+          "arabic": "مبرمج Qualcomm موقّع يُستخدم في وضع EDL.",
+          "english": "A signed Qualcomm programmer used in EDL mode."
+        },
+        {
+          "term": "scatter file",
+          "termAr": "ملف توزيع",
+          "arabic": "خريطة MediaTek تخبر SP Flash Tool بمكان كل صورة.",
+          "english": "A MediaTek map that tells SP Flash Tool where each image goes."
+        },
+        {
+          "term": "vbmeta",
+          "termAr": "بيانات الإقلاع الموثّق",
+          "arabic": "القسم الذي يخزّن بيانات وتوقيعات الإقلاع الموثّق.",
+          "english": "The partition that stores verified-boot metadata and signatures."
+        },
+        {
+          "term": "Odin",
+          "termAr": "أودين",
+          "arabic": "أداة Samsung الرسمية لفلاش البرنامج الثابت في وضع التنزيل.",
+          "english": "Samsung's official firmware flashing tool for download mode."
+        },
+        {
+          "term": "radio",
+          "termAr": "الراديو",
+          "arabic": "برنامج المودم الذي يتحكّم في الاتصال الخلوي.",
+          "english": "The modem firmware that controls cellular connectivity."
+        },
+        {
+          "term": "EDL",
+          "termAr": "تنزيل الطوارئ",
+          "arabic": "وضع تنزيل الطوارئ من Qualcomm للاسترداد منخفض المستوى.",
+          "english": "Qualcomm Emergency Download mode for low-level recovery."
+        },
+        {
+          "term": "slot",
+          "termAr": "فتحة",
+          "arabic": "إحدى مجموعتَي أقسام الإقلاع على أجهزة A/B.",
+          "english": "One of two bootable partition sets on A/B devices."
+        }
+      ],
       "quiz": [
         {
           "id": "firmware-1",
           "prompt": "What is the safest source for factory firmware?",
+          "promptAr": "ما المصدر الأكثر أمانًا للبرنامج الثابت للمصنع؟",
           "options": [
             "A random file-sharing link",
             "The phone vendor's official support or firmware page",
             "A comment on a video",
             "An unofficial mirror with no checksums"
           ],
+          "optionsAr": [
+            "رابط مشاركة ملفات عشوائي",
+            "صفحة الدعم أو البرنامج الثابت الرسمية لبائع الهاتف",
+            "تعليق على فيديو",
+            "نسخة منعكسة غير رسمية بلا مجاميع تحقّق"
+          ],
           "answer": 1,
-          "explanation": "Only the vendor's official channel can be trusted for signed, current firmware."
+          "explanation": "Only the vendor's official channel can be trusted for signed, current firmware.",
+          "explanationAr": "فقط قناة البائع الرسمية يمكن الوثوق بها لبرنامج ثابت موقّع وحديث."
         },
         {
           "id": "firmware-2",
           "prompt": "Why must you not mix firmware from a different model variant?",
+          "promptAr": "لماذا يجب ألا تخلط برنامجًا ثابتًا من نسخة طراز مختلفة؟",
           "options": [
             "It changes the language only",
             "Partitions and radio firmware may not match the hardware and can brick the phone",
             "It makes the phone faster",
             "It only affects the camera app"
           ],
+          "optionsAr": [
+            "إنه يغيّر اللغة فقط",
+            "قد لا تطابق الأقسام وبرنامج الراديو العتاد وقد تحوّل الهاتف إلى طوب",
+            "إنه يجعل الهاتف أسرع",
+            "إنه يؤثر فقط على تطبيق الكاميرا"
+          ],
           "answer": 1,
-          "explanation": "Variants can differ in modem, partition layout, and signing keys. A mismatch can make the device unbootable."
+          "explanation": "Variants can differ in modem, partition layout, and signing keys. A mismatch can make the device unbootable.",
+          "explanationAr": "النسخ قد تختلف في المودم، وتخطيط الأقسام، ومفاتيح التوقيع. عدم التطابق قد يجعل الجهاز غير قابل للإقلاع."
         },
         {
           "id": "firmware-3",
           "prompt": "What should you do immediately after flashing and before handing the phone back?",
+          "promptAr": "ماذا يجب أن تفعل فورًا بعد الفلاش وقبل إعادة الهاتف؟",
           "options": [
             "Install random APKs",
             "Boot it, test radio/IMEI, charging, sensors, and confirm the build number",
             "Remove the SIM tray permanently",
             "Disable all security updates"
           ],
+          "optionsAr": [
+            "ثبّت ملفات APK عشوائية",
+            "أقلعه، واختبر الراديو/IMEI، والشحن، والمستشعرات، وأكّد رقم البناء",
+            "أزل درج SIM نهائيًا",
+            "عطّل كل تحديثات الأمان"
+          ],
           "answer": 1,
-          "explanation": "A flash is not finished until the device boots and the critical hardware paths are verified."
+          "explanation": "A flash is not finished until the device boots and the critical hardware paths are verified.",
+          "explanationAr": "الفلاش لا ينتهي حتى يُقلع الجهاز وتُتحقّق مسارات العتاد الحرجة."
         }
       ]
     },
@@ -253,45 +704,134 @@
       "id": "custom-recovery-sideload",
       "level": "intermediate",
       "title": "Custom recovery and sideload boundaries",
+      "titleAr": "حدود الاسترداد المخصّص والتحميل الجانبي",
       "summary": "Know the difference between recovery, fastbootd, and a running system before you wipe or sideload.",
+      "summaryAr": "اعرف الفرق بين الاسترداد وfastbootd والنظام العامل قبل أن تمسح أو تحمّل جانبيًا.",
       "minutes": 10,
       "bodyFile": "lessons/custom-recovery-sideload.md",
+      "bodyFileAr": "lessons/custom-recovery-sideload.ar.md",
+      "glossary": [
+        {
+          "term": "recovery",
+          "termAr": "الاسترداد",
+          "arabic": "بيئة دنيا للتحديثات وإعادة الضبط والإصلاح عندما لا يستطيع أندرويد الإقلاع.",
+          "english": "A minimal environment for updates, resets, and repairs when Android cannot boot."
+        },
+        {
+          "term": "stock recovery",
+          "termAr": "الاسترداد الأصلي",
+          "arabic": "صورة الاسترداد الرسمية للبائع.",
+          "english": "The vendor's official recovery image."
+        },
+        {
+          "term": "TWRP",
+          "termAr": "استرداد مجتمعي",
+          "arabic": "Team Win Recovery Project: استرداد مخصّص يبنيه المجتمع.",
+          "english": "Team Win Recovery Project: a community custom recovery."
+        },
+        {
+          "term": "fastbootd",
+          "termAr": "فاستبوت المستخدم",
+          "arabic": "خادم fastboot في مساحة المستخدم داخل صور استرداد أحدث.",
+          "english": "A userspace fastboot daemon inside newer recovery images."
+        },
+        {
+          "term": "sideload",
+          "termAr": "التحميل الجانبي",
+          "arabic": "إرسال حزمة موقّعة إلى الاسترداد عبر ADB بدل مسار التحديث العادي.",
+          "english": "Sending a signed package to recovery over ADB instead of the normal update path."
+        },
+        {
+          "term": "OTA",
+          "termAr": "تحديث لاسلكي",
+          "arabic": "Over-The-Air: حزمة تحديث يسلّمها البائع.",
+          "english": "Over-The-Air update: a package delivered by the vendor."
+        },
+        {
+          "term": "dynamic partitions",
+          "termAr": "أقسام ديناميكية",
+          "arabic": "أقسام يدير أندرويد حجمها ومحتوياتها عبر قسم super.",
+          "english": "Partitions whose size and contents are managed by Android's super partition."
+        },
+        {
+          "term": "metadata encryption",
+          "termAr": "تشفير البيانات الوصفية",
+          "arabic": "تشفير أسماء الملفات وبيانات المجلدات، منفصلًا عن محتويات الملفات.",
+          "english": "Encryption of file names and directory data, separate from file contents."
+        },
+        {
+          "term": "keystore",
+          "termAr": "مخزن المفاتيح",
+          "arabic": "المخزن المدعوم بالعتاد الذي يحمي مفاتيح التشفير والتوقيع.",
+          "english": "The hardware-backed store that protects encryption and signing keys."
+        },
+        {
+          "term": "format data",
+          "termAr": "تنسيق البيانات",
+          "arabic": "محو قسم البيانات، بما فيه مفاتيح تشفيره.",
+          "english": "Erasing the data partition, including its encryption keys."
+        }
+      ],
       "quiz": [
         {
           "id": "recovery-1",
           "prompt": "What does adb sideload require?",
+          "promptAr": "ماذا يتطلّب adb sideload؟",
           "options": [
             "A booted Android system with USB debugging only",
             "A recovery or update mode that accepts sideload",
             "A locked SIM card",
             "A Bluetooth connection"
           ],
+          "optionsAr": [
+            "نظام أندرويد مُقلَع مع تنقيح USB فقط",
+            "استرداد أو وضع تحديث يقبل sideload",
+            "بطاقة SIM مقفلة",
+            "اتصال Bluetooth"
+          ],
           "answer": 1,
-          "explanation": "Sideload runs through recovery or an update mode. Plain Android does not accept an OTA package this way."
+          "explanation": "Sideload runs through recovery or an update mode. Plain Android does not accept an OTA package this way.",
+          "explanationAr": "sideload يعمل عبر الاسترداد أو وضع تحديث. أندرويد العادي لا يقبل حزمة OTA بهذه الطريقة."
         },
         {
           "id": "recovery-2",
           "prompt": "What is fastbootd?",
+          "promptAr": "ما هو fastbootd؟",
           "options": [
             "A social media app",
             "A userspace fastboot implementation inside newer recovery images",
             "A battery calibration tool",
             "A Windows driver"
           ],
+          "optionsAr": [
+            "تطبيق تواصل اجتماعي",
+            "تنفيذ fastboot في مساحة المستخدم داخل صور استرداد أحدث",
+            "أداة معايرة بطارية",
+            "تعريف Windows"
+          ],
           "answer": 1,
-          "explanation": "Fastbootd runs in userspace and can handle logical partitions that classic bootloader fastboot cannot."
+          "explanation": "Fastbootd runs in userspace and can handle logical partitions that classic bootloader fastboot cannot.",
+          "explanationAr": "Fastbootd يعمل في مساحة المستخدم ويستطيع التعامل مع أقسام منطقية لا يستطيع fastboot الكلاسيكي في محمّل الإقلاع."
         },
         {
           "id": "recovery-3",
           "prompt": "What is the main risk of a custom recovery on an encrypted device?",
+          "promptAr": "ما الخطر الرئيسي لاسترداد مخصّص على جهاز مشفّر؟",
           "options": [
             "It cannot read encrypted data without the right keys or format",
             "It removes the camera",
             "It disables Wi-Fi forever",
             "It changes the SIM number"
           ],
+          "optionsAr": [
+            "لا يستطيع قراءة البيانات المشفّرة بدون المفاتيح الصحيحة أو التنسيق",
+            "إنه يزيل الكاميرا",
+            "إنه يعطّل Wi-Fi إلى الأبد",
+            "إنه يغيّر رقم SIM"
+          ],
           "answer": 0,
-          "explanation": "Encryption and metadata encryption can block access. Formatting data destroys it, so confirm what the owner needs first."
+          "explanation": "Encryption and metadata encryption can block access. Formatting data destroys it, so confirm what the owner needs first.",
+          "explanationAr": "التشفير وتشفير البيانات الوصفية يمكن أن يحجبا الوصول. تنسيق البيانات يدمّرها، لذا أكّد ما يحتاجه المالك أولًا."
         }
       ]
     },
@@ -299,45 +839,134 @@
       "id": "root-models",
       "level": "advanced",
       "title": "Root models: Magisk, KernelSU, and APatch",
+      "titleAr": "نماذج الروت: Magisk وKernelSU وAPatch",
       "summary": "Compare how modern root solutions patch boot images, and what that means for updates and integrity checks.",
+      "summaryAr": "قارن كيف ترقّع حلول الروت الحديثة صور الإقلاع، وماذا يعني ذلك للتحديثات وفحوص السلامة.",
       "minutes": 15,
       "bodyFile": "lessons/root-models.md",
+      "bodyFileAr": "lessons/root-models.ar.md",
+      "glossary": [
+        {
+          "term": "root",
+          "termAr": "الروت",
+          "arabic": "صلاحيات مرتفعة تتيح للشيفرة تجاوز عزل التطبيقات العادي في أندرويد.",
+          "english": "Elevated privileges that let code bypass Android's normal app sandbox."
+        },
+        {
+          "term": "systemless",
+          "termAr": "بلا مساس بالنظام",
+          "arabic": "طريقة روت تعدّل صورة الإقلاع بدل قسم النظام.",
+          "english": "A root method that modifies the boot image instead of the system partition."
+        },
+        {
+          "term": "Magisk",
+          "termAr": "ماجيسك",
+          "arabic": "حل روت بلا مساس بالنظام يرقّع قرص الذاكرة المؤقّت في الإقلاع.",
+          "english": "A systemless root solution that patches the boot ramdisk."
+        },
+        {
+          "term": "KernelSU",
+          "termAr": "كيرنل إس يو",
+          "arabic": "حل روت مدمج في نواة مدعومة.",
+          "english": "A root solution integrated into a supported kernel."
+        },
+        {
+          "term": "GKI",
+          "termAr": "نواة عامة",
+          "arabic": "Generic Kernel Image: نواة أندرويد القياسية من Google.",
+          "english": "Generic Kernel Image: Google's standardized Android kernel."
+        },
+        {
+          "term": "APatch",
+          "termAr": "إيه باتش",
+          "arabic": "حل روت يطبّق ترقيعًا للنواة عبر سير عمل ترقيع صورة الإقلاع.",
+          "english": "A root solution that applies a kernel patch through boot image patching."
+        },
+        {
+          "term": "boot image",
+          "termAr": "صورة الإقلاع",
+          "arabic": "القسم الذي يحمل النواة وقرص الذاكرة المؤقّت.",
+          "english": "The partition holding the kernel and ramdisk."
+        },
+        {
+          "term": "Verified boot",
+          "termAr": "الإقلاع الموثّق",
+          "arabic": "تحقّق مدعوم بالعتاد من توقيع سلسلة الإقلاع.",
+          "english": "Hardware-backed verification of the boot chain signatures."
+        },
+        {
+          "term": "OTA",
+          "termAr": "تحديث لاسلكي",
+          "arabic": "تحديث يسلّمه البائع لاسلكيًا ويكتب صورة إقلاع جديدة.",
+          "english": "An over-the-air update delivered by the vendor that writes a fresh boot image."
+        },
+        {
+          "term": "integrity API",
+          "termAr": "واجهة السلامة",
+          "arabic": "خدمة تبلّغ هل برمجيات الجهاز موثوقة أم لا.",
+          "english": "A service that reports whether the device software is trustworthy."
+        }
+      ],
       "quiz": [
         {
           "id": "root-1",
           "prompt": "What does Magisk patch to gain root?",
+          "promptAr": "ماذا يرقّع Magisk للحصول على الروت؟",
           "options": [
             "The launcher icon",
             "The boot image (or init_boot on some devices)",
             "The SIM card",
             "The charging cable"
           ],
+          "optionsAr": [
+            "أيقونة المشغّل",
+            "صورة الإقلاع (أو init_boot على بعض الأجهزة)",
+            "بطاقة SIM",
+            "كابل الشحن"
+          ],
           "answer": 1,
-          "explanation": "Magisk patches the ramdisk inside the boot image, or init_boot where the ramdisk lives there."
+          "explanation": "Magisk patches the ramdisk inside the boot image, or init_boot where the ramdisk lives there.",
+          "explanationAr": "Magisk يرقّع قرص الذاكرة المؤقّت داخل صورة الإقلاع، أو init_boot حيث يسكن قرص الذاكرة هناك."
         },
         {
           "id": "root-2",
           "prompt": "Why does a system update often remove root?",
+          "promptAr": "لماذا يزيل تحديث النظام الروت غالبًا؟",
           "options": [
             "Updates replace the boot partition or slot",
             "Updates uninstall all apps",
             "Updates change the Wi-Fi password",
             "Updates lock the SIM"
           ],
+          "optionsAr": [
+            "التحديثات تستبدل قسم الإقلاع أو الفتحة",
+            "التحديثات تزيل كل التطبيقات",
+            "التحديثات تغيّر كلمة سر Wi-Fi",
+            "التحديثات تقفل SIM"
+          ],
           "answer": 0,
-          "explanation": "OTA updates write a fresh boot image. Root must be reapplied to the new image after the update."
+          "explanation": "OTA updates write a fresh boot image. Root must be reapplied to the new image after the update.",
+          "explanationAr": "تحديثات OTA تكتب صورة إقلاع جديدة. يجب إعادة تطبيق الروت على الصورة الجديدة بعد التحديث."
         },
         {
           "id": "root-3",
           "prompt": "What should you warn the owner about after rooting?",
+          "promptAr": "بماذا يجب أن تحذّر المالك بعد الروت؟",
           "options": [
             "Battery will never charge again",
             "Banking and DRM apps may refuse to run, and security guarantees change",
             "The phone cannot make calls",
             "The screen will fail"
           ],
+          "optionsAr": [
+            "البطارية لن تشحن أبدًا مجددًا",
+            "تطبيقات البنوك وDRM قد ترفض العمل، وتغيّر ضمانات الأمان",
+            "الهاتف لا يستطيع إجراء مكالمات",
+            "الشاشة ستتعطّل"
+          ],
           "answer": 1,
-          "explanation": "Root weakens the verified boot model. Some apps detect it, and the owner must accept the trade-off."
+          "explanation": "Root weakens the verified boot model. Some apps detect it, and the owner must accept the trade-off.",
+          "explanationAr": "الروت يضعف نموذج الإقلاع الموثّق. بعض التطبيقات تكشفه، ويجب على المالك قبول المقايضة."
         }
       ]
     },
@@ -345,45 +974,134 @@
       "id": "brick-triage",
       "level": "advanced",
       "title": "Brick triage: soft brick, hard brick, and when to stop",
+      "titleAr": "فرز الطوب: الناعم والصلب ومتى تتوقّف",
       "summary": "Separate a bootloop from a dead bootloader, and avoid making a recoverable phone worse.",
+      "summaryAr": "افصل حلقة الإقلاع عن محمّل إقلاع ميت، وتجنّب جعل هاتف قابل للاسترداد أسوأ.",
       "minutes": 11,
       "bodyFile": "lessons/brick-triage.md",
+      "bodyFileAr": "lessons/brick-triage.ar.md",
+      "glossary": [
+        {
+          "term": "brick",
+          "termAr": "طوب",
+          "arabic": "تعبير عامي عن هاتف لا يبدأ؛ يشمل الأعطال الناعمة والصلبة.",
+          "english": "Slang for a phone that will not start; it covers soft and hard failures."
+        },
+        {
+          "term": "soft brick",
+          "termAr": "طوب ناعم",
+          "arabic": "عطل ما زالت فيه واجهة منخفضة المستوى مثل Fastboot أو الاسترداد تعمل.",
+          "english": "A failure where a low-level interface such as Fastboot or recovery still works."
+        },
+        {
+          "term": "hard brick",
+          "termAr": "طوب صلب",
+          "arabic": "عطل بلا محمّل إقلاع أو استرداد أو استجابة USB.",
+          "english": "A failure with no bootloader, recovery, or USB response."
+        },
+        {
+          "term": "bootloop",
+          "termAr": "حلقة إقلاع",
+          "arabic": "الهاتف يعيد التشغيل مرارًا قبل الوصول إلى النظام.",
+          "english": "The phone restarts repeatedly before reaching the system."
+        },
+        {
+          "term": "EDL",
+          "termAr": "تنزيل الطوارئ",
+          "arabic": "وضع تنزيل الطوارئ من Qualcomm لاسترداد منخفض المستوى.",
+          "english": "Qualcomm Emergency Download mode for low-level recovery."
+        },
+        {
+          "term": "BROM",
+          "termAr": "وضع إقلاع الشريحة",
+          "arabic": "وضع Boot ROM على شرائح MediaTek تستخدمه أدوات الخدمة.",
+          "english": "Boot ROM mode on MediaTek chipsets used by service tools."
+        },
+        {
+          "term": "firehose",
+          "termAr": "برنامج إقلاع Qualcomm",
+          "arabic": "مبرمج موقّع من Qualcomm يُستخدم في وضع EDL.",
+          "english": "A signed Qualcomm programmer used in EDL mode."
+        },
+        {
+          "term": "preloader",
+          "termAr": "محمّل أولي",
+          "arabic": "محمّل MediaTek للمرحلة الأولى قبل محمّل الإقلاع الرئيسي.",
+          "english": "MediaTek's first-stage loader before the main bootloader."
+        },
+        {
+          "term": "eMMC",
+          "termAr": "ذاكرة مدمجة",
+          "arabic": "ذاكرة تخزين داخلية ملحومة على اللوحة.",
+          "english": "Embedded storage soldered to the board."
+        },
+        {
+          "term": "test point",
+          "termAr": "نقطة اختبار",
+          "arabic": "نقطة تلامس على اللوحة تُستخدم لإجبار الشريحة على وضع منخفض المستوى.",
+          "english": "A board contact used to force a chipset into a low-level mode."
+        }
+      ],
       "quiz": [
         {
           "id": "brick-1",
           "prompt": "Which symptom most often indicates a soft brick?",
+          "promptAr": "أي عَرَض يشير غالبًا إلى طوب ناعم؟",
           "options": [
             "No vibration, no screen, and no USB enumeration at all",
             "A bootloop or recovery loop with the bootloader still reachable",
             "The phone charges normally and boots fine",
             "The wallpaper changed"
           ],
+          "optionsAr": [
+            "لا اهتزاز، ولا شاشة، ولا تعديد USB إطلاقًا",
+            "حلقة إقلاع أو حلقة استرداد مع محمّل إقلاع ما زال يمكن الوصول إليه",
+            "الهاتف يشحن طبيعيًا ويُقلع جيدًا",
+            "خلفية الشاشة تغيّرت"
+          ],
           "answer": 1,
-          "explanation": "If the bootloader or recovery still responds, the device is usually recoverable with the right firmware."
+          "explanation": "If the bootloader or recovery still responds, the device is usually recoverable with the right firmware.",
+          "explanationAr": "إذا كان محمّل الإقلاع أو الاسترداد ما زال يستجيب، فالجهاز عادةً قابل للاسترداد بالبرنامج الثابت الصحيح."
         },
         {
           "id": "brick-2",
           "prompt": "What is the safest first action for a phone stuck in a bootloop after a bad flash?",
+          "promptAr": "ما أول إجراء أسلم لهاتف عالق في حلقة إقلاع بعد فلاش سيئ؟",
           "options": [
             "Flash random firmware from the first search result",
             "Stop, identify the exact model and build, and read the vendor recovery procedure",
             "Open the phone and remove the battery",
             "Keep rebooting for an hour"
           ],
+          "optionsAr": [
+            "فلاش برنامج ثابت عشوائي من أول نتيجة بحث",
+            "توقّف، وحدّد الطراز والبناء بدقة، واقرأ إجراء الاسترداد لدى البائع",
+            "افتح الهاتف وأزل البطارية",
+            "استمر في إعادة الإقلاع لساعة"
+          ],
           "answer": 1,
-          "explanation": "Accurate identification and the vendor's documented recovery path prevent a soft brick from becoming permanent."
+          "explanation": "Accurate identification and the vendor's documented recovery path prevent a soft brick from becoming permanent.",
+          "explanationAr": "التحديد الدقيق ومسار الاسترداد الموثّق لدى البائع يمنعان تحوّل الطوب الناعم إلى دائم."
         },
         {
           "id": "brick-3",
           "prompt": "When should you stop and refer the device to an authorised service centre?",
+          "promptAr": "متى يجب أن تتوقّف وتحيل الجهاز إلى مركز خدمة معتمد؟",
           "options": [
             "When the bootloader is locked and no official recovery path exists",
             "When the phone has a case on",
             "When the owner speaks another language",
             "When the battery is above 50%"
           ],
+          "optionsAr": [
+            "عندما يكون محمّل الإقلاع مقفلًا ولا يوجد مسار استرداد رسمي",
+            "عندما يكون على الهاتف غلاف",
+            "عندما يتحدّث المالك لغة أخرى",
+            "عندما تكون البطارية فوق 50%"
+          ],
           "answer": 0,
-          "explanation": "Without an official path or an unlocked bootloader, forcing EDL or test-point modes can destroy the device."
+          "explanation": "Without an official path or an unlocked bootloader, forcing EDL or test-point modes can destroy the device.",
+          "explanationAr": "بدون مسار رسمي أو محمّل إقلاع مفتوح، فإن فرض أوضاع EDL أو نقاط الاختبار يمكن أن يدمّر الجهاز."
         }
       ]
     },
@@ -391,45 +1109,134 @@
       "id": "post-service-qa",
       "level": "advanced",
       "title": "Post-service quality checks",
+      "titleAr": "فحوص الجودة بعد الخدمة",
       "summary": "Turn a successful flash into a trustworthy repair with a repeatable end-of-job checklist.",
+      "summaryAr": "حوّل فلاشًا ناجحًا إلى إصلاح موثوق بقائمة فحص قابلة للتكرار في نهاية العمل.",
       "minutes": 9,
       "bodyFile": "lessons/post-service-qa.md",
+      "bodyFileAr": "lessons/post-service-qa.ar.md",
+      "glossary": [
+        {
+          "term": "post-service QA",
+          "termAr": "فحص ما بعد الخدمة",
+          "arabic": "الفحوص القابلة للتكرار التي تُجرى قبل إعادة الهاتف المُصلَح.",
+          "english": "The repeatable checks performed before returning a repaired phone."
+        },
+        {
+          "term": "APN",
+          "termAr": "اسم نقطة الوصول",
+          "arabic": "Access Point Name: إعدادات المشغّل اللازمة لبيانات الهاتف.",
+          "english": "Access Point Name: the carrier settings needed for mobile data."
+        },
+        {
+          "term": "IMEI",
+          "termAr": "معرّف الجهاز",
+          "arabic": "الهوية الخلوية الفريدة للهاتف، مخزّنة في المودم.",
+          "english": "The unique cellular identity of the phone, stored in the modem."
+        },
+        {
+          "term": "NFC",
+          "termAr": "اتصال قريب المدى",
+          "arabic": "Near Field Communication: يُستخدم للّمس والدفع عبر الهاتف.",
+          "english": "Near Field Communication, used for taps and mobile payments."
+        },
+        {
+          "term": "bootloop",
+          "termAr": "حلقة إقلاع",
+          "arabic": "إعادة تشغيل متكرّرة قبل الوصول إلى النظام.",
+          "english": "Repeated restarts before the system is reached."
+        },
+        {
+          "term": "bootloader state",
+          "termAr": "حالة محمّل الإقلاع",
+          "arabic": "هل محمّل الإقلاع مقفل أم مفتوح.",
+          "english": "Whether the bootloader is locked or unlocked."
+        },
+        {
+          "term": "OTA",
+          "termAr": "تحديث لاسلكي",
+          "arabic": "تحديث يسلّمه البائع لاسلكيًا.",
+          "english": "An update delivered over the air by the vendor."
+        },
+        {
+          "term": "DRM",
+          "termAr": "إدارة الحقوق الرقمية",
+          "arabic": "حماية محتوى قد تتأثّر بحالة سلامة الجهاز.",
+          "english": "Content protection that can be affected by device integrity."
+        },
+        {
+          "term": "service record",
+          "termAr": "سجل الخدمة",
+          "arabic": "تسجيل مكتوب للجهاز والعمل المنجز ونتائج الاختبار.",
+          "english": "A written account of the device, work done, and test results."
+        },
+        {
+          "term": "sensors",
+          "termAr": "المستشعرات",
+          "arabic": "عتاد مثل القرب والضوء والبصمة يجب اختباره.",
+          "english": "Hardware such as proximity, light, and fingerprint that must be tested."
+        }
+      ],
       "quiz": [
         {
           "id": "qa-1",
           "prompt": "Which check belongs in every post-flash test?",
+          "promptAr": "أي فحص ينتمي إلى كل اختبار بعد الفلاش؟",
           "options": [
             "Only the wallpaper",
             "Calls/SMS data, Wi-Fi, Bluetooth, cameras, sensors, charging, and the build number",
             "Only the battery percentage",
             "Only the app store"
           ],
+          "optionsAr": [
+            "خلفية الشاشة فقط",
+            "المكالمات/الرسائل والبيانات، وWi-Fi، وBluetooth، والكاميرات، والمستشعرات، والشحن، ورقم البناء",
+            "نسبة البطارية فقط",
+            "متجر التطبيقات فقط"
+          ],
           "answer": 1,
-          "explanation": "A repair is complete only when the main hardware paths and the installed build are verified."
+          "explanation": "A repair is complete only when the main hardware paths and the installed build are verified.",
+          "explanationAr": "الإصلاح يكتمل فقط عندما تُتحقّق مسارات العتاد الرئيسية والبناء المثبّت."
         },
         {
           "id": "qa-2",
           "prompt": "What should be recorded before returning the phone?",
+          "promptAr": "ماذا يجب تسجيله قبل إعادة الهاتف؟",
           "options": [
             "The owner's bank password",
             "Model, serial, old and new build, actions performed, and test results",
             "A list of the owner's contacts",
             "The Wi-Fi password"
           ],
+          "optionsAr": [
+            "كلمة سر بنك المالك",
+            "الطراز، والرقم التسلسلي، والبناء القديم والجديد، والإجراءات المنفّذة، ونتائج الاختبار",
+            "قائمة جهات اتصال المالك",
+            "كلمة سر Wi-Fi"
+          ],
           "answer": 1,
-          "explanation": "A service record protects both the owner and the technician and makes later troubleshooting possible."
+          "explanation": "A service record protects both the owner and the technician and makes later troubleshooting possible.",
+          "explanationAr": "سجل الخدمة يحمي المالك والفني معًا ويجعل استكشاف الأخطاء لاحقًا ممكنًا."
         },
         {
           "id": "qa-3",
           "prompt": "The phone boots but the SIM is not detected after a flash. What is the best next step?",
+          "promptAr": "الهاتف يُقلع لكن SIM غير مكتشفة بعد فلاش. ما أفضل خطوة تالية؟",
           "options": [
             "Declare the repair finished",
             "Check the modem firmware/region match and inspect the SIM tray, then reflash the correct package",
             "Flash a random modem from another model",
             "Remove the IMEI"
           ],
+          "optionsAr": [
+            "أعلن انتهاء الإصلاح",
+            "افحص تطابق برنامج المودم/المنطقة وافحص درج SIM، ثم أعد فلاش الحزمة الصحيحة",
+            "فلاش مودم عشوائي من طراز آخر",
+            "أزل IMEI"
+          ],
           "answer": 1,
-          "explanation": "Missing radio usually points to a firmware/variant mismatch or hardware. Verify the correct package before reflashing."
+          "explanation": "Missing radio usually points to a firmware/variant mismatch or hardware. Verify the correct package before reflashing.",
+          "explanationAr": "غياب الراديو يشير عادةً إلى عدم تطابق برنامج ثابت/نسخة أو إلى عتاد. تحقّق من الحزمة الصحيحة قبل إعادة الفلاش."
         }
       ]
     }

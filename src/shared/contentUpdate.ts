@@ -5,7 +5,7 @@ const contentPathSchema = z
   .string()
   .min(5)
   .max(120)
-  .regex(/^(?:[a-z0-9][a-z0-9-]*\/)?[a-z0-9][a-z0-9-]*\.(?:json|md)$/)
+  .regex(/^(?:[a-z0-9][a-z0-9-]*\/)?[a-z0-9][a-z0-9-]*(?:\.[a-z0-9-]+)*\.(?:json|md)$/)
 
 const contentFileSchema = z.object({
   path: contentPathSchema,

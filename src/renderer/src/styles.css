@@ -3823,7 +3823,20 @@ html[dir="rtl"] .content-update__restore span {
   color: var(--muted);
   font-size: 11.5px;
   line-height: 1.75;
-  /* Lesson bodies are technical English even when the UI is Arabic. */
+  /* English is the default; Arabic lessons flip the direction below. */
+  direction: ltr;
+  text-align: left;
+}
+
+.markdown[dir='rtl'] {
+  font-size: 12.5px;
+  line-height: 1.9;
+  text-align: right;
+}
+
+/* Commands, identifiers, and console output stay left-to-right. */
+.markdown[dir='rtl'] code,
+.markdown[dir='rtl'] pre {
   direction: ltr;
   text-align: left;
 }
@@ -3947,6 +3960,88 @@ html[dir="rtl"] .content-update__restore span {
   margin: 18px 0;
   border: 0;
   border-top: 1px solid var(--line);
+}
+
+.lesson-glossary {
+  padding-top: 16px;
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.lesson-glossary__head h3 {
+  margin: 4px 0 5px;
+  font-size: 14px;
+}
+
+.lesson-glossary__head p {
+  max-width: 62ch;
+  margin: 0 0 10px;
+  color: var(--faint);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.lesson-glossary__head .eyebrow {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.glossary-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.glossary-item {
+  padding: 9px 11px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.glossary-item dt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.glossary-term {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.glossary-term-alt {
+  color: var(--accent);
+  font-size: 10.5px;
+}
+
+.glossary-item dd {
+  margin: 0;
+}
+
+.glossary-label {
+  display: block;
+  color: var(--faint);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.glossary-meaning {
+  margin: 1px 0 6px;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.65;
+}
+
+.glossary-meaning--alt {
+  margin-bottom: 0;
+  color: var(--faint);
 }
 
 .lesson-quiz {

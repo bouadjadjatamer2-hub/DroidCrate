@@ -17,23 +17,32 @@ async function newestMtime(files: string[]): Promise<number> {
 }
 
 /**
- * Loads the lesson catalog and inlines each Markdown body. Editing a lesson
- * file or the catalog invalidates the cache on the next read.
+ * Loads the lesson catalog and inlines each Markdown body in both languages.
+ * Editing a lesson file or the catalog invalidates the cache on the next read.
  */
 export async function loadLessonLibrary(): Promise<LessonLibrary> {
   const catalogFile = resolveContentPath('lessons.json')
   const raw = await readFile(catalogFile, 'utf8')
   const parsed = parseLessonLibrary(JSON.parse(raw))
 
-  const files = [catalogFile, ...parsed.lessons.map((lesson) => resolveContentPath(lesson.bodyFile))]
+  const files = [
+    catalogFile,
+    ...parsed.lessons.flatMap((lesson) => [
+      resolveContentPath(lesson.bodyFile),
+      resolveContentPath(lesson.bodyFileAr)
+    ])
+  ]
   const mtimeMs = await newestMtime(files)
   const revision = contentRevision()
   if (cache && cache.revision === revision && cache.mtimeMs === mtimeMs) return cache.library
 
   const bodies = await Promise.all(
     parsed.lessons.map(async (lesson) => {
-      const body = await readFile(resolveContentPath(lesson.bodyFile), 'utf8')
-      return [lesson.id, body] as const
+      const [body, bodyAr] = await Promise.all([
+        readFile(resolveContentPath(lesson.bodyFile), 'utf8'),
+        readFile(resolveContentPath(lesson.bodyFileAr), 'utf8')
+      ])
+      return [lesson.id, { body, bodyAr }] as const
     })
   )
   const bodyById = new Map(bodies)
@@ -41,10 +50,12 @@ export async function loadLessonLibrary(): Promise<LessonLibrary> {
   const library: LessonLibrary = {
     ...parsed,
     lessons: parsed.lessons.map((lesson) => {
-      const { bodyFile: _bodyFile, ...rest } = lesson
+      const { bodyFile: _bodyFile, bodyFileAr: _bodyFileAr, ...rest } = lesson
+      const inline = bodyById.get(lesson.id)
       return {
         ...rest,
-        body: bodyById.get(lesson.id) ?? ''
+        body: inline?.body ?? '',
+        bodyAr: inline?.bodyAr ?? ''
       }
     })
   }

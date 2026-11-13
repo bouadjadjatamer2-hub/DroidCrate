@@ -61,10 +61,24 @@ describe('lesson catalog', () => {
     for (const lesson of catalog.lessons) {
       const file = join(project, 'data', lesson.bodyFile)
       expect(statSync(file).size).toBeGreaterThan(200)
+      const arabicFile = join(project, 'data', lesson.bodyFileAr)
+      expect(statSync(arabicFile).size).toBeGreaterThan(200)
+      expect(lesson.titleAr?.length ?? 0).toBeGreaterThan(0)
+      expect(lesson.summaryAr?.length ?? 0).toBeGreaterThan(0)
+      expect(lesson.glossary?.length ?? 0).toBeGreaterThanOrEqual(1)
       expect(lesson.quiz.length).toBeGreaterThanOrEqual(2)
+      for (const entry of lesson.glossary ?? []) {
+        expect(entry.term.length).toBeGreaterThan(0)
+        expect(entry.termAr.length).toBeGreaterThan(0)
+        expect(entry.arabic.length).toBeGreaterThan(0)
+        expect(entry.english.length).toBeGreaterThan(0)
+      }
       for (const question of lesson.quiz) {
         expect(question.answer).toBeGreaterThanOrEqual(0)
         expect(question.answer).toBeLessThan(question.options.length)
+        expect(question.promptAr?.length ?? 0).toBeGreaterThan(0)
+        expect(question.explanationAr?.length ?? 0).toBeGreaterThan(0)
+        expect(question.optionsAr).toHaveLength(question.options.length)
       }
     }
   })
@@ -79,6 +93,15 @@ describe('lesson catalog', () => {
       lessons: Array<{ quiz: Array<{ answer: number; options: string[] }> }>
     }
     broken.lessons[0].quiz[0].answer = 9
+    expect(() => parseLessonLibrary(broken)).toThrow()
+  })
+
+  it('rejects Arabic quiz options that do not match the English order', () => {
+    const base = JSON.parse(readFileSync(join(project, 'data/lessons.json'), 'utf8')) as Record<string, unknown>
+    const broken = structuredClone(base) as {
+      lessons: Array<{ quiz: Array<{ optionsAr: string[] }> }>
+    }
+    broken.lessons[0].quiz[0].optionsAr.pop()
     expect(() => parseLessonLibrary(broken)).toThrow()
   })
 })

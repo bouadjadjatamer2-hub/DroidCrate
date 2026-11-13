@@ -225,7 +225,28 @@ Notes:
 
 ---
 
-## 6. Where files are saved
+## 6. Lessons and quizzes
+
+Open **Lessons** in the sidebar. The path has three levels — Foundation, Intermediate, Deep repair — and nine short lessons in total.
+
+**Read a lesson**
+
+1. Pick a lesson from the left column. The reader opens on the right.
+2. The title, summary and body follow the language you chose in Settings: English or Arabic. Arabic bodies read right-to-left; commands and code stay left-to-right.
+3. Below the body, **Terms in this lesson** explains the hard words and abbreviations. Each entry shows the term in both scripts, then the explanation in Arabic and a muted English version.
+
+**Answer the quiz**
+
+1. Choose one option per question.
+2. Click **Check answers**. You get a per-question explanation and your score.
+3. A score of 60% or more completes the lesson. Progress and your best score are saved in the local database.
+4. **Reset lesson** clears your answers and saved score for that lesson.
+
+The content ships with the app and works offline. If a translation were ever missing, the English text is shown instead of an empty screen.
+
+---
+
+## 7. Where files are saved
 
 | File | Location |
 | --- | --- |
@@ -238,7 +259,7 @@ Notes:
 
 ---
 
-## 7. Safety notes
+## 8. Safety notes
 
 - Use the app only on devices you own or are authorized to service.
 - There is no screen-lock bypass, no FRP bypass, and no account bypass. That is out of scope.
@@ -250,7 +271,7 @@ Notes:
 
 ---
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 | Problem | Fix |
 | --- | --- |
@@ -266,19 +287,19 @@ Notes:
 
 ---
 
-## 9. Known limits
+## 10. Known limits
 
 - Windows x64 only.
 - The installer is unsigned.
 - Live view is about one frame per second, not a video stream.
 - Recording is capped at 3 minutes per file.
 - Wireless ADB is not supported yet.
-- Lessons and checklist steps are written in English (the UI itself is fully bilingual).
+- Checklist steps are still English-only. Lessons, quizzes and vocabulary notes are available in English and Arabic.
 - Flashing remains a risky operation: the app makes it reachable, it does not guarantee the outcome.
 
 ---
 
-## 10. Quick FAQ
+## 11. Quick FAQ
 
 **Do I need Android Studio?** No. Platform Tools alone are enough, and the app installs them.
 

@@ -316,8 +316,14 @@ const messages: Record<Language, Record<string, string>> = {
     "lessons.quiz.unanswered": "Answer every question before checking.",
     "lessons.quiz.error": "The quiz could not be saved. Try again.",
     "lessons.quiz.saved": "Saved in SQLite",
+    "lessons.glossary.eyebrow": "Vocabulary",
+    "lessons.glossary.title": "Terms in this lesson",
+    "lessons.glossary.body":
+      "Hard words and abbreviations are explained in Arabic and English. Technical names keep their original form.",
+    "lessons.glossary.arabic": "Arabic",
+    "lessons.glossary.english": "English",
     "lessons.readOnlyNote":
-      "Lesson text is technical English. The interface follows your language choice.",
+      "Lessons are available in English and Arabic. Change the language in Settings.",
     "history.eyebrow": "Workspace / History",
     "history.title": "Operation history",
     "history.subtitle":
@@ -894,8 +900,14 @@ const messages: Record<Language, Record<string, string>> = {
     "lessons.quiz.unanswered": "أجب على كل الأسئلة قبل التحقق.",
     "lessons.quiz.error": "تعذّر حفظ الاختبار. حاول مرة أخرى.",
     "lessons.quiz.saved": "محفوظ في SQLite",
+    "lessons.glossary.eyebrow": "المفردات",
+    "lessons.glossary.title": "مصطلحات هذا الدرس",
+    "lessons.glossary.body":
+      "المفردات الصعبة والاختصارات مشروحة بالعربية والإنجليزية. تبقى الأسماء التقنية على شكلها الأصلي.",
+    "lessons.glossary.arabic": "العربية",
+    "lessons.glossary.english": "الإنجليزية",
     "lessons.readOnlyNote":
-      "نص الدروس تقني بالإنجليزية. الواجهة تتبع لغتك المختارة.",
+      "الدروس متاحة بالإنجليزية والعربية. غيّر اللغة من الإعدادات.",
     "history.eyebrow": "مساحة العمل / السجل",
     "history.title": "سجل العمليات",
     "history.subtitle": "سجل محلي لما تمت محاولته، وعلى أي جهاز، وكيف انتهى.",

@@ -20,7 +20,7 @@
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="DroidCrate app page" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
-  <a href="https://bouadjadjatamer2-hub.github.io/Majra/apps/droidcrate/"><img alt="DroidCrate website" src="https://img.shields.io/badge/Website-DroidCrate-E8A35F?style=flat-square&logo=googlechrome&logoColor=white" /></a>
+  <a href="https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/"><img alt="DroidCrate website" src="https://img.shields.io/badge/Website-DroidCrate-E8A35F?style=flat-square&logo=googlechrome&logoColor=white" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.1"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.1-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <a href="https://bouadjadjatamer2-hub.github.io/Majra/apps/droidcrate/">Website</a> ·
+  <a href="https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/">Website</a> ·
   <a href="#install">Install</a> ·
   <a href="docs/USER-GUIDE.md">User guide</a> ·
   <a href="#the-workbench">The workbench</a> ·
@@ -80,9 +80,9 @@ tool page, and no in-app ROM browser: you choose the image or ZIP from your own 
 | **Know what is connected**         | Reads Windows Plug and Play locally and names the USB mode: ADB, Fastboot, Download, EDL or BROM.                                                     |
 | **Verified Platform Tools**        | Installs Google's Platform Tools 37.0.1 from `dl.google.com`, checks the pinned SHA-256 before extraction, and runs adb only from that verified copy.  |
 | **5 pre-flight checklists**        | 46 ordered steps across stock firmware, bootloader unlock, custom recovery, root and custom ROM. Every required step must be checked.                 |
-| **9 lessons and a quiz**           | Foundation, intermediate and advanced lessons with a 60% pass mark and an explanation for every answer. Progress stays on the PC.                     |
+| **9 lessons and a quiz**           | Foundation, intermediate and advanced lessons in English and Arabic, with a 60% pass mark and an explanation for every answer. Progress stays on the PC. |
 | **Local operation history**        | Every command, install, backup, flash and completed checklist is recorded locally, with search, filters and TXT/CSV export.                           |
-| **Bilingual and offline-first**    | English and a full Arabic RTL interface. The workbench, lessons, checklists and history work without a connection.                                    |
+| **Bilingual and offline-first**    | English and a full Arabic RTL interface, with every lesson, quiz and vocabulary note available in both languages. The workbench, lessons, checklists and history work without a connection. |
 | **No account, no telemetry**       | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates.                                   |
 
 ## Screenshots
@@ -114,8 +114,8 @@ tool page, and no in-app ROM browser: you choose the image or ZIP from your own 
       <br /><sub><b>Slow down before risk.</b> Five operations, 46 required steps, and a risk level on each one.</sub>
     </td>
     <td width="50%">
-      <a href="docs/screenshots/stage-5-lessons.png"><img src="docs/screenshots/stage-5-lessons.png" alt="Learning path with foundation, intermediate and advanced lessons" /></a>
-      <br /><sub><b>Learn the chain.</b> Nine lessons explain what each stage of an Android boot does — and when to stop.</sub>
+      <a href="docs/screenshots/lessons-en.png"><img src="docs/screenshots/lessons-en.png" alt="Lesson reader with a vocabulary list explaining terms in English and Arabic" /></a>
+      <br /><sub><b>Learn the chain.</b> Nine lessons in English and Arabic, with terms explained in both languages — and when to stop.</sub>
     </td>
   </tr>
 </table>
@@ -197,7 +197,7 @@ is restored and the app keeps working offline.
 - **Device detection depends on Windows drivers.** A phone without a proper driver may not appear, or may appear with a generic name. Only one device (Realme RMX3263) was tested at release.
 - **ADB needs authorisation on the phone.** The first connection requires "Allow USB debugging"; wireless ADB is not supported yet.
 - **Platform Tools need one download.** About 8 MB from Google; after that everything works offline.
-- **The technical content is English.** The interface is bilingual, but lessons and checklist steps are written in English.
+- **Checklist steps are still English-only.** Lessons and the interface are bilingual, but checklist steps are written in English.
 - **History shows the latest 500 rows.** Older rows stay in the database but are not displayed yet.
 - **Flashing can still erase data or brick hardware.** A wrong image or the wrong partition is not recoverable by the app.
 

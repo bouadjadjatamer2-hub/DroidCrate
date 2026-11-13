@@ -1,28 +1,51 @@
 export type LessonLevelId = 'basic' | 'intermediate' | 'advanced'
 
+/** A hard word or abbreviation explained in both languages. */
+export interface GlossaryEntry {
+  /** The English term exactly as it appears in the lesson. */
+  term: string
+  /** The Arabic rendering of the term. */
+  termAr: string
+  /** Plain-language explanation in Arabic. */
+  arabic: string
+  /** Plain-language explanation in English. */
+  english: string
+}
+
 export interface LessonLevel {
   id: LessonLevelId
   title: string
+  titleAr?: string
   summary: string
+  summaryAr?: string
 }
 
 export interface QuizQuestion {
   id: string
   prompt: string
+  promptAr?: string
   options: string[]
-  /** Index of the correct option inside `options`. */
+  optionsAr?: string[]
+  /** Index of the correct option inside `options`. The Arabic list keeps the same order. */
   answer: number
   explanation: string
+  explanationAr?: string
 }
 
 export interface Lesson {
   id: string
   level: LessonLevelId
   title: string
+  titleAr?: string
   summary: string
+  summaryAr?: string
   minutes: number
   /** Lesson body in Markdown. Rendered read-only inside the app. */
   body: string
+  /** Faithful Arabic body. Falls back to the English body when missing. */
+  bodyAr?: string
+  /** Vocabulary notes shown under the body in both languages. */
+  glossary?: GlossaryEntry[]
   quiz: QuizQuestion[]
 }
 
@@ -34,8 +57,10 @@ export interface LessonLibrary {
 }
 
 /** The on-disk catalog points at Markdown files instead of inlining bodies. */
-export interface LessonCatalogEntry extends Omit<Lesson, 'body'> {
+export interface LessonCatalogEntry extends Omit<Lesson, 'body' | 'bodyAr'> {
   bodyFile: string
+  /** Arabic Markdown file, for example lessons/boot-chain.ar.md */
+  bodyFileAr: string
 }
 
 export interface LessonCatalog {

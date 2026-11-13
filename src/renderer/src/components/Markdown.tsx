@@ -5,8 +5,9 @@ import DOMPurify from 'dompurify'
 /**
  * Lessons are Markdown files on disk. They are parsed and sanitised here, so
  * even a hand-edited lesson file cannot inject scripts into the renderer.
+ * `dir` lets an Arabic lesson render right-to-left while code stays LTR.
  */
-export function Markdown({ source }: { source: string }) {
+export function Markdown({ source, dir = 'ltr' }: { source: string; dir?: 'ltr' | 'rtl' }) {
   const html = useMemo(() => {
     const raw = marked.parse(source, { async: false, gfm: true, breaks: false })
     return DOMPurify.sanitize(raw as string, { USE_PROFILES: { html: true } })
@@ -26,6 +27,7 @@ export function Markdown({ source }: { source: string }) {
   return (
     <div
       className="markdown"
+      dir={dir}
       onClick={handleClick}
       dangerouslySetInnerHTML={{ __html: html }}
     />

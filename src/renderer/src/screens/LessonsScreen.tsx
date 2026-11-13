@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import {
   AlertTriangle,
+  BookMarked,
   BookOpen,
   CheckCircle2,
   Circle,
@@ -23,13 +24,14 @@ function passMark(total: number): number {
 }
 
 export function LessonsScreen() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const { library, progress, loading, error, submitting, submitQuiz, resetLesson } = useLearning()
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [result, setResult] = useState<QuizResult | null>(null)
   const [quizError, setQuizError] = useState<string | null>(null)
 
+  const arabic = lang === 'ar'
   const lessons = useMemo(() => library?.lessons ?? [], [library])
   const selected = lessons.find((lesson) => lesson.id === selectedId) ?? lessons[0] ?? null
   const levels = library?.levels ?? []
@@ -41,6 +43,17 @@ export function LessonsScreen() {
   const allAnswered = selected
     ? selected.quiz.every((question) => answers[question.id] !== undefined)
     : false
+  const glossary = selected?.glossary ?? []
+  const bodyText = selected ? (arabic && selected.bodyAr ? selected.bodyAr : selected.body) : ''
+  const bodyDir = arabic && selected?.bodyAr ? 'rtl' : 'ltr'
+
+  function lessonTitle(lesson: Lesson): string {
+    return arabic ? lesson.titleAr ?? lesson.title : lesson.title
+  }
+
+  function lessonSummary(lesson: Lesson): string {
+    return arabic ? lesson.summaryAr ?? lesson.summary : lesson.summary
+  }
 
   function selectLesson(lesson: Lesson): void {
     if (lesson.id === selected?.id) return
@@ -149,7 +162,11 @@ export function LessonsScreen() {
                   <div className="progress" aria-hidden="true">
                     <span style={{ width: `${pct}%` }} />
                   </div>
-                  {level ? <span className="level-card__summary">{level.summary}</span> : null}
+                  {level ? (
+                    <span className="level-card__summary">
+                      {arabic ? level.summaryAr ?? level.summary : level.summary}
+                    </span>
+                  ) : null}
                 </button>
               )
             })}
@@ -189,7 +206,7 @@ export function LessonsScreen() {
                             )}
                           </span>
                           <span className="lesson-item__copy">
-                            <strong>{lesson.title}</strong>
+                            <strong>{lessonTitle(lesson)}</strong>
                             <span>
                               <Clock3 size={11} aria-hidden="true" />
                               {t('lessons.minutes', { count: lesson.minutes })}
@@ -220,8 +237,8 @@ export function LessonsScreen() {
                       {t(`lessons.level.${selected.level}`)} ·{' '}
                       {t('lessons.minutes', { count: selected.minutes })}
                     </div>
-                    <h2>{selected.title}</h2>
-                    <p>{selected.summary}</p>
+                    <h2>{lessonTitle(selected)}</h2>
+                    <p>{lessonSummary(selected)}</p>
                   </div>
                   <div className="lesson-reader__status">
                     <span className={`badge${selectedComplete ? '' : ' badge--quiet'}`}>
@@ -241,8 +258,48 @@ export function LessonsScreen() {
                 </div>
 
                 <div className="lesson-reader__body">
-                  <Markdown source={selected.body} />
+                  <Markdown source={bodyText} dir={bodyDir} />
                 </div>
+
+                {glossary.length > 0 ? (
+                  <section className="lesson-glossary" aria-labelledby="lesson-glossary-title">
+                    <div className="lesson-glossary__head">
+                      <div className="eyebrow">
+                        <BookMarked size={12} aria-hidden="true" /> {t('lessons.glossary.eyebrow')}
+                      </div>
+                      <h3 id="lesson-glossary-title">{t('lessons.glossary.title')}</h3>
+                      <p>{t('lessons.glossary.body')}</p>
+                    </div>
+                    <dl className="glossary-list">
+                      {glossary.map((entry) => (
+                        <div className="glossary-item" key={entry.term}>
+                          <dt>
+                            <span className="glossary-term" lang={arabic ? 'ar' : 'en'}>
+                              {arabic ? entry.termAr : entry.term}
+                            </span>
+                            <span
+                              className="glossary-term-alt"
+                              lang={arabic ? 'en' : 'ar'}
+                              dir={arabic ? 'ltr' : 'rtl'}
+                            >
+                              {arabic ? entry.term : entry.termAr}
+                            </span>
+                          </dt>
+                          <dd>
+                            <span className="glossary-label">{t('lessons.glossary.arabic')}</span>
+                            <p className="glossary-meaning" lang="ar" dir="rtl">
+                              {entry.arabic}
+                            </p>
+                            <span className="glossary-label">{t('lessons.glossary.english')}</span>
+                            <p className="glossary-meaning glossary-meaning--alt" lang="en" dir="ltr">
+                              {entry.english}
+                            </p>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </section>
+                ) : null}
 
                 <section className="lesson-quiz">
                   <div className="lesson-quiz__head">
@@ -258,14 +315,19 @@ export function LessonsScreen() {
 
                   {selected.quiz.map((question, index) => {
                     const review = result?.review.find((item) => item.questionId === question.id)
+                    const prompt = arabic ? question.promptAr ?? question.prompt : question.prompt
+                    const options = arabic ? question.optionsAr ?? question.options : question.options
+                    const explanation = arabic
+                      ? question.explanationAr ?? review?.explanation ?? question.explanation
+                      : review?.explanation ?? question.explanation
                     return (
                       <div className="quiz-question" key={question.id}>
                         <h4>
                           <span>{t('lessons.quiz.question', { current: index + 1, total: selected.quiz.length })}</span>
-                          {question.prompt}
+                          {prompt}
                         </h4>
                         <div className="quiz-options">
-                          {question.options.map((option, optionIndex) => {
+                          {options.map((option, optionIndex) => {
                             const chosen = answers[question.id] === optionIndex
                             const tone = review
                               ? optionIndex === review.answer
@@ -278,7 +340,7 @@ export function LessonsScreen() {
                                 : ''
                             return (
                               <label
-                                key={option}
+                                key={`${question.id}-${optionIndex}`}
                                 className={`quiz-option${tone ? ` quiz-option--${tone.trim()}` : ''}`}
                               >
                                 <input
@@ -304,7 +366,7 @@ export function LessonsScreen() {
                               {review.correct ? t('lessons.quiz.correct') : t('lessons.quiz.incorrect')}
                             </strong>
                             {' — '}
-                            {review.explanation}
+                            {explanation}
                           </p>
                         ) : null}
                       </div>
