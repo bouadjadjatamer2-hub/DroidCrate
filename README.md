@@ -15,13 +15,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.1-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.2/DroidCrate-0.2.2-Setup.exe"><img alt="Download DroidCrate for Windows" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.2-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="DroidCrate app page" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
   <a href="https://bouadjadjatamer2-hub.github.io/asraab/apps/droidcrate/"><img alt="DroidCrate website" src="https://img.shields.io/badge/Website-DroidCrate-E8A35F?style=flat-square&logo=googlechrome&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.1"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.1-24292F?style=flat-square&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.2"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.2-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="Total downloads" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
@@ -83,7 +83,8 @@ tool page, and no in-app ROM browser: you choose the image or ZIP from your own 
 | **9 lessons and a quiz**           | Foundation, intermediate and advanced lessons in English and Arabic, with a 60% pass mark and an explanation for every answer. Progress stays on the PC. |
 | **Local operation history**        | Every command, install, backup, flash and completed checklist is recorded locally, with search, filters and TXT/CSV export.                           |
 | **Bilingual and offline-first**    | English and a full Arabic RTL interface, with every lesson, quiz and vocabulary note available in both languages. The workbench, lessons, checklists and history work without a connection. |
-| **No account, no telemetry**       | No sign-up, no analytics, no cloud sync. The app contacts GitHub only when you ask it to check for content updates.                                   |
+| **Updates inside the app**         | Checks the official GitHub release on launch and every six hours, shows what changed, and asks before downloading. "Remind me later" waits a day; "Stay on this version" is remembered until a newer release. |
+| **No account, no telemetry**       | No sign-up, no analytics, no cloud sync. The app contacts GitHub only to check for content or app updates, and never uploads anything. |
 
 ## Screenshots
 
@@ -117,6 +118,15 @@ tool page, and no in-app ROM browser: you choose the image or ZIP from your own 
       <a href="docs/screenshots/lessons-en.png"><img src="docs/screenshots/lessons-en.png" alt="Lesson reader with a vocabulary list explaining terms in English and Arabic" /></a>
       <br /><sub><b>Learn the chain.</b> Nine lessons in English and Arabic, with terms explained in both languages — and when to stop.</sub>
     </td>
+  <tr>
+    <td width="50%">
+      <a href="docs/screenshots/update-available.png"><img src="docs/screenshots/update-available.png" alt="Update prompt comparing the current and new version with release notes" /></a>
+      <br /><sub><b>Updates ask first.</b> The new version and its notes, with Update, Later and Stay on this version.</sub>
+    </td>
+    <td width="50%">
+      <a href="docs/screenshots/update-downloading.png"><img src="docs/screenshots/update-downloading.png" alt="Downloading an update in the background with a progress bar" /></a>
+      <br /><sub><b>Keep working.</b> The installer downloads in the background; a second click restarts and installs.</sub>
+    </td>
   </tr>
 </table>
 
@@ -136,18 +146,20 @@ DroidCrate gives you real tools, so the guard rails are explicit:
 - **Ownership gate.** First launch asks you to confirm that you own the devices you will connect.
   Every high-risk checklist asks again before it opens.
 - **Nothing leaves the PC.** No telemetry, no account, no cloud. The only network calls are the
-  one-time Platform Tools download and the optional content update.
+  one-time Platform Tools download, the optional content update, and the app-update check.
 
 ## Install
 
 ### Windows 10 / 11 · 64-bit
 
-1. Download **[DroidCrate-0.2.1-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe)** (117.6 MB).
+1. Download **[DroidCrate-0.2.2-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.2/DroidCrate-0.2.2-Setup.exe)** (118.0 MB).
 2. Run the installer. It is unsigned, so Windows SmartScreen may warn you — choose **More info → Run anyway**, or build from source.
 3. On first launch, read the notice and confirm ownership.
 4. Connect a phone with a data-capable USB cable. For ADB, enable **USB debugging** and accept the prompt on the phone.
 
 The installer is per-user, lets you choose the folder, and creates a desktop shortcut.
+
+Already using 0.2.1? This is the **last manual download**: 0.2.1 was shipped without the update feed. Once 0.2.2 is installed, later versions appear in the app, which asks whether to update now, remind you later, or stay on the current version.
 
 New to the app? The **[user guide](docs/USER-GUIDE.md)** walks through every tab step by step:
 connect the phone, install and freeze apps, move files, capture the screen, flash a partition and run
@@ -162,13 +174,13 @@ only from that verified copy. After the one-time download, the whole workbench w
 ### Verify the download
 
 ```powershell
-Get-FileHash .\DroidCrate-0.2.1-Setup.exe -Algorithm SHA256
+Get-FileHash .\DroidCrate-0.2.2-Setup.exe -Algorithm SHA256
 ```
 
-The SHA-256 for `v0.2.1` is:
+The SHA-256 for `v0.2.2` is:
 
 ```text
-AB714C54412CC396F3D4F5154FE3817D0099049350754565346A1B24EC08123A
+C6A3E165DCDBB7279A6F2079FE767EF00A61601A3EC92BC16BED227EC8D77F03
 ```
 
 ## How it works
@@ -188,9 +200,17 @@ Content updates are optional and manual: the app checks the official manifest fr
 validates SHA-256 and the schema, then installs atomically. If anything fails, the bundled content
 is restored and the app keeps working offline.
 
+Application updates use the official GitHub release feed: a check five seconds after launch and then
+every six hours. Nothing is downloaded until you press Update, the installer's SHA-512 from
+`latest.yml` is verified, and nothing is installed without a second confirmation and a restart.
+"Remind me later" pauses for 24 hours, and "Stay on this version" is remembered in
+`%APPDATA%\droidcrate\updates.json` until a newer release appears.
+
 ## Honest limits
 
 - **The installer is unsigned.** There is no code-signing certificate yet, so SmartScreen may ask you to confirm.
+- **0.2.1 cannot self-update.** That build shipped without an update feed, so 0.2.2 is a one-time manual download; versions after it are offered in the app.
+- **The updater trusts GitHub and the release checksum.** It downloads only from the official repository and verifies the SHA-512 in `latest.yml`, but the installer itself is still unsigned.
 - **Windows x64 only.** There is no ARM64 build yet.
 - **Live view is a fast screenshot loop, not a video stream.** It refreshes about once per second and is meant for checking and tapping, not for watching video on the phone.
 - **Screen recording stops at three minutes.** Android's `screenrecord` limit; start a second recording for longer clips.
@@ -256,8 +276,18 @@ pages. Patching and flashing a rooted boot image is something you do deliberatel
 <details>
 <summary><b>Does it work without internet?</b></summary>
 Yes, after installation. The workbench, lessons, checklists, device rules and history are bundled or
-local. The two network features are the one-time Platform Tools download and the optional content
-update.
+local. The network features are the one-time Platform Tools download, the optional content update,
+and the app-update check (on launch and every six hours; nothing is downloaded without your approval).
+</details>
+
+<details>
+<summary><b>How do updates work?</b></summary>
+The app reads the official GitHub release on launch and every six hours and shows a prompt with the
+new version and its notes. Nothing is downloaded until you press <b>Update now</b>. The installer is
+verified against the SHA-512 in <code>latest.yml</code>, then a second prompt offers
+<b>Restart and install</b> or <b>Later</b>. <b>Remind me later</b> waits a day, and
+<b>Stay on this version</b> is remembered until a newer release exists. Only the official repository
+is used.
 </details>
 
 <details>

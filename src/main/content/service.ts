@@ -231,13 +231,15 @@ export class ContentService {
 
     const catalog = parseLessonLibrary(JSON.parse(text('lessons.json')))
     for (const lesson of catalog.lessons) {
-      const body = files.get(lesson.bodyFile)
-      if (!body) {
-        throw new ContentError('invalid', `The lesson body ${lesson.bodyFile} is missing.`)
-      }
-      const bodyText = body.toString('utf8')
-      if (bodyText.length < 40 || bodyText.length > 200_000) {
-        throw new ContentError('invalid', `The lesson body ${lesson.bodyFile} is not usable.`)
+      for (const path of [lesson.bodyFile, lesson.bodyFileAr]) {
+        const body = files.get(path)
+        if (!body) {
+          throw new ContentError('invalid', `The lesson body ${path} is missing.`)
+        }
+        const bodyText = body.toString('utf8')
+        if (bodyText.length < 40 || bodyText.length > 200_000) {
+          throw new ContentError('invalid', `The lesson body ${path} is not usable.`)
+        }
       }
     }
   }

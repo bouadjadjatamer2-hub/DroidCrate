@@ -12,6 +12,7 @@ import type { ToolkitService } from "./toolkit/service";
 import type { LearningService } from "./learning/service";
 import type { HistoryService } from "./history/service";
 import type { ContentService } from "./content/service";
+import type { UpdateService } from "./updates/service";
 import { invalidateContentCache } from "./paths";
 import type {
   BackupRequest,
@@ -45,6 +46,7 @@ export function registerIpc(
   learning: LearningService,
   history: HistoryService,
   content: ContentService,
+  updates: UpdateService,
 ): void {
   ipcMain.handle(IPC.appInfo, (): AppInfo => {
     return {
@@ -248,6 +250,20 @@ export function registerIpc(
     invalidateContentCache();
     return status;
   });
+
+  // --------------------------------------------------------------- app updates
+
+  ipcMain.handle(IPC.updatesState, () => updates.getState());
+
+  ipcMain.handle(IPC.updatesCheck, () => updates.check(true));
+
+  ipcMain.handle(IPC.updatesDownload, () => updates.download());
+
+  ipcMain.handle(IPC.updatesInstall, () => updates.install());
+
+  ipcMain.handle(IPC.updatesLater, () => updates.later());
+
+  ipcMain.handle(IPC.updatesSkip, () => updates.skip());
 
   // ------------------------------------------------------------------ toolkit
 

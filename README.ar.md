@@ -15,12 +15,12 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.1-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.2/DroidCrate-0.2.2-Setup.exe"><img alt="نزّل DroidCrate لويندوز" src="https://img.shields.io/badge/Download%20for%20Windows%20v0.2.2-B45309?style=for-the-badge&logo=windows11&logoColor=white" /></a>
 </p>
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="صفحة DroidCrate" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
-  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.1"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.1-24292F?style=flat-square&logo=git&logoColor=white" /></a>
+  <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.2"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.2-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="رخصة MIT" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="عدد التنزيلات" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
   <img alt="ويندوز 10 و11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=flat-square&logo=windows11&logoColor=white" />
@@ -80,7 +80,8 @@
 | **9 دروس واختبار**                | دروس للمستوى التأسيسي والمتوسط والمتقدم بالإنجليزية والعربية، بدرجة نجاح 60% وشرح لكل جواب. التقدّم يبقى على الجهاز.                                |
 | **سجل عمليات محلي**               | كل أمر وتثبيت ونسخة وفلاش وقائمة مكتملة يُسجَّل محلياً، مع بحث وفلترة وتصدير TXT/CSV.                                                               |
 | **لغتان ويعمل دون إنترنت**        | واجهة إنجليزية وعربية كاملة باتجاه RTL، وكل درس واختبار ومصطلح متاح باللغتين. الورشة والدروس والقوائم والسجل تعمل بلا اتصال.                          |
-| **بلا حساب وبلا تتبّع**           | بلا تسجيل، بلا تحليلات، بلا مزامنة سحابية. التطبيق يتصل بـ GitHub فقط عندما تطلب منه فحص تحديث المحتوى.                                             |
+| **التحديث من داخل التطبيق**       | يفحص إصدار GitHub الرسمي عند التشغيل وكل ست ساعات، ويعرض ما تغيّر، ويسأل قبل التنزيل. «ذكّرني لاحقًا» ينتظر يوماً، و«البقاء على هذا الإصدار» يُحفظ حتى يصدر إصدار أحدث. |
+| **بلا حساب وبلا تتبّع**           | بلا تسجيل، بلا تحليلات، بلا مزامنة سحابية. التطبيق يتصل بـ GitHub فقط لفحص تحديث المحتوى أو التطبيق، ولا يرفع شيئاً.                                |
 
 ## لقطات الشاشة
 
@@ -104,6 +105,15 @@
       <a href="docs/screenshots/lessons-ar-glossary.png"><img src="docs/screenshots/lessons-ar-glossary.png" alt="قارئ درس عربي مع قائمة مصطلحات تشرح الكلمات والاختصارات بالعربية والإنجليزية" /></a>
       <br /><sub><b>تعلّم السلسلة.</b> تسعة دروس بالإنجليزية والعربية، مع مصطلحات مشروحة باللغتين — ومتى تتوقف.</sub>
     </td>
+  <tr>
+    <td width="50%">
+      <a href="docs/screenshots/update-available.png"><img src="docs/screenshots/update-available.png" alt="نافذة تحديث تقارن الإصدار الحالي بالجديد وتعرض ملاحظات الإصدار" /></a>
+      <br /><sub><b>التحديث يسأل أولاً.</b> الإصدار الجديد وما تغيّر، مع «تحديث الآن» و«ذكّرني لاحقًا» و«البقاء على هذا الإصدار».</sub>
+    </td>
+    <td width="50%">
+      <a href="docs/screenshots/update-downloading.png"><img src="docs/screenshots/update-downloading.png" alt="تنزيل تحديث في الخلفية مع شريط تقدّم" /></a>
+      <br /><sub><b>تابع عملك.</b> المثبّت يُنزَّل في الخلفية، وضغطة ثانية تعيد التشغيل وتثبّته.</sub>
+    </td>
   </tr>
 </table>
 
@@ -120,18 +130,20 @@ DroidCrate يعطيك أدوات حقيقية، لذا الحدود واضحة:
 - **بوابة الملكية.** أول تشغيل يطلب تأكيد أنك تملك الأجهزة التي ستوصلها. وكل قائمة تحقق عالية
   الخطورة تطلب التأكيد مرة أخرى قبل أن تُفتح.
 - **لا شيء يترك الجهاز.** بلا تتبّع، بلا حساب، بلا سحابة. الاتصالات الوحيدة هي تنزيل Platform Tools
-  مرة واحدة، وتحديث المحتوى الاختياري.
+  مرة واحدة، وتحديث المحتوى الاختياري، وفحص تحديث التطبيق.
 
 ## التثبيت
 
 ### ويندوز 10 / 11 · 64-bit
 
-1. نزّل **[DroidCrate-0.2.1-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.1/DroidCrate-0.2.1-Setup.exe)** (117.6 ميغابايت).
+1. نزّل **[DroidCrate-0.2.2-Setup.exe](https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/download/v0.2.2/DroidCrate-0.2.2-Setup.exe)** (118.0 ميغابايت).
 2. شغّل المثبّت. الملف غير موقّع، لذا قد يُنبّهك Windows SmartScreen — اختر **More info → Run anyway**، أو ابنِ من المصدر.
 3. عند أول تشغيل، اقرأ التنبيه وأكّد الملكية.
 4. وصّل هاتفاً بكابل USB يدعم نقل البيانات. لـ ADB، فعّل **تصحيح USB** واقبل التنبيه على الهاتف.
 
 المثبّت لكل مستخدم، ويسمح باختيار المجلد، وينشئ اختصاراً على سطح المكتب.
+
+تستعمل الإصدار 0.2.1؟ هذا هو **آخر تنزيل يدوي**: الإصدار 0.2.1 صدر بلا قناة تحديث. بعد تثبيت 0.2.2 ستظهر الإصدارات اللاحقة داخل التطبيق، ويسألك: تحديث الآن، أم تذكير لاحقاً، أم البقاء على الإصدار الحالي.
 
 جديد على التطبيق؟ **[دليل الاستعمال](docs/USER-GUIDE.ar.md)** يشرح كل تبويب خطوة بخطوة: وصل الهاتف،
 ثبّت التطبيقات وجمّدها، انقل الملفات، خذ لقطة أو سجّل الشاشة، فلّش قسماً، وشغّل أوامر adb وfastboot.
@@ -145,13 +157,13 @@ ADB وFastboot يُثبَّتان مرة واحدة من **Android SDK Platform 
 ### تحقّق من التنزيل
 
 ```powershell
-Get-FileHash .\DroidCrate-0.2.1-Setup.exe -Algorithm SHA256
+Get-FileHash .\DroidCrate-0.2.2-Setup.exe -Algorithm SHA256
 ```
 
-بصمة SHA-256 للإصدار `v0.2.1`:
+بصمة SHA-256 للإصدار `v0.2.2`:
 
 ```text
-AB714C54412CC396F3D4F5154FE3817D0099049350754565346A1B24EC08123A
+C6A3E165DCDBB7279A6F2079FE767EF00A61601A3EC92BC16BED227EC8D77F03
 ```
 
 ## كيف يعمل
@@ -170,9 +182,16 @@ AB714C54412CC396F3D4F5154FE3817D0099049350754565346A1B24EC08123A
 تحديث المحتوى اختياري ويدوي: التطبيق يفحص البيان الرسمي من المستودع، ويتحقق من SHA-256 والمخطط،
 ثم يثبّت التحديث ذرّياً. إذا فشل أي شيء، يُستعاد المحتوى المضمّن ويبقى التطبيق يعمل دون إنترنت.
 
+تحديث التطبيق يستعمل قناة إصدارات GitHub الرسمية: فحص بعد خمس ثوانٍ من التشغيل ثم كل ست ساعات.
+لا يُنزَّل شيء حتى تضغط «تحديث الآن»، ويُتحقق من SHA-512 في `latest.yml`، ولا يُثبَّت شيء دون
+تأكيد ثانٍ وإعادة تشغيل. «ذكّرني لاحقًا» يوقف التذكير 24 ساعة، و«البقاء على هذا الإصدار» يُحفظ في
+`%APPDATA%\droidcrate\updates.json` حتى يصدر إصدار أحدث.
+
 ## حدود صريحة
 
 - **المثبّت غير موقّع.** لا توجد شهادة توقيع بعد، لذا قد يطلب SmartScreen تأكيداً.
+- **الإصدار 0.2.1 لا يحدّث نفسه.** صدر بلا قناة تحديث، لذا 0.2.2 تنزيل يدوي لمرة واحدة؛ الإصدارات بعده تُعرض داخل التطبيق.
+- **المحدّث يثق بـ GitHub وبصمة الإصدار.** ينزّل من المستودع الرسمي فقط ويتحقق من SHA-512 في `latest.yml`، لكن المثبّت نفسه ما زال غير موقّع.
 - **ويندوز x64 فقط.** لا توجد حزمة ARM64 بعد.
 - **العرض المباشر حلقة لقطات سريعة، لا بث فيديو.** يتحدّث نحو مرة كل ثانية، وهو للفحص واللمس لا لمشاهدة فيديو على الهاتف.
 - **تسجيل الشاشة يتوقف عند ثلاث دقائق.** حدّ `screenrecord` في أندرويد؛ ابدأ تسجيلاً ثانياً لمقاطع أطول.
@@ -235,8 +254,18 @@ boot المروّتة وفلاشها شيء تفعله بوعي في تبويب 
 
 <details>
 <summary><b>هل يعمل دون إنترنت؟</b></summary>
-نعم، بعد التثبيت. الورشة والدروس والقوائم وقواعد الأجهزة والسجل مضمّنة أو محلية. الميزتان اللتان
-تحتاجان الشبكة هما تنزيل Platform Tools مرة واحدة، وتحديث المحتوى الاختياري.
+نعم، بعد التثبيت. الورشة والدروس والقوائم وقواعد الأجهزة والسجل مضمّنة أو محلية. الميزات التي
+تحتاج الشبكة هي تنزيل Platform Tools مرة واحدة، وتحديث المحتوى الاختياري، وفحص تحديث التطبيق
+(عند التشغيل وكل ست ساعات؛ ولا يُنزَّل شيء دون موافقتك).
+</details>
+
+<details>
+<summary><b>كيف يعمل التحديث؟</b></summary>
+يقرأ التطبيق إصدار GitHub الرسمي عند التشغيل وكل ست ساعات، ويعرض نافذة فيها الإصدار الجديد وما
+تغيّر. لا يُنزَّل شيء حتى تضغط <b>تحديث الآن</b>. يُتحقق من المثبّت ببصمة SHA-512 في
+<code>latest.yml</code>، ثم تعرض نافذة ثانية <b>إعادة التشغيل والتثبيت</b> أو <b>لاحقًا</b>.
+<b>ذكّرني لاحقًا</b> ينتظر يوماً، و<b>البقاء على هذا الإصدار</b> يُحفظ حتى يصدر إصدار أحدث.
+يُستعمل المستودع الرسمي فقط.
 </details>
 
 <details>

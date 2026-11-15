@@ -14,6 +14,7 @@ import type {
   ContentCheckResult,
   ContentStatus,
 } from "./contentUpdate";
+import type { UpdateState } from "./updates";
 import type {
   AdbActionId,
   AdbActionResult,
@@ -107,6 +108,15 @@ export interface DroidCrateApi {
   applyContentUpdate(version: string): Promise<ContentApplyResult>;
   resetContent(): Promise<ContentStatus>;
 
+  // Application updates: check, download, and install only on request.
+  getUpdateState(): Promise<UpdateState>;
+  checkAppUpdate(): Promise<UpdateState>;
+  downloadAppUpdate(): Promise<UpdateState>;
+  installAppUpdate(): Promise<boolean>;
+  laterAppUpdate(): Promise<UpdateState>;
+  skipAppUpdate(): Promise<UpdateState>;
+  onUpdateState(listener: (state: UpdateState) => void): () => void;
+
   // Toolkit: everything runs inside the app, on the bundled adb/fastboot.
   runToolkitCommand(request: ToolkitCommandRequest): Promise<ToolkitResult>;
   listPackages(
@@ -197,6 +207,13 @@ export const IPC = {
   contentCheck: "content:check",
   contentApply: "content:apply",
   contentReset: "content:reset",
+  updatesState: "updates:state",
+  updatesCheck: "updates:check",
+  updatesDownload: "updates:download",
+  updatesInstall: "updates:install",
+  updatesLater: "updates:later",
+  updatesSkip: "updates:skip",
+  updatesUpdate: "updates:update",
   toolkitCommand: "toolkit:command",
   toolkitPackages: "toolkit:packages",
   toolkitPackageAction: "toolkit:package-action",

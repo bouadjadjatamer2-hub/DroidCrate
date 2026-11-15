@@ -21,7 +21,7 @@ No account, no sign-up, no administrator rights.
 
 ## 2. Install
 
-1. Download `DroidCrate-0.2.1-Setup.exe` from the releases page.
+1. Download `DroidCrate-0.2.2-Setup.exe` from the releases page.
 2. Run it. If SmartScreen warns you, choose **More info → Run anyway** (the installer is unsigned).
 3. Pick an install folder and finish. The installer creates a desktop shortcut.
 
@@ -256,10 +256,32 @@ The content ships with the app and works offline. If a translation were ever mis
 | Backups | The folder you choose |
 | Operation history | `%APPDATA%\droidcrate\droidcrate.db` |
 | Platform Tools | `%APPDATA%\droidcrate\platform-tools\current` |
+| Update preferences | `%APPDATA%\droidcrate\updates.json` |
 
 ---
 
-## 8. Safety notes
+## 8. Updates
+
+DroidCrate checks the official GitHub release five seconds after launch and every six hours.
+
+1. When a new version exists, a window shows your current version, the new version and what changed.
+2. Choose **Update now** to download it in the background, **Remind me later** to wait 24 hours, or
+   **Stay on this version** to stop reminders until a newer release appears.
+3. After the download, the window offers **Restart and install** (the app closes, installs, and opens
+   again) or **Later** (the downloaded file is kept).
+4. The installer is verified against the SHA-512 in `latest.yml` before it is used.
+5. **Settings → Application update** shows the current version, the last check and the same actions,
+   plus **Check for app update**. A manual check also clears a previous "later" or "stay" choice.
+
+Nothing is downloaded or installed without your approval. Progress, history and settings stay in
+`%APPDATA%\droidcrate`; your update choice is stored in `%APPDATA%\droidcrate\updates.json`.
+
+> Version 0.2.1 shipped without the update feed, so it cannot offer 0.2.2. 0.2.2 is the last manual
+> download; later releases arrive in the app.
+
+---
+
+## 9. Safety notes
 
 - Use the app only on devices you own or are authorized to service.
 - There is no screen-lock bypass, no FRP bypass, and no account bypass. That is out of scope.
@@ -271,7 +293,7 @@ The content ships with the app and works offline. If a translation were ever mis
 
 ---
 
-## 9. Troubleshooting
+## 10. Troubleshooting
 
 | Problem | Fix |
 | --- | --- |
@@ -287,10 +309,11 @@ The content ships with the app and works offline. If a translation were ever mis
 
 ---
 
-## 10. Known limits
+## 11. Known limits
 
 - Windows x64 only.
 - The installer is unsigned.
+- Version 0.2.1 has no update feed, so moving to 0.2.2 is a one-time manual install.
 - Live view is about one frame per second, not a video stream.
 - Recording is capped at 3 minutes per file.
 - Wireless ADB is not supported yet.
@@ -299,14 +322,18 @@ The content ships with the app and works offline. If a translation were ever mis
 
 ---
 
-## 11. Quick FAQ
+## 12. Quick FAQ
 
 **Do I need Android Studio?** No. Platform Tools alone are enough, and the app installs them.
 
 **Does it download ROMs?** No. You pick the image or ZIP from your own machine.
 
 **Does it work offline?** Yes, after Platform Tools are installed. Only the optional content update
-needs a network.
+and the app-update check need a network.
+
+**How do I update the app?** It checks on launch and every six hours, then asks: **Update now**,
+**Remind me later** or **Stay on this version**. Nothing is installed until you choose **Restart and
+install**. See section 8.
 
 **Does it collect data?** No. No account, no tracking. History is local.
 

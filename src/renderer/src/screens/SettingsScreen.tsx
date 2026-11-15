@@ -4,6 +4,7 @@ import {
   CheckCircle2,
   CloudDownload,
   Database,
+  DownloadCloud,
   ExternalLink,
   HardDriveDownload,
   Info,
@@ -19,6 +20,7 @@ import { PROJECT_URL } from '@shared/api'
 import { WELCOME_STORAGE_KEY } from '@shared/welcome'
 import { SectionHeader } from '../components/SectionHeader'
 import { useContentUpdate } from '../hooks/useContentUpdate'
+import { formatBytes, isSnoozed, useAppUpdate } from '../hooks/useAppUpdate'
 import { useI18n, type Language } from '../i18n'
 
 interface SettingsScreenProps {
@@ -33,8 +35,19 @@ const languages: Array<{ value: Language; label: string }> = [
 export function SettingsScreen({ info }: SettingsScreenProps) {
   const { t, lang, setLang } = useI18n()
   const content = useContentUpdate()
+  const appUpdate = useAppUpdate()
   const [confirmInstall, setConfirmInstall] = useState(false)
   const [confirmRestore, setConfirmRestore] = useState(false)
+
+  const update = appUpdate.state
+  const updateBusy = update?.phase === 'checking' || update?.phase === 'downloading'
+  const updateReady = update?.phase === 'ready'
+  const updateOffered = update?.phase === 'available'
+  const updateSnoozed = isSnoozed(update)
+  const updateSkipped = Boolean(
+    update?.availableVersion && update.skippedVersion === update.availableVersion
+  )
+  const updateError = update?.phase === 'error' ? (update.error ?? t('updates.error')) : null
 
   const status = content.status
   const changes = content.result?.changes ?? []
@@ -302,6 +315,151 @@ export function SettingsScreen({ info }: SettingsScreenProps) {
                 )}
               </div>
             ) : null}
+          </div>
+        </section>
+
+        <section className="panel settings-card settings-card--wide">
+          <div className="settings-card__heading">
+            <DownloadCloud size={18} aria-hidden="true" />
+            <h2>{t('updates.settingsTitle')}</h2>
+            {update && update.supported && update.availableVersion ? (
+              <span className="badge settings-card__badge">
+                {t('updates.available', { version: update.availableVersion })}
+              </span>
+            ) : null}
+          </div>
+          <p>{t('updates.settingsBody')}</p>
+
+          <dl className="facts">
+            <div>
+              <dt>{t('updates.current')}</dt>
+              <dd>{update?.currentVersion ?? info?.version ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>{t('updates.status')}</dt>
+              <dd>
+                {update
+                  ? update.supported
+                    ? update.availableVersion
+                      ? t('updates.available', { version: update.availableVersion })
+                      : t('updates.upToDate')
+                    : t('updates.unsupported')
+                  : '—'}
+              </dd>
+            </div>
+          </dl>
+
+          <span className="meta-line">
+            {t('updates.checkedAt', {
+              time: update?.checkedAt
+                ? new Date(update.checkedAt).toLocaleString(lang === 'ar' ? 'ar' : 'en')
+                : '—'
+            })}
+          </span>
+
+          {updateOffered || update?.phase === 'downloading' ? (
+            updateSkipped ? (
+              <div className="inline-note inline-note--info">
+                <Info size={14} aria-hidden="true" />
+                <span>{t('updates.skipped', { version: update.availableVersion ?? '' })}</span>
+              </div>
+            ) : updateSnoozed ? (
+              <div className="inline-note inline-note--info">
+                <Info size={14} aria-hidden="true" />
+                <span>{t('updates.snoozed')}</span>
+              </div>
+            ) : null
+          ) : null}
+
+          {update?.phase === 'downloading' ? (
+            <div className="update-progress" aria-live="polite">
+              <div className="update-progress__head">
+                <span>{t('updates.percent', { value: update.progress ?? 0 })}</span>
+                <span>
+                  {t('updates.downloaded', {
+                    done: formatBytes(update.transferred),
+                    total: formatBytes(update.total)
+                  })}
+                </span>
+              </div>
+              <div className="progress" aria-hidden="true">
+                <span style={{ width: `${update.progress ?? 0}%` }} />
+              </div>
+            </div>
+          ) : null}
+
+          {update?.phase === 'up-to-date' ? (
+            <div className="inline-note inline-note--pass">
+              <CheckCircle2 size={14} aria-hidden="true" />
+              <span>{t('updates.upToDate')}</span>
+            </div>
+          ) : null}
+
+          {updateError ? (
+            <div className="inline-note inline-note--warn" title={updateError}>
+              <AlertTriangle size={14} aria-hidden="true" />
+              <span>{t('updates.error')}</span>
+            </div>
+          ) : null}
+
+          <div className="settings-card__action">
+            <span className="meta-line">{t('updates.autoNote')}</span>
+            <div className="update-settings-actions">
+              {update?.phase === 'downloading' ? (
+                <button type="button" className="button button--ghost" disabled>
+                  <Loader2 size={14} className="spin" aria-hidden="true" />
+                  {t('updates.percent', { value: update.progress ?? 0 })}
+                </button>
+              ) : updateReady ? (
+                <button
+                  type="button"
+                  className="button button--primary"
+                  onClick={() => void appUpdate.install()}
+                >
+                  <DownloadCloud size={14} aria-hidden="true" />
+                  {t('updates.restart')}
+                </button>
+              ) : updateOffered && !updateSkipped && !updateSnoozed ? (
+                <>
+                  <button
+                    type="button"
+                    className="button button--primary"
+                    onClick={() => void appUpdate.download()}
+                  >
+                    <DownloadCloud size={14} aria-hidden="true" />
+                    {t('updates.downloadShort')}
+                  </button>
+                  <button
+                    type="button"
+                    className="button button--ghost button--compact"
+                    onClick={() => void appUpdate.later()}
+                  >
+                    {t('updates.laterShort')}
+                  </button>
+                  <button
+                    type="button"
+                    className="button button--ghost button--compact"
+                    onClick={() => void appUpdate.skip()}
+                  >
+                    {t('updates.skipShort')}
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="button button--ghost"
+                  onClick={() => void appUpdate.check()}
+                  disabled={updateBusy || !update?.supported}
+                >
+                  {update?.phase === 'checking' ? (
+                    <Loader2 size={14} className="spin" aria-hidden="true" />
+                  ) : (
+                    <RefreshCw size={14} aria-hidden="true" />
+                  )}
+                  {update?.phase === 'checking' ? t('updates.checking') : t('updates.check')}
+                </button>
+              )}
+            </div>
           </div>
         </section>
 

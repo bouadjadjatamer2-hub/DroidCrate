@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog, shell } from "electron";
 import { join } from "node:path";
+import { IPC } from "@shared/api";
 import { DeviceWatcher } from "./device/watcher";
 import { registerIpc } from "./ipc";
 import { loadPlatformToolsCatalog } from "./platformTools/catalog";
@@ -10,12 +11,14 @@ import { LearningStore } from "./learning/store";
 import { LearningService } from "./learning/service";
 import { HistoryService } from "./history/service";
 import { ContentService } from "./content/service";
+import { UpdateService } from "./updates/service";
 import { dataDirectory, userContentDirectory } from "./paths";
 
 const isWindows = process.platform === "win32";
 let deviceWatcher: DeviceWatcher | null = null;
 let toolkitService: ToolkitService | null = null;
 let learningStore: LearningStore | null = null;
+let updateService: UpdateService | null = null;
 
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -99,6 +102,18 @@ async function startApp(): Promise<void> {
       bundledDirectory: dataDirectory(),
       userDirectory: userContentDirectory(),
     });
+    const updates = new UpdateService({
+      currentVersion: app.getVersion(),
+      isPackaged: app.isPackaged,
+      storageFile: join(app.getPath("userData"), "updates.json"),
+      onChange: (state) => {
+        for (const window of BrowserWindow.getAllWindows()) {
+          if (!window.isDestroyed()) window.webContents.send(IPC.updatesUpdate, state);
+        }
+      },
+    });
+    await updates.initialize();
+    updateService = updates;
     const watcher = new DeviceWatcher();
     watcher.attachAdb(adbWithHistory);
     deviceWatcher = watcher;
@@ -110,6 +125,7 @@ async function startApp(): Promise<void> {
       learning,
       history,
       content,
+      updates,
     );
   } catch (error) {
     dialog.showErrorBox(
@@ -122,6 +138,7 @@ async function startApp(): Promise<void> {
 
   createWindow();
   deviceWatcher?.start();
+  updateService?.start();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -156,6 +173,8 @@ app.on("before-quit", () => {
   deviceWatcher = null;
   toolkitService?.dispose();
   toolkitService = null;
+  updateService?.dispose();
+  updateService = null;
   learningStore?.close();
   learningStore = null;
 });

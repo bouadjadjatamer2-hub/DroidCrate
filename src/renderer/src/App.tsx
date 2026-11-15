@@ -7,6 +7,7 @@ import {
 } from "@shared/welcome";
 import { Sidebar } from "./components/Sidebar";
 import { Titlebar } from "./components/Titlebar";
+import { UpdatePrompt } from "./components/UpdatePrompt";
 import { WelcomeGate } from "./components/WelcomeGate";
 import { DeviceScreen } from "./screens/DeviceScreen";
 import { ToolsScreen } from "./screens/ToolsScreen";
@@ -96,6 +97,7 @@ export function App() {
           }}
         />
       )}
+      <UpdatePrompt enabled={welcomeAccepted} />
     </div>
   );
 }

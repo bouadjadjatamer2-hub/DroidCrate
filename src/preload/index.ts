@@ -15,6 +15,7 @@ import type {
   ContentCheckResult,
   ContentStatus,
 } from "@shared/contentUpdate";
+import type { UpdateState } from "@shared/updates";
 import type { PlatformToolsStatus } from "@shared/platformTools";
 import type {
   AdbActionId,
@@ -106,6 +107,26 @@ contextBridge.exposeInMainWorld("droidcrate", {
     ipcRenderer.invoke(IPC.contentApply, version),
   resetContent: (): Promise<ContentStatus> =>
     ipcRenderer.invoke(IPC.contentReset),
+  getUpdateState: (): Promise<UpdateState> =>
+    ipcRenderer.invoke(IPC.updatesState),
+  checkAppUpdate: (): Promise<UpdateState> =>
+    ipcRenderer.invoke(IPC.updatesCheck),
+  downloadAppUpdate: (): Promise<UpdateState> =>
+    ipcRenderer.invoke(IPC.updatesDownload),
+  installAppUpdate: (): Promise<boolean> =>
+    ipcRenderer.invoke(IPC.updatesInstall),
+  laterAppUpdate: (): Promise<UpdateState> =>
+    ipcRenderer.invoke(IPC.updatesLater),
+  skipAppUpdate: (): Promise<UpdateState> =>
+    ipcRenderer.invoke(IPC.updatesSkip),
+  onUpdateState: (listener: (state: UpdateState) => void): (() => void) => {
+    const handler = (
+      _event: Electron.IpcRendererEvent,
+      state: UpdateState,
+    ): void => listener(state);
+    ipcRenderer.on(IPC.updatesUpdate, handler);
+    return () => ipcRenderer.removeListener(IPC.updatesUpdate, handler);
+  },
 
   runToolkitCommand: (request: ToolkitCommandRequest) =>
     ipcRenderer.invoke(IPC.toolkitCommand, request),

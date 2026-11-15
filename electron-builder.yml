@@ -37,4 +37,11 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  differentialPackage: true
+  deleteAppDataOnUninstall: false
 npmRebuild: false
+publish:
+  provider: github
+  owner: bouadjadjatamer2-hub
+  repo: DroidCrate
+  releaseType: release

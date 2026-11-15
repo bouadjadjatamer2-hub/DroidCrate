@@ -68,6 +68,8 @@ if ($release.assets) { $existing = $release.assets | ForEach-Object { $_.name } 
 $assets = @($installer)
 $latest = Join-Path $root 'dist/latest.yml'
 if (Test-Path $latest) { $assets += $latest }
+$blockmap = "$installer.blockmap"
+if (Test-Path $blockmap) { $assets += $blockmap }
 
 foreach ($asset in $assets) {
   $name = Split-Path $asset -Leaf
