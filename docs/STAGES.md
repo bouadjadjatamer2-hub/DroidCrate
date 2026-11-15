@@ -475,6 +475,9 @@ node scripts/capture-lessons-bilingual.mjs
 - **التحقق الحي:** `scripts/verify-app-update.mjs` على النسخة المعبأة مقابل قناة
   محلية 0.2.3: ظهور تلقائي بعد ~5 ثوانٍ، حفظ التذكير، الفحص اليدوي، تخطّي
   الإصدار، تنزيل بنسبة 10% ثم 100%، وحالة جاهزة دون تنفيذ الملف الوهمي.
+- **التحقق من القناة الحقيقية:** بعد النشر، `scripts/verify-update-feed.mjs` على
+  0.2.2 المنشور يعيد `up-to-date` بلا نافذة وبلا أخطاء، ما يثبت أن `latest.yml`
+  المنشور يُقرأ ويُفسَّر صحيحاً.
 
 ### التحقق
 
@@ -483,6 +486,7 @@ npm test
 npm run typecheck
 npm run build:win
 node scripts/verify-app-update.mjs
+node scripts/verify-update-feed.mjs
 ```
 
 اللقطات: `docs/screenshots/update-available.png`، `update-downloading.png`،

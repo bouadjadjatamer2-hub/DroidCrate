@@ -109,23 +109,34 @@ node scripts/verify-packaged.mjs
 ## 6. انشر على GitHub Releases
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-release.ps1 -Version 0.2.1 -Tag v0.2.1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-release.ps1 -Version 0.2.2 -Tag v0.2.2
 ```
 
 السكربت:
 
 - يقرأ التوكن من مدير اعتماد git دون طباعته.
 - ينشئ الإصدار من ملف الملاحظات إن لم يكن موجوداً، أو يعيد استخدامه.
-- يرفع المثبّت و`latest.yml` عبر `curl.exe` (لا يستخدم `Invoke-RestMethod`
-  لأن PowerShell 5.1 يفسد JSON العربي).
+- يرفع المثبّت و`latest.yml` و`DroidCrate-<version>-Setup.exe.blockmap` عبر
+  `curl.exe` (لا يستخدم `Invoke-RestMethod` لأن PowerShell 5.1 يفسد JSON العربي).
 - يتجاوز الأصول المرفوعة مسبقاً بأمان.
 
 بعد النشر، تحقق من صفحة الإصدار ومن أن حجم الأصل المرفوع يطابق الملف المحلي:
 
 ```powershell
-$r = Invoke-RestMethod -Uri 'https://api.github.com/repos/bouadjadjatamer2-hub/DroidCrate/releases/tags/v0.2.1' -Headers @{ 'User-Agent' = 'droidcrate' }
+$r = Invoke-RestMethod -Uri 'https://api.github.com/repos/bouadjadjatamer2-hub/DroidCrate/releases/tags/v0.2.2' -Headers @{ 'User-Agent' = 'droidcrate' }
 $r.assets | Select-Object name, size
 ```
+
+ثم اختبر قناة التحديث الحقيقية على النسخة المعبأة (تتطلب الشبكة):
+
+```powershell
+node scripts/verify-update-feed.mjs
+```
+
+النتيجة المتوقعة: `phase: "up-to-date"`، و`error: null`، وبلا نافذة تحديث،
+وبطاقة الإعدادات تقول «You are on the latest version». هذا يثبت أن `latest.yml`
+المنشور يقرأه `electron-updater` فعلاً. لتجربة نافذة التحديث نفسها (تنزيل
+وتثبيت) استعمل `scripts/verify-app-update.mjs` مع قناة محلية.
 
 ## 7. حدّث صفحة المستودع
 
@@ -168,7 +179,8 @@ GitHub Actions غير مطلوب؛ الرفع إلى `main` يكفي، وصفح�
 - [ ] `data/content-manifest.json` محدّث إن تغيّر `data/`.
 - [ ] المثبّت بُني واختُبر من `win-unpacked`.
 - [ ] البصمة والحجم محدّثان في `README.md` و`README.ar.md` وملاحظات الإصدار.
-- [ ] GitHub Release يحمل المثبّت و`latest.yml` بالحجم الصحيح.
+- [ ] GitHub Release يحمل المثبّت و`latest.yml` و`.blockmap` بالحجم الصحيح.
+- [ ] `node scripts/verify-update-feed.mjs` يعيد `up-to-date` بلا أخطاء.
 - [ ] صفحة المستودع تعرض البانر والشارات واللقطات بلا روابط ميتة.
 - [ ] روابط التنزيل والشيفرة والرخصة تعمل.
 - [ ] `docs/FINAL-REPORT.md` محدّث إن تغيّر النطاق أو القيود.
