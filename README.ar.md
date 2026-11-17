@@ -20,6 +20,7 @@
 
 <p align="center">
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate"><img alt="صفحة DroidCrate" src="https://img.shields.io/badge/App_page-DroidCrate-1F7D5C?style=flat-square&logo=github&logoColor=white" /></a>
+  <a href="https://bouadjadjatamer2-hub.github.io/Majra/apps/droidcrate/"><img alt="موقع DroidCrate" src="https://img.shields.io/badge/Website-DroidCrate-E8A35F?style=flat-square&logo=googlechrome&logoColor=white" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases/tag/v0.2.2"><img alt="GitHub Release" src="https://img.shields.io/badge/Release-v0.2.2-24292F?style=flat-square&logo=git&logoColor=white" /></a>
   <a href="LICENSE"><img alt="رخصة MIT" src="https://img.shields.io/badge/license-MIT-4CC38A?style=flat-square" /></a>
   <a href="https://github.com/bouadjadjatamer2-hub/DroidCrate/releases"><img alt="عدد التنزيلات" src="https://img.shields.io/github/downloads/bouadjadjatamer2-hub/DroidCrate/total?style=flat-square&label=downloads&color=1F7D5C" /></a>
@@ -27,6 +28,7 @@
 </p>
 
 <p align="center">
+  <a href="https://bouadjadjatamer2-hub.github.io/Majra/apps/droidcrate/">الموقع</a> ·
   <a href="#التثبيت">التثبيت</a> ·
   <a href="docs/USER-GUIDE.ar.md">الدليل</a> ·
   <a href="#الورشة">الورشة</a> ·
